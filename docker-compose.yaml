@@ -1,24 +1,21 @@
-version: '3.9'
+version: '3.1'
 services:
   db:
     image: postgres
+    hostname: db
     environment:
-      - POSTGRES_USERNAME=username
-      - POSTGRES_PASSWORD=password
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: mysecretpassword
     ports:
       - 5432:5432
-
-  quality-assurance-api:
-    
+  app:
+    image: hamaschwany/qa-api
     depends_on:
       - db
-    image: hamaschwany/qa-api
-    environment:
-      - DATABASE__HOST=db
-      - DATABASE__USERNAME=username
-      - DATABASE__PASSWORD=password
-      - DATABASE__PORT=5432
-      - DATABASE__NAME=mydb
-      - JWT_SECRET_KEY_BASE=whatever
+      - redis
     ports:
-      - 8080:3000
+      - "8080:3000"
+    expose:
+      - "3000"
+    environment:
+      RAILS_MASTER_KEY: 9638af65728c2a902a05b1161a2d50c8
