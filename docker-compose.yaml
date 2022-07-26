@@ -12,9 +12,8 @@ services:
     image: hamaschwany/qa-api
     depends_on:
       - db
-      - redis
     ports:
-      - "8080:3000"
+      - "3000:3000"
     expose:
       - "3000"
     environment:
