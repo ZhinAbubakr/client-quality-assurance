@@ -1,13 +1,6 @@
-// import {  } from "react";
 import React from "react";
-import {
-  Typography,
-  Container,
-  Box,
-  Link,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Typography, Container, Box, TextField, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
@@ -47,7 +40,7 @@ export default function Login() {
               autoFocus
             />
 
-            <Link href="/signup" variant="body2" fullWidth>
+            <Link to="/signup" variant="body2" fullWidth>
               Don't have an account? Sign Up
             </Link>
 

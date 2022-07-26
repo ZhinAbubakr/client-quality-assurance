@@ -3,11 +3,11 @@ import {
   Typography,
   Container,
   Box,
-  Link,
   TextField,
   Button,
   Grid,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   return (
@@ -76,7 +76,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Link href="/signup" variant="body2" fullWidth>
+                <Link to="/login" variant="body2" fullWidth>
                   Don't have an account? Sign In
                 </Link>
               </Grid>
