@@ -76,20 +76,22 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Link to="/login" variant="body2" fullWidth>
+                <Link to="/" variant="body2" fullWidth>
                   Don't have an account? Sign In
                 </Link>
               </Grid>
             </Grid>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
+            <Link to="/dashboard" variant="body2">
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Container>
