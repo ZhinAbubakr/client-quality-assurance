@@ -76,13 +76,13 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Link to="/" variant="body2" fullWidth>
+                <Link to="/login" variant="body2" fullWidth>
                   Don't have an account? Sign In
                 </Link>
               </Grid>
             </Grid>
 
-            <Link to="/dashboard" variant="body2">
+            <Link to="/" variant="body2">
               <Button
                 type="submit"
                 variant="contained"

@@ -1,24 +1,24 @@
 // import "./App.css";
-// import Login from "./components/Login";
-// import SignUp from "./components/SignUp";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import Dahsboard from "./components/Dahsboard";
+import Login from "./view/UserAuth/Login";
+import SignUp from "./view/UserAuth/SignUp";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dahsboard from "./components/Dahsboard";
+import Questions from "./view/Question/ListOfQuestions";
 
 function App() {
   return (
     <div className="App">
-
-      Hello react-app!
-
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
           <Route path="/">
-            <Route path="dashboard" element={<Dahsboard />} />
+            <Route path="" element={<Dahsboard />}>
+              <Route path="questions" element={<Questions />} />
+            </Route>
+            <Route path="signup" element={<SignUp />} />
+            <Route path="login" element={<Login />} />
           </Route>
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </div>
   );
 }
