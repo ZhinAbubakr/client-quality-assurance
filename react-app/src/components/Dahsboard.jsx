@@ -154,12 +154,17 @@ export default function DashBoard() {
                     </ListItem>
 
                     <ListItem disablePadding>
+                    <Link
+                        to="/users"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
                       <ListItemButton>
                         <ListItemIcon>
                           <RecentActorsIcon />
                         </ListItemIcon>
                         <ListItemText primary="List of users" />
                       </ListItemButton>
+                      </Link>
                     </ListItem>
                   </List>
                 </nav>

@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dahsboard from "./components/Dahsboard";
 import Questions from "./view/Question/ListOfQuestions";
 import Question from "./view/Question/Question";
+import Users from "./view/Users/ListOfUsers";
+import User from "./view/Users/User";
 
 function App() {
   return (
@@ -13,9 +15,13 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="" element={<Dahsboard />}>
-              <Route path="questions/"  >
-                <Route path="" element={<Questions />}/>
-                <Route path=":id" element={<Question />}/>
+              <Route path="questions">
+                <Route path="" element={<Questions />} />
+                <Route path=":id" element={<Question />} />
+              </Route>
+              <Route path="users">
+                <Route path="" element={<Users />} />
+                <Route path=":id" element={<User />} />
               </Route>
             </Route>
             <Route path="signup" element={<SignUp />} />
