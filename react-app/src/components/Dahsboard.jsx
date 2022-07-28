@@ -30,7 +30,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
+  ...(!open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
@@ -46,7 +46,7 @@ const Drawer = styled(MuiDrawer, {
   //drawer is open when open is true and closed when open is false
   ({ theme, open }) => ({
     "& .MuiDrawer-paper": {
-      position: "relative",
+      position: "static",
       whiteSpace: "nowrap",
       width: drawerWidth,
 
@@ -56,7 +56,7 @@ const Drawer = styled(MuiDrawer, {
       }),
       boxSizing: "border-box",
 
-      ...(!open && {
+      ...(open && {
         overflowX: "hidden",
         transition: theme.transitions.create("width", {
           easing: theme.transitions.easing.sharp,
@@ -82,9 +82,9 @@ export default function DashBoard() {
   return (
     <>
       <ThemeProvider theme={mdTheme}>
-        <Box sx={{ height: "100vh"}}>
+        <Box sx={{ height: "91vh"}}>
           <Box sx={{ flexGrow: 1}}>
-            <AppBar position="static" open={open}>
+            <AppBar position="sticky" open={open}>
               <Toolbar
                 sx={{
                   pr: "24px",
@@ -98,7 +98,7 @@ export default function DashBoard() {
                   onClick={toggleDrawer}
                   sx={{
                     marginRight: "36px",
-                    ...(open && { display: "none" }),
+                    ...(!open && { display: "none" }),
                   }}
                 >
                   <MenuIcon />
