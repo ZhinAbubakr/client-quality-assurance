@@ -20,6 +20,7 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { Outlet } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
+import CategoryIcon from '@mui/icons-material/Category';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -161,6 +162,20 @@ export default function DashBoard() {
                       <ListItemButton>
                         <ListItemIcon>
                           <RecentActorsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="List of users" />
+                      </ListItemButton>
+                      </Link>
+                    </ListItem>
+
+                    <ListItem disablePadding>
+                    <Link
+                        to="/category"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <CategoryIcon />
                         </ListItemIcon>
                         <ListItemText primary="List of users" />
                       </ListItemButton>

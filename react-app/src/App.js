@@ -7,6 +7,7 @@ import Questions from "./view/Question/ListOfQuestions";
 import Question from "./view/Question/Question";
 import Users from "./view/Users/ListOfUsers";
 import User from "./view/Users/User";
+import Categories from "./view/Categories/ListOfCategories"
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
               <Route path="users">
                 <Route path="" element={<Users />} />
                 <Route path=":n" element={<User />} />
+              </Route>
+              <Route path="category">
+                <Route path="" element={<Categories />}/>
               </Route>
             </Route>
             <Route path="signup" element={<SignUp />} />
