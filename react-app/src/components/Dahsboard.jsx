@@ -82,9 +82,9 @@ export default function DashBoard() {
   return (
     <>
       <ThemeProvider theme={mdTheme}>
-        <Box sx={{ height: "91vh"}}>
+        <Box sx={{ height: "100vh"}}>
           <Box sx={{ flexGrow: 1}}>
-            <AppBar position="sticky" open={open}>
+            <AppBar  open={open}>
               <Toolbar
                 sx={{
                   pr: "24px",
@@ -117,7 +117,7 @@ export default function DashBoard() {
                 </IconButton>
               </Toolbar>
             </AppBar>
-            </Box>
+          </Box>
 
           <Box display="flex" height="100%" >
           

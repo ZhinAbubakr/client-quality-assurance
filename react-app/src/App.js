@@ -21,7 +21,7 @@ function App() {
               </Route>
               <Route path="users">
                 <Route path="" element={<Users />} />
-                <Route path=":id" element={<User />} />
+                <Route path=":n" element={<User />} />
               </Route>
             </Route>
             <Route path="signup" element={<SignUp />} />

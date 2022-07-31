@@ -1,15 +1,24 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Container, Grid, Paper } from "@mui/material";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 const User = () => {
-
-  const {id} = useParams()
+  const { n } = useParams();
 
   return (
-    <div>
-      <h1>User {id}</h1>
-    </div>
-  )
-}
+    <>
+      <Container sx={{ marginTop: 8, marginLeft: 2 }}>
+        <Grid container>
+          <Grid item xs={12} sx={{display: 'flex'}}>
+            <Paper>
+              
+            </Paper>
+          </Grid>
+        </Grid>
+        <h1>User {n}</h1>
+      </Container>
+    </>
+  );
+};
 
-export default User
+export default User;

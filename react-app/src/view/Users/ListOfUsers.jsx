@@ -3,26 +3,36 @@ import { useState } from "react";
 import Tables from "../../components/Table";
 
 import { useNavigate } from "react-router-dom";
+import { Container } from "@mui/system";
+import { Checkbox } from "@mui/material";
 
 const ListOfUsers = () => {
   const navigate = useNavigate();
-
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [cols] = useState([
     {
       name: "role",
+      label: "Role",
     },
     {
       name: "firstName",
       label: "First Name",
     },
     {
-      name: "last name",
+      name: "lastName",
+      label: "Last Name",
     },
     {
-      name: "display name",
+      name: "displayName",
+      label: "Display Name",
     },
     {
       name: "email",
+      label: "Email",
+    },
+    {
+      action: "action",
+      label: "Action",
     },
   ]);
   const [users] = useState([
@@ -33,6 +43,7 @@ const ListOfUsers = () => {
       lastName: "Abubakr",
       displayName: "Zhin Abubakr",
       email: "zhin@gmail.com",
+      // action: <Checkbox {...label}  /> ,
     },
     {
       id: 2,
@@ -41,6 +52,7 @@ const ListOfUsers = () => {
       lastName: "Abubakr",
       displayName: "Zhin Abubakr",
       email: "zhin@gmail.com",
+      
     },
     {
       id: 3,
@@ -48,18 +60,24 @@ const ListOfUsers = () => {
       firstName: "Zhin",
       lastName: "Abubakr",
       displayName: "Zhin Abubakr",
-      email: "zhin@gmail.com",
+      email: "zhin@gmail.com", 
+      
+      
     },
+    
   ]);
+  const n = users[0].firstName;
+  console.log(n + "hhhhh");
 
-  const SelectedRow = () => {
-    // selected row function to navigate to user details page with id as parameter and passing id to user details page
-    navigate("/users/" + users.firstName);
+  const SelectedRow = (n) => {
+    navigate("/users/" + n);
   };
 
   return (
     <>
-      <Tables users={users} cols={cols} SelectedRow={SelectedRow} />
+      <Container sx={{ marginTop: 8, marginLeft: 2 }}>
+        <Tables users={users} cols={cols} SelectedRow={SelectedRow} />
+      </Container>
     </>
   );
 };

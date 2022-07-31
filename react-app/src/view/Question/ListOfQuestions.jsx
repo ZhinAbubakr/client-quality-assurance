@@ -1,7 +1,14 @@
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import { Container } from "@mui/system";
+import {
+  // Box,
+  // Card,
+  // CardContent,
+  Container,
+  Grid,
+  // Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cards from "../../components/Card";
 
 export default function ListOfQuestions() {
   const [questions] = useState([
@@ -29,32 +36,24 @@ export default function ListOfQuestions() {
       description:
         "Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the questionAnswer of the question Answer of the question",
     },
+    {
+      id: 5,
+      name: "Questions Five",
+      description:
+        "Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the questionAnswer of the question Answer of the question",
+    },
   ]);
-  const navigat = useNavigate();
+
+  // const navigate = useNavigate();
+
   return (
     <>
-      <Container>
+      {/* <Cards  questions={questions}/> */}
+
+      <Container sx={{marginTop:8, marginLeft:2}}>
         <Grid container>
           <Grid item xs={12}>
-            {questions.map((ques) => (
-              <Box
-                component="span"
-                sx={{ p: 1 }}
-                key={ques.id}
-                onClick={() => {
-                  return navigat("/questions/" + ques.id);
-                }}
-              >
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h5" component="div">
-                      {ques.name}
-                    </Typography>
-                    <Typography variant="body2">{ques.description}</Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            ))}
+            <Cards questions = {questions}/>
           </Grid>
         </Grid>
       </Container>
