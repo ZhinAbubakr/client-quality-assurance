@@ -19,8 +19,12 @@ import { Link } from "react-router-dom";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { Outlet } from "react-router-dom";
-import LogoutIcon from '@mui/icons-material/Logout';
-import CategoryIcon from '@mui/icons-material/Category';
+import LogoutIcon from "@mui/icons-material/Logout";
+import CategoryIcon from "@mui/icons-material/Category";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "../store/auth";
+import { useDispatch, useSelector } from "react-redux";
+
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -80,16 +84,21 @@ export default function DashBoard() {
     setOpen(!open);
   };
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
+
   return (
     <>
       <ThemeProvider theme={mdTheme}>
-        <Box sx={{ height: "100vh"}}>
-          <Box sx={{ flexGrow: 1}}>
-            <AppBar  open={open}>
+        <Box sx={{ height: "100vh" }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar open={open}>
               <Toolbar
                 sx={{
-                  pr: "24px",
-                  bgcolor: "#5c6bc0", // keep right padding when drawer closed
+                  pr: "24px", // keep right padding when drawer closed
+                  bgcolor: "#5c6bc0",
                 }}
               >
                 <IconButton
@@ -113,22 +122,25 @@ export default function DashBoard() {
                 >
                   Dashboard
                 </Typography>
-                <IconButton color="inherit">
+                <IconButton
+                  color="inherit"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
                   <AccountCircleIcon />
                 </IconButton>
               </Toolbar>
             </AppBar>
           </Box>
 
-          <Box display="flex" height="100%" >
-          
+          <Box display="flex" height="100%">
             <Drawer variant="permanent" open={open}>
               <Toolbar
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "flex-end",
-                 
                 }}
               >
                 <IconButton onClick={toggleDrawer}>
@@ -136,7 +148,7 @@ export default function DashBoard() {
                 </IconButton>
               </Toolbar>
               <Divider />
-             
+
               <Box sx={{ width: "100%", maxWidth: 360, height: "100%" }}>
                 <nav>
                   <List>
@@ -155,30 +167,30 @@ export default function DashBoard() {
                     </ListItem>
 
                     <ListItem disablePadding>
-                    <Link
+                      <Link
                         to="/users"
                         style={{ textDecoration: "none", color: "black" }}
                       >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <RecentActorsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List of users" />
-                      </ListItemButton>
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <RecentActorsIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="List of users" />
+                        </ListItemButton>
                       </Link>
                     </ListItem>
 
                     <ListItem disablePadding>
-                    <Link
+                      <Link
                         to="/category"
                         style={{ textDecoration: "none", color: "black" }}
                       >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <CategoryIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List of users" />
-                      </ListItemButton>
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <CategoryIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="category" />
+                        </ListItemButton>
                       </Link>
                     </ListItem>
                   </List>
@@ -186,22 +198,27 @@ export default function DashBoard() {
 
                 <nav>
                   <List>
-                    <ListItem disablePadding>
-                      <Link
+                    <ListItem
+                      disablePadding
+                      onClick={() => {
+                        dispatch(signOut());
+                        navigate("/login");
+                      }}
+                    >
+                      {/* <Link
                         to="/login"
                         style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <ListItemButton>
+                      > */}
+                      <ListItemButton>
                         <ListItemIcon>
                           <LogoutIcon />
                         </ListItemIcon>
-                          <ListItemText primary="Logout" />
-                        </ListItemButton>
-                      </Link>
+                        <ListItemText primary="Logout" />
+                      </ListItemButton>
+                      {/* </Link> */}
                     </ListItem>
                   </List>
                 </nav>
-
               </Box>
             </Drawer>
 

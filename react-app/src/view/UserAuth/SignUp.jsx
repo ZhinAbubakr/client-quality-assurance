@@ -31,7 +31,7 @@ export default function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  // fullWidth
                   id="first name"
                   label="First Name"
                   name="first name"
@@ -43,7 +43,7 @@ export default function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  // fullWidth
                   id="last name"
                   label="Last Name"
                   name="last name"
@@ -55,7 +55,7 @@ export default function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  // fullWidth
                   id="email"
                   label="Email"
                   name="email"
@@ -67,7 +67,7 @@ export default function SignUp() {
                 <TextField
                   margin="normal"
                   required
-                  fullWidth
+                  // fullWidth
                   id="password"
                   label="Password"
                   name="password"
@@ -76,7 +76,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Link to="/login" variant="body2" fullWidth>
+                <Link to="/login" variant="body2" >
                   Don't have an account? Sign In
                 </Link>
               </Grid>
@@ -86,7 +86,7 @@ export default function SignUp() {
               <Button
                 type="submit"
                 variant="contained"
-                fullWidth
+                // fullWidth
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign Up

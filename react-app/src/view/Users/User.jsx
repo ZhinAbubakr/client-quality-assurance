@@ -28,7 +28,7 @@ const User = () => {
   return (
     <>
       <Container sx={{ marginTop: 10, marginLeft: 2 }}>
-        <Paper variant="outlined" sx={{p:4}}>
+        <Paper variant="outlined" sx={{ p: 4 }}>
           <Grid container sx={{ p: 4 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
               <Typography variant="h4">User {n}</Typography>
@@ -48,20 +48,16 @@ const User = () => {
                   displayEmpty
                   placeholder="choose category"
                 >
-                  <MenuItem value={10}>Software Engineer</MenuItem>
-                  <MenuItem value={20}>Quality assurance</MenuItem>
+                  <MenuItem value={1}>Software Engineer</MenuItem>
+                  <MenuItem value={2}>Quality assurance</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
           </Grid>
-          <Grid item xs={12} >
-            <Stack spacing={2} direction="row" justifyContent='end'>
-              <Button backgroundColor="secondary" variant="contained">
-                DELETE
-              </Button>
-              <Button backgroundColor="secondary" variant="contained">
-                EDIT
-              </Button>
+          <Grid item xs={12}>
+            <Stack spacing={2} direction="row" justifyContent="end">
+              <Button variant="contained">DELETE</Button>
+              <Button variant="contained">EDIT</Button>
             </Stack>
           </Grid>
         </Paper>
@@ -71,5 +67,3 @@ const User = () => {
 };
 
 export default User;
-
-

@@ -24,7 +24,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function Tables({ users, cols, SelectedRow }) {
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+ 
   return (
     <>
       <Grid item xs={8}>
