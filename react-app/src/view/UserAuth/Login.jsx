@@ -9,24 +9,23 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { signIn, signOut, setToken } from "../../store/auth";
-import axios from "../../axios";
+import { setToken } from "../../store/auth";
+import axiosInstance from "../../axios";
 import { base } from "../../api";
+// import axios, {setAxiosToken} from '../../axios';
 
 export default function Login() {
   const [inputEmail, setInputEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState([]);
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // console.log({ base });
 
   const login = async () => {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         method: "post",
         url: base + "/auth/login",
         data: {
@@ -34,7 +33,6 @@ export default function Login() {
           password: password,
         },
       });
-      // getUser();
       dispatch(setToken(response.data.data.attributes.token));
       //navigate("/questions");
       console.log(response.data.data.attributes.token);
@@ -51,7 +49,7 @@ export default function Login() {
   useEffect(() => {
     if (auth.isAuthenticated)
       navigate(location?.state?.from?.pathname || "/questions");
-  }, [auth.isAuthenticated, location]);
+  }, [auth.isAuthenticated]);
 
 
   const handleSubmit = (event) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import axios from "../axios";
+import axiosInstance from "../axios";
 import { base } from "../api";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ const UserProfile = () => {
 
   const getUser = async () => {
     try {
-      const { data } = await axios({
+      const { data } = await axiosInstance({
         method: "get",
         url: base + "/auth/get-user-info",
         headers: {

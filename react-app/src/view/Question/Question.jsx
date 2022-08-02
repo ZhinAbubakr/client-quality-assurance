@@ -31,6 +31,9 @@ export default function Question() {
             <Card sx={{ m: 1 }} variant="outlined">
               <CardContent>
                 <Typography>Question {id}</Typography>
+                <br />
+                <br />
+                <br />
                 <Typography>
                   Answer of the question Answer of the question Answer of the
                   question Answer of the question Answer of the question Answer
@@ -60,7 +63,6 @@ export default function Question() {
           <Grid item xs={12}></Grid>
           <Grid item xs={8}>
             <TextField
-              
               placeholder="Answer here............."
               multiline
               maxRows={4}

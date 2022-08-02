@@ -9,9 +9,9 @@ export default function Cards({ questions }) {
         <Box
           component="span"
           sx={{ p: 1 }}
-          key={ques.id}
+          key={ques.attributes.id}
           onClick={() => {
-            return navigate("/questions/" + ques.id);
+            return navigate("/questions/" + ques.attributes.id);
           }}
         >
           <Card
@@ -30,7 +30,7 @@ export default function Cards({ questions }) {
               <Typography variant="h5" component="div">
                 {ques.name}
               </Typography>
-              <Typography variant="body2">{ques.description}</Typography>
+              <Typography variant="body2">{ques.attributes.content}</Typography>
             </CardContent>
           </Card>
         </Box>

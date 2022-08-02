@@ -8,13 +8,11 @@ export default function Popup(props) {
     <>
       <Dialog open={openPopup} maxWidth="md">
         <DialogTitle>
-          <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
-            X
-          </Button>
-          <Typography variant="h4">title goes here</Typography>
+          <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>X</Button>
+          <Typography >Create Question</Typography>
         </DialogTitle>
         <DialogTitle>
-          <div>{children}</div>
+          {children}
         </DialogTitle>
       </Dialog>
     </>
