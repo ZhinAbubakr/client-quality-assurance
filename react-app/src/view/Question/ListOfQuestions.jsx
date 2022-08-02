@@ -1,4 +1,5 @@
 import {
+  Button,
   // Box,
   // Card,
   // CardContent,
@@ -7,10 +8,14 @@ import {
   // Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Cards from "../../components/Card";
+import Popup from "./Popup";
+import Form from "../../components/Form";
 
 export default function ListOfQuestions() {
+
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [questions] = useState([
     {
       id: 1,
@@ -30,18 +35,7 @@ export default function ListOfQuestions() {
       description:
         "Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the questionAnswer of the question Answer of the question",
     },
-    {
-      id: 4,
-      name: "Questions Four",
-      description:
-        "Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the questionAnswer of the question Answer of the question",
-    },
-    {
-      id: 5,
-      name: "Questions Five",
-      description:
-        "Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the question Answer of the questionAnswer of the question Answer of the question",
-    },
+    
   ]);
 
   // const navigate = useNavigate();
@@ -50,13 +44,32 @@ export default function ListOfQuestions() {
     <>
       {/* <Cards  questions={questions}/> */}
 
-      <Container sx={{marginTop:8, marginLeft:2}}>
+      <Container sx={{ marginTop: 8, marginLeft: 2 }}>
         <Grid container>
+          <Grid item xs={12} sx={{ marginTop: 2 }}>
+            <Button
+              sx={{ float: "right" }}
+              variant="contained"
+              onClick={() => {
+                setOpenPopup(true)
+                console.log("add question");
+              }}
+            >
+              ADD
+            </Button>
+          </Grid>
           <Grid item xs={12}>
-            <Cards questions = {questions}/>
+            <Cards questions={questions} />
           </Grid>
         </Grid>
       </Container>
+      <Popup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+
+      >
+<Form />
+      </Popup>
     </>
   );
 }

@@ -36,7 +36,7 @@ export default function Login() {
       });
       // getUser();
       dispatch(setToken(response.data.data.attributes.token));
-      navigate("/questions");
+      //navigate("/questions");
       console.log(response.data.data.attributes.token);
     } catch (error) {
       console.log("error authentication");
