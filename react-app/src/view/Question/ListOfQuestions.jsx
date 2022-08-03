@@ -1,4 +1,4 @@
-import { Button, Container, Grid } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Cards from "../../components/Card";
 import Popup from "./Popup";
@@ -35,12 +35,16 @@ export default function ListOfQuestions() {
       <Container sx={{ marginTop: 8, marginLeft: 2 }}>
         <Grid container>
           <Grid item xs={12} sx={{ marginTop: 2 }}>
+            <Typography variant="h4" component="h1">
+              List of Questions
+            </Typography>
             <Button
               sx={{ float: "right" }}
               variant="contained"
               onClick={() => {
                 setOpenPopup(true);
                 console.log("add question");
+                //cally aw functiona bkawa ka list of questiont nishandadat!
               }}
             >
               ADD
@@ -51,9 +55,11 @@ export default function ListOfQuestions() {
           </Grid>
         </Grid>
       </Container>
-      <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
-        <Form />
-      </Popup>
+      <Popup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        // getQuestions={getQuestions()}
+      ></Popup>
     </>
   );
 }

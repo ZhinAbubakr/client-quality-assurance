@@ -18,11 +18,10 @@ export default function Cards({ questions }) {
             variant="outlined"
             sx={{
               p: 1,
-              cursor: "pointer" ,
+              cursor: "pointer",
               "&:hover": {
                 backgroundColor: "#5c6bc0",
                 color: "#ffffff",
-                // opacity: [0.9, 0.8, 0.7],
               },
             }}
           >
@@ -30,7 +29,7 @@ export default function Cards({ questions }) {
               <Typography variant="h5" component="div">
                 {ques.name}
               </Typography>
-              <Typography variant="body2">{ques.attributes.content}</Typography>
+              <Typography variant="body2">{ques.attributes.title}</Typography>
             </CardContent>
           </Card>
         </Box>

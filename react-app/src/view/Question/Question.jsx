@@ -1,5 +1,5 @@
 import { Container } from "@mui/system";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
@@ -13,14 +13,32 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import axiosInstance from "../../axios";
+import { base } from "../../api";
 
 export default function Question() {
   const { id } = useParams();
-  const [ans] = useState([
-    { id: 1, answer: "the aswer of this question is blah blah blahhhh......" },
-    { id: 2, answer: "the aswer of this question is blah blah blahhhh......" },
-    { id: 3, answer: "the aswer of this question is blah blah blahhhh......" },
-  ]);
+  const [singleQuestion, setSingleQuestion] = useState();
+
+  const getSingleQuestion = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + `/questions/` + id,
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
+        },
+      });
+      console.log(data?.data?.attributes);
+      setSingleQuestion(data?.data?.attributes);
+    } catch (errro) {
+      console.log("not successful");
+    }
+  };
+
+  useEffect(() => {
+    getSingleQuestion();
+  }, []);
 
   return (
     <>
@@ -30,23 +48,29 @@ export default function Question() {
           <Grid item xs={12}>
             <Card sx={{ m: 1 }} variant="outlined">
               <CardContent>
-                <Typography>Question {id}</Typography>
-                <br />
-                <br />
-                <br />
-                <Typography>
-                  Answer of the question Answer of the question Answer of the
-                  question Answer of the question Answer of the question Answer
-                  of the question Answer of the question Answer of the question
-                  Answer of the question Answer of the question Answer of the
-                  questionAnswer of the question Answer of the question
+                <Typography variant="h5" component="h1">
+                  Question title :
                 </Typography>
+                <Typography>{singleQuestion?.title}</Typography>
+              </CardContent>
+              <CardContent>
+                <Typography variant="h5" component="h1">
+                  content :{" "}
+                </Typography>
+                <Typography>{singleQuestion?.content}</Typography>
+              </CardContent>
+              <CardContent>
+                <Typography variant="h5" component="h1">
+                  category :{" "}
+                </Typography>
+                <Typography>{singleQuestion?.category_ids[0]}</Typography>
               </CardContent>
             </Card>
           </Grid>
+
           <Grid item xs={8}>
             <div>
-              {ans.map((a) => (
+              {/* {ans.map((a) => (
                 <Card key={a.id} sx={{ m: 1 }} variant="outlined">
                   <CardContent>
                     {a.answer}
@@ -57,7 +81,7 @@ export default function Question() {
                     </CardActions>
                   </CardContent>
                 </Card>
-              ))}
+              ))} */}
             </div>
           </Grid>
           <Grid item xs={12}></Grid>
