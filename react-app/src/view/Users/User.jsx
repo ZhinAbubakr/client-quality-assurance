@@ -1,29 +1,40 @@
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../../axios";
+import { base } from "../../api";
 import {
   Container,
   Grid,
   Paper,
   Typography,
   Button,
-  FormControl,
-  MenuItem,
-  Select,
   Stack,
 } from "@mui/material";
-
-import React from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 const User = () => {
-  const { n } = useParams();
-  const [role, setRole] = React.useState([
-    { id: 1, name: "AI" },
-    { id: 2, name: "ReactJs" },
-  ]);
+  const { id } = useParams();
+  const [singleUser, setSingleUser] = useState([]);
 
-  const handleChange = (e) => {
-    setRole(e.target.value);
-    console.log(role);
+  const getSingleUser = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + `/users/` + id,
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
+        },
+      });
+      console.log(data?.data?.attributes);
+      setSingleUser(data?.data?.attributes);
+    } catch (errro) {
+      console.log("not successful");
+    }
   };
+
+  useEffect(() => {
+    getSingleUser();
+  }, []);
 
   return (
     <>
@@ -31,27 +42,15 @@ const User = () => {
         <Paper variant="outlined" sx={{ p: 4 }}>
           <Grid container sx={{ p: 4 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
-              <Typography variant="h4">User {n}</Typography>
+              <Typography variant="h4">User {id}</Typography>
             </Grid>
             <Grid item xs={12} sx={{ p: 4 }}>
-              <Typography>First Name :</Typography>
-              <Typography>Last Name :</Typography>
-              <Typography>Full Name :</Typography>
-              <Typography>Email :</Typography>
-              <Typography>Role :</Typography>
-            </Grid>
-            <Grid item xs={12} sx={{ marginBottom: 5 }}>
-              <FormControl sx={{ m: 0, width: 200 }}>
-                <Select
-                  value={role}
-                  onChange={handleChange}
-                  displayEmpty
-                  placeholder="choose category"
-                >
-                  <MenuItem value={1}>Software Engineer</MenuItem>
-                  <MenuItem value={2}>Quality assurance</MenuItem>
-                </Select>
-              </FormControl>
+              <Typography>ID : {id}</Typography>
+              <Typography>First Name : {singleUser.first_name}</Typography>
+              <Typography>Last Name : {singleUser.last_name}</Typography>
+
+              <Typography>Email : {singleUser.email}</Typography>
+              <Typography>Role : {singleUser.role_ids}</Typography>
             </Grid>
           </Grid>
           <Grid item xs={12}>

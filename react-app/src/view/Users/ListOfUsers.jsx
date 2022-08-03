@@ -1,30 +1,46 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tables from "../../components/Table";
-
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
-import { Checkbox } from "@mui/material";
+import axiosInstance from "../../axios";
+import { base } from "../../api";
 
 const ListOfUsers = () => {
   const navigate = useNavigate();
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  const [listOfUser, setListOfUser] = useState([]);
+
+  const getQuestions = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + "/users",
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
+        },
+      });
+      console.log(data?.data);
+      setListOfUser(data?.data);
+    } catch (errro) {
+      console.log("not successful");
+    }
+  };
+
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
   const [cols] = useState([
     {
-      name: "role",
+      name: "role_ids",
       label: "Role",
     },
     {
-      name: "firstName",
+      name: "first_name",
       label: "First Name",
     },
     {
-      name: "lastName",
+      name: "last_name",
       label: "Last Name",
-    },
-    {
-      name: "displayName",
-      label: "Display Name",
     },
     {
       name: "email",
@@ -35,48 +51,15 @@ const ListOfUsers = () => {
       label: "Action",
     },
   ]);
-  const [users] = useState([
-    {
-      id: 1,
-      role: "Admin",
-      firstName: "Zhin",
-      lastName: "Abubakr",
-      displayName: "Zhin Abubakr",
-      email: "zhin@gmail.com",
-      // action: <Checkbox {...label}  /> ,
-    },
-    {
-      id: 2,
-      role: "Admin",
-      firstName: "Zhin",
-      lastName: "Abubakr",
-      displayName: "Zhin Abubakr",
-      email: "zhin@gmail.com",
-      
-    },
-    {
-      id: 3,
-      role: "Admin",
-      firstName: "Zhin",
-      lastName: "Abubakr",
-      displayName: "Zhin Abubakr",
-      email: "zhin@gmail.com", 
-      
-      
-    },
-    
-  ]);
-  const n = users[0].firstName;
-  console.log(n + "hhhhh");
 
-  const SelectedRow = (n) => {
-    navigate("/users/" + n);
+  const SelectedRow = (id) => {
+    navigate("/users/" + id);
   };
 
   return (
     <>
       <Container sx={{ marginTop: 8, marginLeft: 2 }}>
-        <Tables users={users} cols={cols} SelectedRow={SelectedRow} />
+        <Tables users={listOfUser} cols={cols} SelectedRow={SelectedRow} />
       </Container>
     </>
   );

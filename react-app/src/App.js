@@ -7,11 +7,9 @@ import Questions from "./view/Question/ListOfQuestions";
 import Question from "./view/Question/Question";
 import Users from "./view/Users/ListOfUsers";
 import User from "./view/Users/User";
-import Categories from "./view/Categories/ListOfCategories"
+import Categories from "./view/Categories/ListOfCategories";
 import RequireAuth from "./view/UserAuth/RequireAuth";
-import Profile from './components/UserProfile.jsx'; 
-
-
+import Profile from "./components/UserProfile.jsx";
 
 function App() {
   return (
@@ -19,18 +17,25 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route path="" element={<RequireAuth><Dahsboard /></RequireAuth>}>
-              <Route path={"/profile"} element={<Profile/>} />
+            <Route
+              path=""
+              element={
+                <RequireAuth>
+                  <Dahsboard />
+                </RequireAuth>
+              }
+            >
+              <Route path={"/profile"} element={<Profile />} />
               <Route path="questions">
                 <Route path="" element={<Questions />} />
                 <Route path=":id" element={<Question />} />
               </Route>
               <Route path="users">
                 <Route path="" element={<Users />} />
-                <Route path=":n" element={<User />} />
+                <Route path=":id" element={<User />} />
               </Route>
               <Route path="category">
-                <Route path="" element={<Categories />}/>
+                <Route path="" element={<Categories />} />
               </Route>
             </Route>
             <Route path="signup" element={<SignUp />} />
