@@ -24,6 +24,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 const drawerWidth = 240;
 
@@ -190,6 +191,20 @@ export default function DashBoard() {
                             <CategoryIcon />
                           </ListItemIcon>
                           <ListItemText primary="category" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+
+                    <ListItem disablePadding>
+                      <Link
+                        to="/role"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <AssignmentIndIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Roles" />
                         </ListItemButton>
                       </Link>
                     </ListItem>
