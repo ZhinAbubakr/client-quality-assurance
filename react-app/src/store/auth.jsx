@@ -11,7 +11,7 @@ const slice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem("token", state.token)
+      localStorage.setItem("token", state.token);
     },
     signIn: (state, action) => {
       state.user = action.payload;
@@ -20,11 +20,11 @@ const slice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.token = null;
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
     },
   },
 });
 
 export default slice.reducer;
 
-export const { signIn, signOut,setToken } = slice.actions;
+export const { signIn, signOut, setToken } = slice.actions;

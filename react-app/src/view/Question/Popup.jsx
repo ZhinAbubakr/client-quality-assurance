@@ -11,7 +11,7 @@ import axiosInstance from "../../axios";
 import { base } from "../../api";
 
 export default function Popup(props) {
-  const { openPopup, setOpenPopup } = props;
+  const { getQuestions, openPopup, setOpenPopup } = props;
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -31,6 +31,8 @@ export default function Popup(props) {
         },
       });
       console.log(response);
+      getQuestions();
+      // props.getQuestions();
     } catch {
       console.log("error posting questions");
     }

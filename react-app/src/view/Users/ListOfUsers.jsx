@@ -9,7 +9,7 @@ const ListOfUsers = () => {
   const navigate = useNavigate();
   const [listOfUser, setListOfUser] = useState([]);
 
-  const getQuestions = async () => {
+  const getListOfUsers = async () => {
     try {
       const { data } = await axiosInstance({
         method: "get",
@@ -26,7 +26,7 @@ const ListOfUsers = () => {
   };
 
   useEffect(() => {
-    getQuestions();
+    getListOfUsers();
   }, []);
 
   const [cols] = useState([

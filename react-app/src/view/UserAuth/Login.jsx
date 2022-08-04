@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setToken } from "../../store/auth";
-import axiosInstance from "../../axios";
+import axiosInstance, { setAxiosToken } from "../../axios";
 import { base } from "../../api";
 // import axios, {setAxiosToken} from '../../axios';
 
@@ -22,7 +22,6 @@ export default function Login() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-
   const login = async () => {
     try {
       const response = await axiosInstance({
@@ -33,6 +32,7 @@ export default function Login() {
           password: password,
         },
       });
+      setAxiosToken(response.data.data.attributes.token);
       dispatch(setToken(response.data.data.attributes.token));
       //navigate("/questions");
       console.log(response.data.data.attributes.token);
@@ -50,7 +50,6 @@ export default function Login() {
     if (auth.isAuthenticated)
       navigate(location?.state?.from?.pathname || "/questions");
   }, [auth.isAuthenticated]);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();

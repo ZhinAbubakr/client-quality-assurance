@@ -25,11 +25,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export default function Tables({ users, cols, SelectedRow }) {
   return (
     <>
-      <Grid item xs={8}>
-        <Button variant="contained" sx={{ float: "right", marginTop: 2 }}>
-          Edit
-        </Button>
-      </Grid>
       <Table
         sx={{
           marginTop: 8,

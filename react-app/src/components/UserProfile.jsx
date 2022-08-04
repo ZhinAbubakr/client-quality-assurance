@@ -17,8 +17,6 @@ const UserProfile = () => {
         method: "get",
         url: base + "/auth/get-user-info",
         headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
         },
       });

@@ -10,6 +10,7 @@ import User from "./view/Users/User";
 import Categories from "./view/Categories/ListOfCategories";
 import RequireAuth from "./view/UserAuth/RequireAuth";
 import Profile from "./components/UserProfile.jsx";
+import ListOfRoles from "./view/Roles/ListOfRoles";
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
               </Route>
               <Route path="category">
                 <Route path="" element={<Categories />} />
+              </Route>
+              <Route path="role">
+                <Route path="" element={<ListOfRoles />} />
               </Route>
             </Route>
             <Route path="signup" element={<SignUp />} />
