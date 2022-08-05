@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setAxiosToken } from "../axios";
 // Slice
 const slice = createSlice({
   name: "auth",
@@ -21,6 +22,7 @@ const slice = createSlice({
       state.isAuthenticated = false;
       state.token = null;
       localStorage.removeItem("token");
+      setAxiosToken(null);
     },
   },
 });
