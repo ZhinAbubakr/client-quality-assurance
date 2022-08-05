@@ -19,14 +19,13 @@ const User = () => {
   const { id } = useParams();
   const [singleUser, setSingleUser] = useState([]);
   const [roleList, setRoleList] = useState([]);
-  const [choosedRole, setChoosedRole] = useState([]);
+  const [choosedRole, setChoosedRole] = useState(3);
   const navigate = useNavigate();
 
   function handleChange(event) {
     // handle change for select input (role)
-    console.log(event.target);
+    console.log(event.target.value);
     setChoosedRole(event.target.value);
-    console.log([...choosedRole] + "kboeihgpwrjpf");
   }
 
   function handleFunc() {
@@ -44,7 +43,6 @@ const User = () => {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjIxMTc3Njd9.ZqVtcTiODMehfaq_9UtXVlM88ubL7dK1ZFqS1E6imBI`,
         },
       });
-      // console.log(data?.data?.attributes);
       setRoleList(data?.data);
     } catch (errro) {
       console.log("not successful");
@@ -76,8 +74,6 @@ const User = () => {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
         },
       });
-      // console.log(data?.data);
-      // setListOfUser(data?.data);
     } catch (errro) {
       console.log("not successful");
     }
@@ -103,16 +99,18 @@ const User = () => {
     try {
       const { data } = await axiosInstance({
         method: "put",
-        url: base + `/users/` + 2,
-        body: {
+        url: base + `/users/` + id,
+        data: {
           user: {
-            role_ids: [3],
+            ...singleUser,
+            role_ids: [choosedRole],
           },
         },
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
         },
       });
+      getSingleUser();
       console.log(data?.data?.attributes);
     } catch (errro) {
       console.log("not successful");
@@ -123,7 +121,6 @@ const User = () => {
     getSingleUser();
     getRoles();
   }, []);
-  // console.log(roleList[0]?.attributes?.id + "roleeeeeeeeeee");
   return (
     <>
       <Container sx={{ marginTop: 10, marginLeft: 2 }}>
@@ -143,27 +140,33 @@ const User = () => {
           </Grid>
           <Grid item xs={12} sx={{ p: 4 }}>
             <InputLabel id="demo-simple-select-label">Role</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={choosedRole}
-              label="role"
-              onChange={handleChange}
-              fullWidth
-            >
-              {roleList?.map((role, index) => (
-                <MenuItem key={index} value={role?.attributes?.name}>
-                  {role?.attributes?.id} : {role?.attributes?.name}
-                </MenuItem>
-              ))}
-            </Select>
+            {roleList.length > 0 && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={choosedRole}
+                label="role"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                fullWidth
+              >
+                {roleList?.map((role, index) => (
+                  <MenuItem key={index} value={role?.attributes?.id}>
+                    {role?.attributes?.id} : {role?.attributes?.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row" justifyContent="end">
               <Button variant="contained" onClick={handleFunc}>
                 DELETE
               </Button>
-              <Button variant="contained">UPDATE</Button>
+              <Button variant="contained" onClick={() => updateUser()}>
+                UPDATE
+              </Button>
             </Stack>
           </Grid>
         </Paper>
