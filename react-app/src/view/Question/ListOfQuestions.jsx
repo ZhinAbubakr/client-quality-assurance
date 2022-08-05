@@ -2,7 +2,6 @@ import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Cards from "../../components/Card";
 import Popup from "./Popup";
-import Form from "../../components/Form";
 import { useEffect } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
@@ -20,6 +19,7 @@ export default function ListOfQuestions() {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
         },
       });
+
       setListOfQuestions(data?.data);
     } catch (errro) {
       console.log("not successful");
@@ -58,7 +58,7 @@ export default function ListOfQuestions() {
       <Popup
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
-        // getQuestions={getQuestions()}
+        getQuestions={getQuestions}
       ></Popup>
     </>
   );
