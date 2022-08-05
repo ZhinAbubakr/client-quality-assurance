@@ -11,42 +11,47 @@ import Categories from "./view/Categories/ListOfCategories";
 import RequireAuth from "./view/UserAuth/RequireAuth";
 import Profile from "./components/UserProfile.jsx";
 import ListOfRoles from "./view/Roles/ListOfRoles";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material";
 
 function App() {
+  const mdTheme = createTheme(); //theme provider is used to pass the theme to the components
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route
-              path=""
-              element={
-                <RequireAuth>
-                  <Dahsboard />
-                </RequireAuth>
-              }
-            >
-              <Route path={"/profile"} element={<Profile />} />
-              <Route path="questions">
-                <Route path="" element={<Questions />} />
-                <Route path=":id" element={<Question />} />
+      <ThemeProvider theme={mdTheme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/">
+              <Route
+                path=""
+                element={
+                  <RequireAuth>
+                    <Dahsboard />
+                  </RequireAuth>
+                }
+              >
+                <Route path={"/profile"} element={<Profile />} />
+                <Route path="questions">
+                  <Route path="" element={<Questions />} />
+                  <Route path=":id" element={<Question />} />
+                </Route>
+                <Route path="users">
+                  <Route path="" element={<Users />} />
+                  <Route path=":id" element={<User />} />
+                </Route>
+                <Route path="category">
+                  <Route path="" element={<Categories />} />
+                </Route>
+                <Route path="role">
+                  <Route path="" element={<ListOfRoles />} />
+                </Route>
               </Route>
-              <Route path="users">
-                <Route path="" element={<Users />} />
-                <Route path=":id" element={<User />} />
-              </Route>
-              <Route path="category">
-                <Route path="" element={<Categories />} />
-              </Route>
-              <Route path="role">
-                <Route path="" element={<ListOfRoles />} />
-              </Route>
+              <Route path="signup" element={<SignUp />} />
+              <Route path="login" element={<Login />} />
             </Route>
-            <Route path="signup" element={<SignUp />} />
-            <Route path="login" element={<Login />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }
