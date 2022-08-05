@@ -3,10 +3,14 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 
@@ -15,6 +19,27 @@ export default function Popup(props) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [categoryList, setCategoryList] = useState([]);
+  const [choosedCategory, setChoosedCategory] = useState(3);
+
+  function handleChange(event) {
+    // handle change for select input (role)
+    console.log(event.target.value);
+    setChoosedCategory(event.target.value);
+  }
+
+  const getCategories = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + "/categories",
+     
+      });
+      setCategoryList(data?.data);
+    } catch (errro) {
+      console.log("not successful");
+    }
+  };
 
   const createQuestion = async () => {
     try {
@@ -24,7 +49,7 @@ export default function Popup(props) {
         data: {
           title: title,
           content: content,
-          category_ids: "1",
+          category_ids: [choosedCategory],
         },
         headers: {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTQ2NTd9.48yrwEOB6I6SKjMWqOQ1Uee0f5mEXsRz2GLE_Y09C60`,
@@ -37,6 +62,10 @@ export default function Popup(props) {
       console.log("error posting questions");
     }
   };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <>
@@ -71,6 +100,27 @@ export default function Popup(props) {
               onChange={(e) => setContent(e.target.value)}
             />
           </Box>
+          <Grid item xs={12} sx={{ p: 4 }}>
+            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+            {categoryList.length > 0 && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={choosedCategory}
+                label="role"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                fullWidth
+              >
+                {categoryList?.map((role, index) => (
+                  <MenuItem key={index} value={role?.attributes?.id}>
+                    {role?.attributes?.id} : {role?.attributes?.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          </Grid>
           <Button
             sx={{ m: 2 }}
             onClick={() => {
