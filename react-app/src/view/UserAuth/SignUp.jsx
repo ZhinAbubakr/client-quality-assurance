@@ -7,23 +7,18 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import { useState } from "react";
-import { setToken } from "../../store/auth";
-import Login from "./Login";
 
 export default function SignUp() {
   // const [newUser,setNewUser] = useState([]);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const location = useLocation();
 
   const signup = async () => {
     try {
@@ -142,7 +137,7 @@ export default function SignUp() {
                 // getQuestions();
               }}
             >
-              Sign Up
+              SIGN UP
             </Button>
           </Box>
         </Box>

@@ -4,10 +4,8 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Stack,
-  Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useState, useEffect } from "react";
@@ -16,19 +14,6 @@ import { base } from "../../api";
 
 const ListOfCategories = () => {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  // const handleToggle = (value) => () => {
-  //   const currentIndex = checked.indexOf(value);
-  // const newChecked = [...checked];
-
-  // if (currentIndex === -1) {
-  //   newChecked.push(value);
-  // } else {
-  //   newChecked.splice(currentIndex, 1);
-  // }
-
-  // setChecked(newChecked);
-  // };
 
   const [listOfCategories, setListOfCategories] = useState([]);
 
