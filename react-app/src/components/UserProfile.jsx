@@ -16,9 +16,6 @@ const UserProfile = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/auth/get-user-info",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       dispatch(signIn(data.data.attributes));
       setAdmin(data);

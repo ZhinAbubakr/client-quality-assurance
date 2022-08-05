@@ -15,9 +15,6 @@ export default function ListOfQuestions() {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/questions",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
 
       setListOfQuestions(data?.data);

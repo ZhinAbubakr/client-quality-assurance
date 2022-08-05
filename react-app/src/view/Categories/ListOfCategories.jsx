@@ -22,9 +22,6 @@ const ListOfCategories = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/categories",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       console.log(data?.data);
       setListOfCategories(data?.data);

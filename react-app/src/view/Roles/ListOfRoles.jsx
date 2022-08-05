@@ -13,11 +13,8 @@ export default function ListOfRoles() {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/roles",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjIxMTc3Njd9.ZqVtcTiODMehfaq_9UtXVlM88ubL7dK1ZFqS1E6imBI`,
-        },
       });
-      console.log(data?.data?.attributes + "llllllllllllll");
+      console.log(data?.data?.attributes, "llllllllllllll");
       setRoles(data?.data);
     } catch (errro) {
       console.log("not successful");

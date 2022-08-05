@@ -14,9 +14,6 @@ const ListOfUsers = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/users",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       console.log(data?.data);
       setListOfUser(data?.data);

@@ -39,9 +39,6 @@ const User = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/roles",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjIxMTc3Njd9.ZqVtcTiODMehfaq_9UtXVlM88ubL7dK1ZFqS1E6imBI`,
-        },
       });
       setRoleList(data?.data);
     } catch (errro) {
@@ -54,9 +51,6 @@ const User = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + `/users/` + id,
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       console.log(data?.data?.attributes);
       setSingleUser(data?.data?.attributes);
@@ -70,9 +64,6 @@ const User = () => {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/users",
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
     } catch (errro) {
       console.log("not successful");
@@ -84,9 +75,6 @@ const User = () => {
       const { data } = await axiosInstance({
         method: "delete",
         url: base + `/users/` + id,
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       getListOfUsers();
       console.log(data?.data?.attributes);
@@ -105,9 +93,6 @@ const User = () => {
             ...singleUser,
             role_ids: [choosedRole],
           },
-        },
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
         },
       });
       getSingleUser();

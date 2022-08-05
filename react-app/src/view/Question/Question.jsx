@@ -96,9 +96,6 @@ export default function Question() {
       const { data } = await axiosInstance({
         method: "get",
         url: base + `/questions/` + id,
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTE1MzZ9.PFcypt2fLglYT-xunOtBVKrmu8xFdl7yxbpVUcjkBo4`,
-        },
       });
       console.log(data?.data?.attributes);
       setSingleQuestion(data?.data?.attributes);

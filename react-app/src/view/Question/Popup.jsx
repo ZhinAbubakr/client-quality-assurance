@@ -33,7 +33,6 @@ export default function Popup(props) {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/categories",
-     
       });
       setCategoryList(data?.data);
     } catch (errro) {
@@ -50,9 +49,6 @@ export default function Popup(props) {
           title: title,
           content: content,
           category_ids: [choosedCategory],
-        },
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjE5NTQ2NTd9.48yrwEOB6I6SKjMWqOQ1Uee0f5mEXsRz2GLE_Y09C60`,
         },
       });
       console.log(response);
