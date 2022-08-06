@@ -32,19 +32,18 @@ export default function Login() {
           password: password,
         },
       });
-      setAxiosToken(response.data.data.attributes.token);
-      dispatch(setToken(response.data.data.attributes.token));
-      //navigate("/questions");
+      setAxiosToken(response?.data?.data?.attributes?.token);
+      dispatch(setToken(response?.data?.data?.attributes?.token));
       console.log(response.data.data.attributes.token);
     } catch (error) {
       console.log("error authentication");
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) dispatch(setToken(token));
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) dispatch(setToken(token));
+  // }, []);
 
   useEffect(() => {
     if (auth.isAuthenticated)
