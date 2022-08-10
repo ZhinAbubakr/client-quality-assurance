@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+
 import {
   Box,
   Toolbar,
@@ -85,7 +86,10 @@ export default function DashBoard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // const profile = useSelector((state) => state.auth.user);
+
   const auth = useSelector((state) => state.auth);
+  console.log({ auth });
 
   return (
     <>
@@ -162,20 +166,21 @@ export default function DashBoard() {
                       </ListItemButton>
                     </Link>
                   </ListItem>
-
-                  <ListItem disablePadding>
-                    <Link
-                      to="/users"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <RecentActorsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List of users" />
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
+                  {auth?.user?.role_ids?.find((item) => item === 1) && (
+                    <ListItem disablePadding>
+                      <Link
+                        to="/users"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <RecentActorsIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="List of users" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  )}
 
                   <ListItem disablePadding>
                     <Link
@@ -191,19 +196,21 @@ export default function DashBoard() {
                     </Link>
                   </ListItem>
 
-                  <ListItem disablePadding>
-                    <Link
-                      to="/role"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <AssignmentIndIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Roles" />
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
+                  {auth?.user?.role_ids?.find((item) => item === 1) && (
+                    <ListItem disablePadding>
+                      <Link
+                        to="/role"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <AssignmentIndIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Roles" />
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  )}
                 </List>
               </nav>
 
