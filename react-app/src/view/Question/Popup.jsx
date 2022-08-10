@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Dialog,
+  DialogContent,
+  DialogContentText,
   DialogTitle,
   Grid,
   InputLabel,
@@ -13,6 +15,18 @@ import {
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+
+export const getCategories = async (setData) => {
+  try {
+    const { data } = await axiosInstance({
+      method: "get",
+      url: base + "/categories",
+    });
+    setData(data?.data);
+  } catch (errro) {
+    console.log("not successful");
+  }
+};
 
 export default function Popup(props) {
   const { getQuestions, openPopup, setOpenPopup } = props;
@@ -27,18 +41,6 @@ export default function Popup(props) {
     console.log(event.target.value);
     setChoosedCategory(event.target.value);
   }
-
-  const getCategories = async () => {
-    try {
-      const { data } = await axiosInstance({
-        method: "get",
-        url: base + "/categories",
-      });
-      setCategoryList(data?.data);
-    } catch (errro) {
-      console.log("not successful");
-    }
-  };
 
   const createQuestion = async () => {
     try {
@@ -60,18 +62,31 @@ export default function Popup(props) {
   };
 
   useEffect(() => {
-    getCategories();
+    getCategories(setCategoryList);
   }, []);
 
   return (
     <>
-      <Dialog open={openPopup} maxWidth="md">
-        <DialogTitle>
+      <Dialog
+        open={openPopup}
+        maxWidth="xl"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Create Question"}
           <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
             X
           </Button>
+        </DialogTitle>
+        <DialogTitle>
           <Typography>Create Question</Typography>
         </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            fill the all the fields below to create a question:
+          </DialogContentText>
+        </DialogContent>
         <DialogTitle>
           <Box
             component="form"
@@ -82,42 +97,48 @@ export default function Popup(props) {
             autoComplete="off"
           >
             <TextField
+              sx={{ p: 1 }}
               label="Title"
               variant="outlined"
+              fullWidth
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+
             <TextField
+              sx={{ p: 1 }}
               label="Content"
               variant="outlined"
               multiline
               maxRows={4}
+              fullWidth
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </Box>
+
           <Grid item xs={12} sx={{ p: 4 }}>
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+            <InputLabel>Role</InputLabel>
             {categoryList.length > 0 && (
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                defaultValue={""}
                 value={choosedCategory}
-                label="role"
+                fullWidth
+                // label="Category"
                 onChange={(e) => {
                   handleChange(e);
                 }}
-                fullWidth
               >
-                {categoryList?.map((role, index) => (
-                  <MenuItem key={index} value={role?.attributes?.id}>
-                    {role?.attributes?.id} : {role?.attributes?.name}
+                {categoryList?.map((category, index) => (
+                  <MenuItem key={index} value={category?.attributes?.id}>
+                    {category?.attributes?.id} : {category?.attributes?.name}
                   </MenuItem>
                 ))}
               </Select>
             )}
           </Grid>
           <Button
+            variant="contained"
             sx={{ m: 2 }}
             onClick={() => {
               createQuestion();
