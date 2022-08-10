@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import PopupCreate from "./PopupCreate";
-import { getCategories } from "../../server";
+import { getCategories } from "../../service";
 
 const ListOfCategories = () => {
   const [listOfCategories, setListOfCategories] = useState([]);
