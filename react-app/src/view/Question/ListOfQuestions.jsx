@@ -29,10 +29,10 @@ export default function ListOfQuestions() {
 
   return (
     <>
-      <Container sx={{ marginTop: 8, marginLeft: 2 }}>
+      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
         <Grid container>
-          <Grid item xs={12} sx={{ marginTop: 2 }}>
-            <Typography variant="h4" component="h1">
+          <Grid item xs={12}>
+            <Typography variant="h5" component="h1">
               List of Questions
             </Typography>
             <Button
