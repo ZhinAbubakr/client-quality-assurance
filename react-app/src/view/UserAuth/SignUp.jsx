@@ -11,6 +11,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import { useState } from "react";
+import { loginSchema, validateUser } from "../../Validations/Validations";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUp() {
   // const [newUser,setNewUser] = useState([]);
@@ -44,6 +47,39 @@ export default function SignUp() {
     }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const user = {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password,
+      };
+      console.log(user);
+      const isValid = await validateUser(user, loginSchema);
+
+      console.log("isValid", isValid);
+
+      // TODO: display validation errors
+      if (!isValid)
+        return toast.error("wrong email or password!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+      signup();
+      navigate("/questions");
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
   return (
     <div>
       <Container component="main" maxWidth="xs">
@@ -59,7 +95,7 @@ export default function SignUp() {
             Sign Up
           </Typography>
 
-          <Box component="form" sx={{ mt: 1 }}>
+          <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -129,19 +165,24 @@ export default function SignUp() {
               variant="contained"
               fullWidth
               sx={{ mt: 3, mb: 2 }}
-              onClick={(event) => {
-                event.preventDefault();
-                signup();
-                navigate("/questions");
-                console.log("done");
-                // getQuestions();
-              }}
             >
               SIGN UP
             </Button>
           </Box>
         </Box>
       </Container>
+      <ToastContainer
+        theme="colored"
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

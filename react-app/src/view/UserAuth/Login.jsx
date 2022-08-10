@@ -9,10 +9,12 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setToken } from "../../store/auth";
+import { setToken, signIn } from "../../store/auth";
 import axiosInstance, { setAxiosToken } from "../../axios";
 import { base } from "../../api";
-// import axios, {setAxiosToken} from '../../axios';
+import { loginSchema, validateUser } from "../../Validations/Validations";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [inputEmail, setInputEmail] = useState("");
@@ -32,11 +34,27 @@ export default function Login() {
           password: password,
         },
       });
+
       setAxiosToken(response?.data?.data?.attributes?.token);
       dispatch(setToken(response?.data?.data?.attributes?.token));
+      getUser();
       console.log(response.data.data.attributes.token);
     } catch (error) {
       console.log("error authentication");
+    }
+  };
+
+  const getUser = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + "/auth/get-user-info",
+      });
+      dispatch(signIn(data.data.attributes));
+      // setAdmin(data);
+      // console.log(admin?.data?.attributes);
+    } catch (errro) {
+      console.log("not successful");
     }
   };
 
@@ -50,9 +68,35 @@ export default function Login() {
       navigate(location?.state?.from?.pathname || "/questions");
   }, [auth.isAuthenticated]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    login();
+    try {
+      const user = {
+        email: inputEmail,
+        password: password,
+      };
+      console.log(user);
+      const isValid = await validateUser(user, loginSchema);
+
+      console.log("isValid", isValid);
+
+      // TODO: display validation errors
+      if (!isValid)
+        return toast.error("🦄 Wow so easy!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+      login();
+    } catch (error) {
+      console.log("error");
+      console.log("error logging in");
+    }
   };
 
   return (
@@ -68,7 +112,7 @@ export default function Login() {
         >
           <Typography component="h1" variant="h5">
             Sign in
-          </Typography>
+          </Typography>{" "}
           <form onSubmit={handleSubmit}>
             <Box component="div" sx={{ mt: 1 }}>
               <TextField
@@ -109,6 +153,18 @@ export default function Login() {
                 >
                   Sign In
                 </Button>
+
+                <ToastContainer
+                  position="top-center"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
               </Grid>
             </Box>
           </form>
