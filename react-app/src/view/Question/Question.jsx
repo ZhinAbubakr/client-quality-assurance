@@ -1,6 +1,10 @@
 import { Container } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "../../axios";
+import { base } from "../../api";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import PopupDialog from "./PopupDialog";
 import {
   Button,
   Card,
@@ -8,45 +12,49 @@ import {
   CssBaseline,
   Divider,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
   TextField,
   Typography,
 } from "@mui/material";
-import axiosInstance from "../../axios";
-import { base } from "../../api";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Question() {
   const { id } = useParams();
-  const [singleQuestion, setSingleQuestion] = useState({});
-  const [content, setContent] = useState("");
   const navigate = useNavigate();
 
-  const [questionTitle, setQuestionTitle] = useState("");
-  const [questionContent, setQuestionContent] = useState("");
+  const [singleQuestion, setSingleQuestion] = useState({});
+  const [content, setContent] = useState("");
 
-  const [categoryList, setCategoryList] = useState([]);
-  const [choosedCategory, setChoosedCategory] = useState(3);
+  // const [questionTitle, setQuestionTitle] = useState("");
+  // const [questionContent, setQuestionContent] = useState("");
+
+  // const [categoryList, setCategoryList] = useState([]);
+  // const [choosedCategory, setChoosedCategory] = useState(3);
 
   const [listOfAnswers, setListOfAnswers] = useState([]);
 
-  function handleChange(event) {
-    console.log(event.target.value);
-    setChoosedCategory(event.target.value);
-  }
+  const [openPopup, setOpenPopup] = useState(false);
 
-  const getCategories = async () => {
-    try {
-      const { data } = await axiosInstance({
-        method: "get",
-        url: base + "/categories",
-      });
-      setCategoryList(data?.data);
-    } catch (errro) {
-      console.log("not successful");
-    }
-  };
+  // function handleChange(event) {
+  //   console.log(event.target.value);
+  //   setChoosedCategory(event.target.value);
+  // }
+
+  // const getCategories = async () => {
+  //   try {
+  //     const { data } = await axiosInstance({
+  //       method: "get",
+  //       url: base + "/categories",
+  //     });
+  //     setCategoryList(data?.data);
+  //     console.log(data?.data);
+  //   } catch (errro) {
+  //     console.log("not successful");
+  //   }
+  // };
 
   const createAnswer = async () => {
     try {
@@ -61,7 +69,7 @@ export default function Question() {
         },
       });
       getAnswers();
-      console.log(data?.data);
+      // console.log(data?.data);
     } catch {
       console.log("error posting questions");
     }
@@ -73,7 +81,7 @@ export default function Question() {
         method: "get",
         url: base + "/answers",
       });
-      console.log(data?.data, "text");
+      // console.log(data?.data, "text");
       setListOfAnswers(data?.data);
     } catch {
       console.log("error getting answers");
@@ -82,7 +90,7 @@ export default function Question() {
 
   const getQuestions = async () => {
     try {
-      const { data } = await axiosInstance({
+      await axiosInstance({
         method: "get",
         url: base + "/questions",
       });
@@ -97,7 +105,7 @@ export default function Question() {
         method: "get",
         url: base + `/questions/` + id,
       });
-      console.log(data?.data?.attributes);
+      // console.log(data?.data?.attributes);
       setSingleQuestion(data?.data?.attributes);
     } catch (errro) {
       console.log("not successful");
@@ -106,7 +114,7 @@ export default function Question() {
 
   const deleteQuestion = async () => {
     try {
-      const { data } = await axiosInstance({
+      await axiosInstance({
         method: "delete",
         url: base + "/questions/" + id,
       });
@@ -116,40 +124,21 @@ export default function Question() {
     }
   };
 
-  const updateQuestion = async () => {
+  const deleteAnswer = async (id) => {
     try {
-      const { data } = await axiosInstance({
-        method: "PUT",
-        url: base + "/questions/" + id,
-        data: {
-          question: {
-            title: questionTitle,
-            content: questionContent,
-            category_ids: [1],
-          },
-        },
+      await axiosInstance({
+        method: "delete",
+        url: base + "/answers/" + id,
       });
-      getSingleQuestion();
+      getAnswers();
     } catch (errro) {
       console.log("not successful");
     }
   };
 
-  // const deleteAnswer = async () => {
-  //   try {
-  //     const { data } = await axiosInstance({
-  //       method: "delete",
-  //       url: base + "/answers/" + id,
-  //     });
-  //     getAnswers();
-  //   } catch (errro) {
-  //     console.log("not successful");
-  //   }
-  // };
-
   useEffect(() => {
     getSingleQuestion();
-    getCategories();
+    // getCategories();
     getAnswers();
   }, []);
 
@@ -178,45 +167,8 @@ export default function Question() {
                 </Typography>
               </CardContent>
               <CardContent>
-                {/* <Typography>{singleQuestion?.category_ids[0]}</Typography> */}
+                {/* <Typography>{singleQuestion?.category_ids[1]}</Typography> */}
                 <Divider />
-                <Grid item xs={12} sx={{ m: 2 }}>
-                  <Typography sx={{ fontWeight: "bold" }} variant="h6">
-                    UPDATE the Question
-                  </Typography>
-                  <TextField
-                    label="Title"
-                    variant="outlined"
-                    value={questionTitle}
-                    onChange={(e) => setQuestionTitle(e.target.value)}
-                  />
-                  <TextField
-                    label="Content"
-                    variant="outlined"
-                    // defaultValue={singleQuestion}
-                    value={questionContent}
-                    onChange={(e) => setQuestionContent(e.target.value)}
-                  />
-                  <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                  {categoryList.length > 0 && (
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={choosedCategory}
-                      label="role"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      fullWidth
-                    >
-                      {categoryList?.map((role, index) => (
-                        <MenuItem key={index} value={role?.attributes?.id}>
-                          {role?.attributes?.id} : {role?.attributes?.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                </Grid>
 
                 <Button
                   variant="contained"
@@ -231,26 +183,23 @@ export default function Question() {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    updateQuestion();
-                    navigate("/questions");
+                    setOpenPopup(true);
                   }}
                   sx={{ m: 2 }}
                 >
                   UPDATE
                 </Button>
+                <PopupDialog
+                  id={id}
+                  openPopup={openPopup}
+                  setOpenPopup={setOpenPopup}
+                  getSingleQuestion={getSingleQuestion}
+                  singleQuestion={singleQuestion}
+                />
               </CardContent>
             </Card>
           </Grid>
           <Grid container>
-            {console.log(id)}
-            {listOfAnswers
-              .filter((item) => item.attributes.question_id == id)
-              .map((answers) => (
-                <ul key={answers?.attributes?.id}>
-                  <li>{answers.attributes.content}</li>
-                </ul>
-              ))}
-
             <Grid item xs={8}>
               <TextField
                 placeholder="Add Your Answer here............."
@@ -262,7 +211,7 @@ export default function Question() {
                 onChange={(e) => setContent(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={2} display="flex">
               <Button
                 variant="contained"
                 onClick={() => createAnswer()}
@@ -271,6 +220,41 @@ export default function Question() {
                 POST
               </Button>
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Card variant="outlined">
+              <CardContent>
+                {listOfAnswers
+                  .filter((item) => item.attributes.question_id == id)
+                  .map((answers) => (
+                    <List key={answers?.attributes?.id}>
+                      {/* <Grid item xs={8}> */}
+                      <ListItem>
+                        <ListItemText variant="h5" component="div">
+                          {answers.attributes.content}
+                        </ListItemText>
+                        <Grid item xs={2}>
+                          <ListItem>
+                            <IconButton edge="end" aria-label="delete">
+                              <StarOutlineIcon />
+                            </IconButton>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() =>
+                                deleteAnswer(answers?.attributes?.id)
+                              }
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </ListItem>
+                        </Grid>
+                      </ListItem>
+                      {/* </Grid> */}
+                    </List>
+                  ))}
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </Container>
