@@ -13,6 +13,11 @@ import Profile from "./components/UserProfile.jsx";
 import ListOfRoles from "./view/Roles/ListOfRoles";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
+import Role from "./view/Roles/Role";
+import Category from "./view/Categories/Category";
+import RequireAdmin from "./components/RequireAdmin";
+import NotAllowed from "./components/NotAllowed";
+import NotFound from "./components/NotFound";
 
 function App() {
   const mdTheme = createTheme(); //theme provider is used to pass the theme to the components
@@ -30,24 +35,42 @@ function App() {
                   </RequireAuth>
                 }
               >
-                <Route path={"/profile"} element={<Profile />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="questions">
                   <Route path="" element={<Questions />} />
                   <Route path=":id" element={<Question />} />
                 </Route>
                 <Route path="users">
-                  <Route path="" element={<Users />} />
+                  <Route
+                    path=""
+                    element={
+                      <RequireAdmin>
+                        <Users />
+                      </RequireAdmin>
+                    }
+                  />
                   <Route path=":id" element={<User />} />
                 </Route>
                 <Route path="category">
                   <Route path="" element={<Categories />} />
+                  <Route path=":id" element={<Category />} />
                 </Route>
                 <Route path="role">
-                  <Route path="" element={<ListOfRoles />} />
+                  <Route
+                    path=""
+                    element={
+                      <RequireAdmin>
+                        <ListOfRoles />
+                      </RequireAdmin>
+                    }
+                  />
+                  <Route path=":id" element={<Role />} />
                 </Route>
               </Route>
               <Route path="signup" element={<SignUp />} />
               <Route path="login" element={<Login />} />
+              <Route path="notfound" element={<NotAllowed />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </BrowserRouter>
