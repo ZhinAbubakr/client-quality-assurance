@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+import { Typography } from "@mui/material";
 
 const ListOfUsers = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const ListOfUsers = () => {
         method: "get",
         url: base + "/users",
       });
-      console.log(data?.data);
+      // console.log(data?.data);
       setListOfUser(data?.data);
     } catch (errro) {
       console.log("not successful");
@@ -55,7 +56,8 @@ const ListOfUsers = () => {
 
   return (
     <>
-      <Container sx={{ marginTop: 8, marginLeft: 2 }}>
+      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
+        <Typography variant="h5">List of Users</Typography>
         <Tables users={listOfUser} cols={cols} SelectedRow={SelectedRow} />
       </Container>
     </>
