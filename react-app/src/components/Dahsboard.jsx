@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { styled } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import Drawer from "@mui/material/Drawer";
+import AppBar from "@mui/material/AppBar";
 import { Outlet } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -15,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "../store/auth";
 import { useDispatch, useSelector } from "react-redux";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-
 import {
   Box,
   Toolbar,
@@ -27,98 +22,40 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  CssBaseline,
 } from "@mui/material";
 
 const drawerWidth = 240;
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(!open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "static",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-
-    ...(open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
-
 export default function DashBoard() {
-  const [open, setOpen] = useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const profile = useSelector((state) => state.auth.user);
-
   const auth = useSelector((state) => state.auth);
-  console.log({ auth });
+  // console.log({ auth });
+  // const profile = useSelector((state) => state.auth.user);
 
   return (
     <>
-      <Box sx={{ height: "100vh" }}>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar open={open}>
+          <AppBar
+            position="fixed"
+            sx={{
+              width: `calc(100% - ${drawerWidth}px)`,
+              ml: `${drawerWidth}px`,
+            }}
+          >
             <Toolbar
               sx={{
                 pr: "24px",
                 bgcolor: "#5c6bc0",
               }}
             >
-              <IconButton
-                edge="start"
-                color="inherit"
-                aria-label="open drawer"
-                onClick={toggleDrawer}
-                sx={{
-                  marginRight: "36px",
-                  ...(!open && { display: "none" }),
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
               <Typography
-                component="h1"
                 variant="h6"
-                color="inherit"
                 noWrap
+                component="div"
                 sx={{ flexGrow: 1 }}
               >
                 Dashboard
@@ -135,108 +72,100 @@ export default function DashBoard() {
           </AppBar>
         </Box>
 
-        <Box display="flex" height="100%">
-          <Drawer variant="permanent" open={open}>
-            <Toolbar
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Divider />
+          <List>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                navigate("/questions");
               }}
             >
-              <IconButton onClick={toggleDrawer}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </Toolbar>
-            <Divider />
+              <ListItemButton>
+                <ListItemIcon>
+                  <QuestionAnswerIcon />
+                </ListItemIcon>
+                <ListItemText primary="Questions" />
+              </ListItemButton>
+            </ListItem>
 
-            <Box sx={{ width: "100%", maxWidth: 360, height: "100%" }}>
-              <nav>
-                <List>
-                  <ListItem disablePadding>
-                    <Link
-                      to="/questions"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <QuestionAnswerIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Questions" />
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
-                  {auth?.user?.role_ids?.find((item) => item === 1) && (
-                    <ListItem disablePadding>
-                      <Link
-                        to="/users"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <RecentActorsIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="List of users" />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  )}
+            {auth?.user?.role_ids?.find((item) => item === 1) && (
+              <ListItem
+                disablePadding
+                onClick={() => {
+                  navigate("/users");
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <RecentActorsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="List of users" />
+                </ListItemButton>
+              </ListItem>
+            )}
 
-                  <ListItem disablePadding>
-                    <Link
-                      to="/category"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>
-                          <CategoryIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="category" />
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                navigate("/category");
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <CategoryIcon />
+                </ListItemIcon>
+                <ListItemText primary="Category" />
+              </ListItemButton>
+            </ListItem>
 
-                  {auth?.user?.role_ids?.find((item) => item === 1) && (
-                    <ListItem disablePadding>
-                      <Link
-                        to="/role"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <AssignmentIndIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="Roles" />
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  )}
-                </List>
-              </nav>
+            {auth?.user?.role_ids?.find((item) => item === 1) && (
+              <ListItem
+                disablePadding
+                onClick={() => {
+                  navigate("/role");
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AssignmentIndIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Roles" />
+                </ListItemButton>
+              </ListItem>
+            )}
+          </List>
 
-              <nav>
-                <List>
-                  <ListItem
-                    disablePadding
-                    onClick={() => {
-                      dispatch(signOut());
-                      navigate("/login");
-                    }}
-                  >
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <LogoutIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Logout" />
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </nav>
-            </Box>
-          </Drawer>
+          <List>
+            <ListItem
+              disablePadding
+              onClick={() => {
+                dispatch(signOut());
+                navigate("/login");
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Drawer>
 
-          <Outlet />
-        </Box>
+        <Outlet />
       </Box>
     </>
   );
