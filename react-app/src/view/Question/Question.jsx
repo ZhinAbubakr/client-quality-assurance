@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import PopupDialog from "./PopupDialog";
+import PopupDialog from "./PopupUpdate";
 import {
   Button,
   Card,

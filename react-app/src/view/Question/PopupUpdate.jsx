@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 
-export default function PopupDialog(props) {
+export default function PopupUpdate(props) {
   const { singleQuestion, getSingleQuestion, openPopup, setOpenPopup, id } =
     props;
 
