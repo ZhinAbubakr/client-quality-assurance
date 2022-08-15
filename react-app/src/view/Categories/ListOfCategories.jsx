@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 // import axiosInstance from "../../axios";
 // import { base } from "../../api";
 import Table from "../../components/Table";
@@ -12,7 +12,23 @@ const ListOfCategories = () => {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
 
-  const [cols] = useState([
+  // const [cols] = useState([
+  //   {
+  //     name: "id",
+  //     label: "ID",
+  //   },
+  //   {
+  //     name: "name",
+  //     label: "Name",
+  //   },
+  //   {
+  //     action: "action",
+  //     label: "Action",
+  //   },
+  // ]);
+
+
+  const cols = useMemo(() => [
     {
       name: "id",
       label: "ID",
@@ -24,8 +40,8 @@ const ListOfCategories = () => {
     {
       action: "action",
       label: "Action",
-    },
-  ]);
+    }
+    ], [])
 
   const navigate = useNavigate();
 
