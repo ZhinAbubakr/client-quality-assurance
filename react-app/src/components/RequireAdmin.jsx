@@ -14,6 +14,6 @@ const RequireAdmin = ({ children }) => {
   const user = auth?.user?.role_ids?.find((item) => item === 1);
 
   if (user) return children;
-  else return <Navigate to="/notfound" replace={true} />;
+  else return <Navigate to="/403" replace={true} />;
 };
 export default RequireAdmin;

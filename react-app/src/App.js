@@ -69,7 +69,7 @@ function App() {
               </Route>
               <Route path="signup" element={<SignUp />} />
               <Route path="login" element={<Login />} />
-              <Route path="notfound" element={<NotAllowed />} />
+              <Route path="403" element={<NotAllowed />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
