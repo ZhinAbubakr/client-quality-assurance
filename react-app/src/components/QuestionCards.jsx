@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../view/Question/Popup";
 
-export default function Cards({ questions }) {
+export default function QuestionCards({ questions }) {
   const [categoryList, setCategoryList] = useState([]);
 
   const navigate = useNavigate();

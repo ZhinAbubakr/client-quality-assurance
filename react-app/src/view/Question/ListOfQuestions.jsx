@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import Cards from "../../components/Card";
+import Cards from "../../components/QuestionCards";
 import Popup from "./Popup";
 import { useEffect } from "react";
 import axiosInstance from "../../axios";
