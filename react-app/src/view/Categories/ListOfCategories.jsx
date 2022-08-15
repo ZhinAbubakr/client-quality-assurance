@@ -27,21 +27,23 @@ const ListOfCategories = () => {
   //   },
   // ]);
 
-
-  const cols = useMemo(() => [
-    {
-      name: "id",
-      label: "ID",
-    },
-    {
-      name: "name",
-      label: "Name",
-    },
-    {
-      action: "action",
-      label: "Action",
-    }
-    ], [])
+  const cols = useMemo(
+    () => [
+      {
+        name: "id",
+        label: "ID",
+      },
+      {
+        name: "name",
+        label: "Name",
+      },
+      {
+        action: "action",
+        label: "Action",
+      },
+    ],
+    []
+  );
 
   const navigate = useNavigate();
 
@@ -57,14 +59,14 @@ const ListOfCategories = () => {
   //   }
   // };
 
-  const test = async () => {
+  const gettingCategories = async () => {
     const data = await getCategories();
     console.log(data.data);
     setListOfCategories(data?.data);
   };
 
   useEffect(() => {
-    test();
+    gettingCategories();
   }, []);
 
   const SelectedRow = (id) => {
@@ -91,7 +93,7 @@ const ListOfCategories = () => {
         <PopupCreate
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
-          getCategories={test}
+          getCategories={gettingCategories}
         />
       </Container>
     </>
