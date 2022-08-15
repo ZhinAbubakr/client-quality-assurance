@@ -35,7 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function Tables({ users, cols, SelectedRow }) {
+export default function Tables({ items, cols, SelectedRow }) {
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
       <Table sx={{ minWidth: 650 }} size="huge">
@@ -50,7 +50,7 @@ export default function Tables({ users, cols, SelectedRow }) {
         </TableHead>
 
         <TableBody>
-          {users.map((user) => (
+          {items.map((user) => (
             <StyledTableRow
               sx={{ cursor: "pointer" }}
               key={user?.attributes?.id}

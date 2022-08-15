@@ -53,7 +53,7 @@ export default function ListOfRoles() {
       <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
         <Typography variant="h5">List of Roles</Typography>
 
-        <Table users={roles} cols={cols} SelectedRow={SelectedRow} />
+        <Table items={roles} cols={cols} SelectedRow={SelectedRow} />
       </Container>
     </>
   );

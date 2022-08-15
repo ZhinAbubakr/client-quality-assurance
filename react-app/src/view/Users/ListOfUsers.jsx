@@ -60,7 +60,7 @@ const ListOfUsers = () => {
         <Typography variant="h5" sx={{ py: 2 }}>
           List of Users
         </Typography>
-        <Tables users={listOfUser} cols={cols} SelectedRow={SelectedRow} />
+        <Tables items={listOfUser} cols={cols} SelectedRow={SelectedRow} />
       </Container>
     </>
   );

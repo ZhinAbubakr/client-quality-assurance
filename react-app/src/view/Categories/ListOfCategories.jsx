@@ -89,7 +89,7 @@ const ListOfCategories = () => {
         >
           ADD
         </Button>
-        <Table users={listOfCategories} cols={cols} SelectedRow={SelectedRow} />
+        <Table items={listOfCategories} cols={cols} SelectedRow={SelectedRow} />
         <PopupCreate
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
