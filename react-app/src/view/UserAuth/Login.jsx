@@ -173,3 +173,6 @@ export default function Login() {
     </div>
   );
 }
+
+//fix the bug
+//get request lanaw require auth dane ka dashdaney ba condition be ble if(user === null){get the user info && det it to reducer}

@@ -1,37 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
+// { useState }
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import axiosInstance from "../axios";
-import { base } from "../api";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../store/auth";
+// import axiosInstance from "../axios";
+// import { base } from "../api";
+// import { useEffect } from "react";
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
+// import { signIn } from "../store/auth";
 
 const UserProfile = () => {
-  const [admin, setAdmin] = useState([]);
-  const dispatch = useDispatch();
+  // const [admin, setAdmin] = useState([]);
+  // const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  const getUser = async () => {
-    try {
-      const { data } = await axiosInstance({
-        method: "get",
-        url: base + "/auth/get-user-info",
-      });
-      dispatch(signIn(data.data.attributes));
-      setAdmin(data);
-      console.log(admin?.data?.attributes);
-    } catch (errro) {
-      console.log("not successful");
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const { data } = await axiosInstance({
+  //       method: "get",
+  //       url: base + "/auth/get-user-info",
+  //     });
+  //     dispatch(signIn(data.data.attributes));
+  //     setAdmin(data);
+  //     console.log(admin?.data?.attributes);
+  //   } catch (errro) {
+  //     console.log("not successful");
+  //   }
+  // };
 
   const userInfo = auth?.user;
 
   console.log(userInfo?.id);
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
     <>
