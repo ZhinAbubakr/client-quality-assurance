@@ -13,7 +13,9 @@ import {
 const UserProfile = () => {
   // const [admin, setAdmin] = useState([]);
   // const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  // const auth = useSelector((state) => state.auth);
+
+  const { user } = useSelector((state) => state.auth);
 
   // const getUser = async () => {
   //   try {
@@ -29,9 +31,9 @@ const UserProfile = () => {
   //   }
   // };
 
-  const userInfo = auth?.user;
+  // const userInfo = user?.user;
 
-  console.log(userInfo?.id);
+  console.log(user);
 
   // useEffect(() => {
   //   getUser();
@@ -43,14 +45,14 @@ const UserProfile = () => {
         <Paper variant="outlined" sx={{ p: 4 }}>
           <Grid container sx={{ p: 4 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
-              <Typography variant="h4">{userInfo?.first_name}</Typography>
+              <Typography variant="h4">{user?.first_name}</Typography>
             </Grid>
             <Grid item xs={12} sx={{ p: 4 }}>
-              <Typography>ID : {userInfo?.id}</Typography>
-              <Typography>First Name : {userInfo?.first_name}</Typography>
-              <Typography>Last Name : {userInfo?.last_name}</Typography>
-              <Typography>Email : {userInfo?.email}</Typography>
-              <Typography>Role : {userInfo?.role_ids[0]}</Typography>
+              <Typography>ID : {user?.id}</Typography>
+              <Typography>First Name : {user?.first_name}</Typography>
+              <Typography>Last Name : {user?.last_name}</Typography>
+              <Typography>Email : {user?.email}</Typography>
+              <Typography>Role : {user?.role_ids[0]}</Typography>
             </Grid>
           </Grid>
         </Paper>
