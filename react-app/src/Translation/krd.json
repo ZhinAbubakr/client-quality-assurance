@@ -1,0 +1,12 @@
+{
+  "dashboard": {
+    "title": "داشبۆرد",
+    "Listofquestions": "لیستی پرسیارەکان",
+    "AskQuestion": "پرسیار بکە",
+    "Questions": "پرسیارەکان",
+    "ListOfUsers": "لیستی بەکارهێنەرەکان",
+    "QuestionCategories": "پۆلێنەکانی پرسیارەکان",
+    "Roles": "ڕۆڵەکان",
+    "Logout": "چونەدەرەوە"
+  }
+}

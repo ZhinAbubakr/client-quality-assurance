@@ -1,0 +1,12 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "Listofquestions": "List of questions",
+    "AskQuestion": "Ask Question",
+    "Questions": "Questions",
+    "ListOfUsers": "List Of Users",
+    "QuestionCategories": "Categoreis",
+    "Roles": "Roles",
+    "Logout": "Logout"
+  }
+}
