@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import LanguageIcon from "@mui/icons-material/Language";
 import Image from "../user.png";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
   Toolbar,
@@ -47,7 +48,7 @@ const AccountStyle = styled("div")(({ theme }) => ({
   textDecoration: "none",
 }));
 
-export default function DashBoard() {
+export default function DashBoard(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -75,6 +76,124 @@ export default function DashBoard() {
     }
   };
 
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <>
+      <Box
+        sx={{
+          mt: 5,
+          mb: 5,
+          mx: 2.5,
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          navigate("/profile");
+        }}
+      >
+        <AccountStyle>
+          <Avatar src={Image} alt="photoURL" />
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              {auth?.user?.first_name}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              {auth?.user?.role_ids}
+            </Typography>
+          </Box>
+        </AccountStyle>
+      </Box>
+
+      <Divider sx={{ bgcolor: "lightgrey" }} />
+      <List>
+        <ListItem
+          disablePadding
+          onClick={() => {
+            navigate("/questions");
+          }}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <QuestionAnswerIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary={t("dashboard.Questions")} />
+          </ListItemButton>
+        </ListItem>
+
+        {auth?.user?.role_ids?.find((item) => item === 1) && (
+          <ListItem
+            disablePadding
+            onClick={() => {
+              navigate("/users");
+            }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <RecentActorsIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary={t("dashboard.ListOfUsers")} />
+            </ListItemButton>
+          </ListItem>
+        )}
+
+        <ListItem
+          disablePadding
+          onClick={() => {
+            navigate("/category");
+          }}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <CategoryIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary={t("dashboard.QuestionCategories")} />
+          </ListItemButton>
+        </ListItem>
+
+        {auth?.user?.role_ids?.find((item) => item === 1) && (
+          <ListItem
+            disablePadding
+            onClick={() => {
+              navigate("/role");
+            }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <AssignmentIndIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary={t("dashboard.Roles")} />
+            </ListItemButton>
+          </ListItem>
+        )}
+      </List>
+
+      <List sx={{ mt: 40 }}>
+        <ListItem
+          disablePadding
+          onClick={() => {
+            dispatch(signOut());
+            navigate("/login");
+          }}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <LogoutIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary={t("dashboard.Logout")} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   return (
     <>
       <Box
@@ -86,8 +205,8 @@ export default function DashBoard() {
             elevation={0}
             position="fixed"
             sx={{
-              width: `calc(100% - ${drawerWidth}px)`,
-              ml: `${drawerWidth}px`,
+              width: { sm: `calc(100% - ${drawerWidth}px)` },
+              ml: { sm: `${drawerWidth}px` },
               backgroundColor: "#F4F6F6",
               // opacity: 0.2,
             }}
@@ -98,13 +217,23 @@ export default function DashBoard() {
                 color: "black",
               }}
             >
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon sx={{ color: "black" }} />
+              </IconButton>
+
               <Typography
                 variant="h6"
                 noWrap
                 component="div"
                 sx={{ flexGrow: 1 }}
               >
-                {/* {t("dashboard.title")} */}
+                {t("dashboard.title")}
               </Typography>
               {/* ///////////////////////////////////// */}
               {/* <Tooltip title="Account settings">
@@ -236,131 +365,159 @@ export default function DashBoard() {
             </Toolbar>
           </AppBar>
         </Box>
-
-        <Drawer
-          PaperProps={{
-            sx: {
-              backgroundColor: "#2C365D",
-              color: "white",
-            },
-          }}
-          sx={{
-            width: drawerWidth,
-            // hideBackdrop: true,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          variant="permanent"
-          anchor="left"
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          <Box
-            sx={{
-              mt: 5,
-              mb: 5,
-              mx: 2.5,
-              cursor: "pointer",
+          {/* ///////////////////// */}
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
             }}
-            onClick={() => {
-              navigate("/profile");
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
             }}
           >
-            <AccountStyle>
-              <Avatar src={Image} alt="photoURL" />
-              <Box sx={{ ml: 2 }}>
-                <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                  {auth?.user?.first_name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {auth?.user?.role_ids}
-                </Typography>
-              </Box>
-            </AccountStyle>
-          </Box>
-
-          <Divider sx={{ bgcolor: "lightgrey" }} />
-          <List>
-            <ListItem
-              disablePadding
+            {drawer}
+          </Drawer>
+          {/* ///////////////////////////// */}
+          <Drawer
+            PaperProps={{
+              sx: {
+                backgroundColor: "#2C365D",
+                color: "white",
+              },
+            }}
+            sx={{
+              // width: drawerWidth,
+              // hideBackdrop: true,
+              flexShrink: 0,
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+              },
+            }}
+            variant="permanent"
+            // anchor="left"
+            open
+          >
+            <Box
+              sx={{
+                mt: 5,
+                mb: 5,
+                mx: 2.5,
+                cursor: "pointer",
+              }}
               onClick={() => {
-                navigate("/questions");
+                navigate("/profile");
               }}
             >
-              <ListItemButton>
-                <ListItemIcon>
-                  <QuestionAnswerIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary={t("dashboard.Questions")} />
-              </ListItemButton>
-            </ListItem>
+              <AccountStyle>
+                <Avatar src={Image} alt="photoURL" />
+                <Box sx={{ ml: 2 }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "text.primary" }}
+                  >
+                    {auth?.user?.first_name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {auth?.user?.role_ids}
+                  </Typography>
+                </Box>
+              </AccountStyle>
+            </Box>
 
-            {auth?.user?.role_ids?.find((item) => item === 1) && (
+            <Divider sx={{ bgcolor: "lightgrey" }} />
+            <List>
               <ListItem
                 disablePadding
                 onClick={() => {
-                  navigate("/users");
+                  navigate("/questions");
                 }}
               >
                 <ListItemButton>
                   <ListItemIcon>
-                    <RecentActorsIcon sx={{ color: "white" }} />
+                    <QuestionAnswerIcon sx={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary={t("dashboard.ListOfUsers")} />
+                  <ListItemText primary={t("dashboard.Questions")} />
                 </ListItemButton>
               </ListItem>
-            )}
 
-            <ListItem
-              disablePadding
-              onClick={() => {
-                navigate("/category");
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <CategoryIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary={t("dashboard.QuestionCategories")} />
-              </ListItemButton>
-            </ListItem>
+              {auth?.user?.role_ids?.find((item) => item === 1) && (
+                <ListItem
+                  disablePadding
+                  onClick={() => {
+                    navigate("/users");
+                  }}
+                >
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <RecentActorsIcon sx={{ color: "white" }} />
+                    </ListItemIcon>
+                    <ListItemText primary={t("dashboard.ListOfUsers")} />
+                  </ListItemButton>
+                </ListItem>
+              )}
 
-            {auth?.user?.role_ids?.find((item) => item === 1) && (
               <ListItem
                 disablePadding
                 onClick={() => {
-                  navigate("/role");
+                  navigate("/category");
                 }}
               >
                 <ListItemButton>
                   <ListItemIcon>
-                    <AssignmentIndIcon sx={{ color: "white" }} />
+                    <CategoryIcon sx={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary={t("dashboard.Roles")} />
+                  <ListItemText primary={t("dashboard.QuestionCategories")} />
                 </ListItemButton>
               </ListItem>
-            )}
-          </List>
 
-          <List sx={{ mt: 40 }}>
-            <ListItem
-              disablePadding
-              onClick={() => {
-                dispatch(signOut());
-                navigate("/login");
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <LogoutIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary={t("dashboard.Logout")} />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Drawer>
+              {auth?.user?.role_ids?.find((item) => item === 1) && (
+                <ListItem
+                  disablePadding
+                  onClick={() => {
+                    navigate("/role");
+                  }}
+                >
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <AssignmentIndIcon sx={{ color: "white" }} />
+                    </ListItemIcon>
+                    <ListItemText primary={t("dashboard.Roles")} />
+                  </ListItemButton>
+                </ListItem>
+              )}
+            </List>
 
+            <List sx={{ mt: 40 }}>
+              <ListItem
+                disablePadding
+                onClick={() => {
+                  dispatch(signOut());
+                  navigate("/login");
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LogoutIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary={t("dashboard.Logout")} />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Drawer>
+        </Box>
         <Outlet />
         <Box
           component="main"
