@@ -73,7 +73,7 @@ export default function SignUp() {
           progress: undefined,
         });
 
-      signup();
+      await signup();
       navigate("/questions");
     } catch (error) {
       console.log("error");
