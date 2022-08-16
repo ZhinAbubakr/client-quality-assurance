@@ -13,7 +13,8 @@
     "signin": "SIGN IN",
     "email": "Email Address",
     "password": "Password",
-    "notSingin": "Don't have an account? Sign Up"
+    "notSingin": "Don't have an account? Sign Up",
+    "wrong": "wrong email or password"
   },
   "signUp": {
     "signup": "SIGN UP",
@@ -21,6 +22,7 @@
     "lastName": "Last Name",
     "email": "Email Address",
     "password": "Password",
-    "notSingup": "Already have an account? Sign In"
+    "notSingup": "Already have an account? Sign In",
+    "wrong": "wrong email or password"
   }
 }
