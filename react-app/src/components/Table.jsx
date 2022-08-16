@@ -2,6 +2,7 @@ import React from "react";
 import {
   Button,
   Grid,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -62,9 +63,9 @@ export default function Tables({ items, cols, SelectedRow }) {
                 <>
                   {index === cols.length - 1 ? (
                     <TableCell align="center" padding="checkbox" key={index}>
-                      <Button>
+                      <IconButton>
                         <ModeEditOutlineIcon sx={{ color: "#272E4F" }} />
-                      </Button>
+                      </IconButton>
                     </TableCell>
                   ) : (
                     <TableCell align="center" padding="checkbox" key={index}>

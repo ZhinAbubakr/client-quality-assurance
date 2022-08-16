@@ -1,4 +1,3 @@
-// import "./App.css";
 import Login from "./view/UserAuth/Login";
 import SignUp from "./view/UserAuth/SignUp";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -18,9 +17,57 @@ import Category from "./view/Categories/Category";
 import RequireAdmin from "./components/RequireAdmin";
 import NotAllowed from "./components/NotAllowed";
 import NotFound from "./components/NotFound";
+import { blue, red } from "@mui/material/colors";
 
 function App() {
-  const mdTheme = createTheme(); //theme provider is used to pass the theme to the components
+  const mdTheme = createTheme({
+    palette: {
+      primary: {
+        light: blue[300],
+        main: blue[500],
+        dark: blue[700],
+      },
+      secondary: {
+        light: red[300],
+        main: red[500],
+        dark: red[700],
+      },
+      error: {
+        main: "#d32f2f",
+        light: "#ef5350",
+        dark: "#c62828",
+      },
+    },
+    shape: {
+      borderRadius: 4,
+    },
+
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: ({ ownerState, theme }) => ({
+            borderRadius: 6,
+            fontWeight: "bold",
+            "&:hover": {
+              ...(ownerState.variant === "contained"
+                ? { backgroundColor: theme.palette.primary.dark }
+                : {
+                    color: "white",
+                    backgroundColor: theme.palette.error.dark,
+                  }),
+            },
+            ...(ownerState.variant === "contained"
+              ? { color: "white", backgroundColor: theme.palette.primary.main }
+              : {
+                  color: "white",
+                  backgroundColor: theme.palette.error.main,
+                }),
+          }),
+        },
+      },
+    },
+  });
+
   return (
     <div className="App">
       <ThemeProvider theme={mdTheme}>

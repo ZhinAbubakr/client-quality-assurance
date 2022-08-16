@@ -167,16 +167,13 @@ export default function Question() {
                 </Typography>
               </CardContent>
               <CardContent>
-                {/* <Typography>{singleQuestion?.category_ids[1]}</Typography> */}
+                <Typography>{singleQuestion?.category_ids}</Typography>
                 <Divider />
 
                 <Button
-                  variant="contained"
-                  onClick={() => {
-                    deleteQuestion();
-                    navigate("/questions");
-                  }}
-                  sx={{ m: 2 }}
+                  variant="soft"
+                  startIcon={<DeleteIcon />}
+                  sx={{ m: 2, float: "right", "--Button-gap": "100px" }}
                 >
                   DELETE
                 </Button>
@@ -185,7 +182,7 @@ export default function Question() {
                   onClick={() => {
                     setOpenPopup(true);
                   }}
-                  sx={{ m: 2 }}
+                  sx={{ m: 2, float: "right" }}
                 >
                   UPDATE
                 </Button>
@@ -239,8 +236,6 @@ export default function Question() {
                               <StarOutlineIcon />
                             </IconButton>
                             <IconButton
-                              edge="end"
-                              aria-label="delete"
                               onClick={() =>
                                 deleteAnswer(answers?.attributes?.id)
                               }

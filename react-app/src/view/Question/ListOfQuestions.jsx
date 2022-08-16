@@ -1,10 +1,4 @@
-import {
-  Button,
-  Container,
-  createTheme,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Cards from "../../components/QuestionCards";
 import Popup from "./Popup";
@@ -12,7 +6,6 @@ import { useEffect } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import Pagination from "@mui/material/Pagination";
-import { ThemeProvider } from "@emotion/react";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
@@ -56,25 +49,6 @@ export default function ListOfQuestions() {
     getQuestions();
   }, []);
 
-  const theme = createTheme({
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: 8,
-            "&:hover": {
-              backgroundColor: " #f2f2f2",
-              color: "#333333",
-            },
-            backgroundColor: " #100F0F",
-            float: "right",
-            color: "#00",
-          },
-        },
-      },
-    },
-  });
-
   const { t } = useTranslation();
 
   return (
@@ -85,23 +59,23 @@ export default function ListOfQuestions() {
             <Typography variant="h5" component="h1">
               {t("dashboard.Listofquestions")}
             </Typography>
-            <ThemeProvider theme={theme}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setOpenPopup(true);
-                  console.log("add question");
-                }}
-              >
-                {t("dashboard.AskQuestion")}
-              </Button>
-            </ThemeProvider>
+            <Button
+              variant="contained"
+              sx={{ float: "right" }}
+              onClick={() => {
+                setOpenPopup(true);
+                console.log("add question");
+              }}
+            >
+              {t("dashboard.AskQuestion")}
+            </Button>
           </Grid>
           <Grid item xs={12}>
             <Cards questions={visibleQuestions} />
           </Grid>
           <Grid item xs={12}>
             <Pagination
+              sx={{ float: "right", m: 2 }}
               page={page}
               onChange={(event, page) => {
                 console.log("page", page);
