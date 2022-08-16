@@ -76,7 +76,7 @@ const ListOfCategories = () => {
 
   return (
     <>
-      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
+      <Container sx={{ marginTop: 12, p: 4 }}>
         <Typography variant="h5">List of Categories</Typography>
         <Button
           sx={{ float: "right" }}

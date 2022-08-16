@@ -56,7 +56,7 @@ const ListOfUsers = () => {
 
   return (
     <>
-      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
+      <Container sx={{ marginTop: 12, p: 4 }}>
         <Typography variant="h5" sx={{ py: 2 }}>
           List of Users
         </Typography>

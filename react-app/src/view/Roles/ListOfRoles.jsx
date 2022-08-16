@@ -50,7 +50,7 @@ export default function ListOfRoles() {
 
   return (
     <>
-      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
+      <Container sx={{ marginTop: 12, p: 4 }}>
         <Typography variant="h5">List of Roles</Typography>
 
         <Table items={roles} cols={cols} SelectedRow={SelectedRow} />
