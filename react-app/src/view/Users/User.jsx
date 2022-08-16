@@ -28,9 +28,8 @@ const User = () => {
     setChoosedRole(event.target.value);
   }
 
-  function handleFunc() {
-    deleteUser();
-    navigate("/users");
+  async function handleFunc() {
+    await deleteUser();
   }
 
   //get the roles from api
@@ -77,6 +76,7 @@ const User = () => {
         url: base + `/users/` + id,
       });
       getListOfUsers();
+      navigate("/users");
       console.log(data?.data?.attributes);
     } catch (errro) {
       console.log("not successful");
