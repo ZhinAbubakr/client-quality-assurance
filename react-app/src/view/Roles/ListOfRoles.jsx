@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function ListOfRoles() {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
+  const { t } = useTranslation();
 
   const [cols] = useState([
     {
       name: "id",
-      label: "ID",
+      label: t("listOfRoles.id"),
     },
     {
       name: "name",
-      label: "Name",
-    },
-    {
-      action: "action",
-      label: "Action",
+      label: t("listOfRoles.Name"),
     },
   ]);
 
@@ -31,7 +29,7 @@ export default function ListOfRoles() {
         method: "get",
         url: base + "/roles",
       });
-      console.log(data?.data?.attributes, "llllllllllllll");
+      // console.log(data?.data?.attributes, "llllllllllllll");
       setRoles(data?.data);
     } catch (errro) {
       console.log("not successful");
@@ -50,11 +48,19 @@ export default function ListOfRoles() {
 
   return (
     <>
-      <Container sx={{ marginTop: 12, p: 4 }}>
-        <Typography variant="h5">List of Roles</Typography>
-
-        <Table items={roles} cols={cols} SelectedRow={SelectedRow} />
-      </Container>
+      <Grid container padding={4}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          {t("listOfRoles.ListOfRoles")}
+        </Typography>
+        <Grid item xs={12} paddingTop={4}>
+          <Table
+            items={roles}
+            cols={cols}
+            SelectedRow={SelectedRow}
+            hasEditing={false}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }

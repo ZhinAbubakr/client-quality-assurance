@@ -12,10 +12,11 @@ import React, { useState } from "react";
 
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+import { useTranslation } from "react-i18next";
 
 export default function PopupUpdate(props) {
   const { getSingleCategory, openPopup, setOpenPopup, id } = props;
-
+  const {t} = useTranslation()
   const [name, setName] = useState("");
 
   const updateCategory = async () => {
@@ -30,7 +31,7 @@ export default function PopupUpdate(props) {
       console.log(response);
       getSingleCategory();
     } catch {
-      console.log("error posting questions");
+      console.log("error updating category");
     }
   };
 
@@ -43,7 +44,7 @@ export default function PopupUpdate(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Create Question"}
+          Create Category
           <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
             X
           </Button>
@@ -87,7 +88,7 @@ export default function PopupUpdate(props) {
               // getQuestions();
             }}
           >
-            SUBMIT
+            {t("listOfCategory.Update")}
           </Button>
         </DialogTitle>
       </Dialog>

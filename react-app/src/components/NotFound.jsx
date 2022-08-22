@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import img from "./illustration_404.svg";
+import img from "../Assets/illustration_404.svg";
 
 import Page from "./Page";
 

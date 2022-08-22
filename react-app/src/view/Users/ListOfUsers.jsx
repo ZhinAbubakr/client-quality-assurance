@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const ListOfUsers = () => {
   const navigate = useNavigate();
   const [listOfUser, setListOfUser] = useState([]);
+  const { t } = useTranslation();
 
   const getListOfUsers = async () => {
     try {
@@ -30,23 +32,19 @@ const ListOfUsers = () => {
   const [cols] = useState([
     {
       name: "role_ids",
-      label: "Role",
+      label: t("listOfUser.Role"),
     },
     {
       name: "first_name",
-      label: "First Name",
+      label: t("listOfUser.firstName"),
     },
     {
       name: "last_name",
-      label: "Last Name",
+      label: t("listOfUser.lastName"),
     },
     {
       name: "email",
-      label: "Email",
-    },
-    {
-      action: "action",
-      label: "Action",
+      label: t("listOfUser.Email"),
     },
   ]);
 
@@ -56,12 +54,14 @@ const ListOfUsers = () => {
 
   return (
     <>
-      <Container sx={{ marginTop: 12, p: 4 }}>
-        <Typography variant="h5" sx={{ py: 2 }}>
-          List of Users
+      <Grid container padding={4}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          {t("listOfUser.ListOfUsers")}
         </Typography>
-        <Tables items={listOfUser} cols={cols} SelectedRow={SelectedRow} />
-      </Container>
+        <Grid item xs={12} paddingTop={4}>
+          <Tables items={listOfUser} cols={cols} SelectedRow={SelectedRow} />
+        </Grid>
+      </Grid>
     </>
   );
 };

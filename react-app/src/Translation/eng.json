@@ -7,7 +7,8 @@
     "ListOfUsers": "List Of Users",
     "QuestionCategories": "Categoreis",
     "Roles": "Roles",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "AskAway": "Ask Away"
   },
   "signIn": {
     "signin": "SIGN IN",
@@ -24,5 +25,48 @@
     "password": "Password",
     "notSingup": "Already have an account? Sign In",
     "wrong": "wrong email or password"
+  },
+  "userProfile":{
+    "profilePage": "User Profile",
+    "info": "Here you can see your information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "role": "User Role"
+  },
+  "question": {
+    "Content": "Content",
+    "Category": "Category",
+    "Answers": "Answers",
+    "YourAnswer": "Your Answer",
+    "postAnswer": "Post Your Answer"
+  },
+  "listOfUser": {
+    "ListOfUsers": "List Of Users",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "Role": "Role",
+    "Email": "Email",
+    "Action": "Action",
+    "User": "User",
+    "Update": "Update",
+    "Delete": "Delete"
+  },
+  "listOfCategory": {
+    "ListOfCatogries": "List Of Categories",
+    "id": "ID",
+    "Name": "Name",
+    "Action": "Action",
+    "Category": "Category",
+    "Update": "Update",
+    "Delete": "Delete",
+    "AddCategory": "Add Category",
+    "info": "fill the all the fields below to create a category",
+    "submit":"submit"
+  },
+  "listOfRoles":{
+    "ListOfRoles": "List of Roles",
+    "id":"ID",
+    "Name": "Name"
   }
 }

@@ -14,6 +14,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const User = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const User = () => {
   const [roleList, setRoleList] = useState([]);
   const [choosedRole, setChoosedRole] = useState(3);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   function handleChange(event) {
     // handle change for select input (role)
@@ -108,19 +110,17 @@ const User = () => {
   }, []);
   return (
     <>
-      <Container sx={{ marginTop: 10, marginLeft: 2 }}>
+      <Container>
         <Paper variant="outlined" sx={{ p: 4 }}>
           <Grid container sx={{ p: 4 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
-              <Typography variant="h4">User {id}</Typography>
+              <Typography variant="h4">{t("listOfUser.User")} {id}</Typography>
             </Grid>
             <Grid item xs={12} sx={{ p: 4 }}>
-              <Typography>ID : {id}</Typography>
-              <Typography>First Name : {singleUser.first_name}</Typography>
-              <Typography>Last Name : {singleUser.last_name}</Typography>
-
-              <Typography>Email : {singleUser.email}</Typography>
-              <Typography>Role : {singleUser.role_ids}</Typography>
+              <Typography>{t("listOfUser.firstName")} : {singleUser.first_name}</Typography>
+              <Typography>{t("listOfUser.lastName")} : {singleUser.last_name}</Typography>
+              <Typography>{t("listOfUser.Email")} : {singleUser.email}</Typography>
+              <Typography>{t("listOfUser.Role")} : {singleUser.role_ids}</Typography>
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ p: 4 }}>
@@ -147,10 +147,10 @@ const User = () => {
           <Grid item xs={12}>
             <Stack spacing={2} direction="row" justifyContent="end">
               <Button variant="contained" onClick={handleFunc}>
-                DELETE
+              {t("listOfUser.Delete")}
               </Button>
               <Button variant="contained" onClick={() => updateUser()}>
-                UPDATE
+              {t("listOfUser.Update")}
               </Button>
             </Stack>
           </Grid>

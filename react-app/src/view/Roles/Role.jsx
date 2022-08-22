@@ -8,7 +8,7 @@ export default function Role() {
 
   return (
     <>
-      <Container sx={{ marginLeft: 5, marginTop: 12, p: 4 }}>
+      <Container >
         <Typography variant="h5">Role {id}</Typography>
       </Container>
     </>

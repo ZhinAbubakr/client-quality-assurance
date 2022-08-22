@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Cards from "../../components/QuestionCards";
 import Popup from "./Popup";
@@ -8,6 +8,7 @@ import { base } from "../../api";
 import Pagination from "@mui/material/Pagination";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
+import { theme } from "../../theme";
 
 const limit = 3;
 const getTotalNumberOfPages = (dataLength) => Math.ceil(dataLength / limit);
@@ -37,7 +38,7 @@ export default function ListOfQuestions() {
         method: "get",
         url: base + "/questions",
       });
-      console.log(data?.data, "data?.data");
+      // console.log(data?.data, "data?.data");
       setListOfQuestions(data?.data);
       setVisibleQuestions(paginateList(data?.data, page, limit));
     } catch (errro) {
@@ -53,41 +54,46 @@ export default function ListOfQuestions() {
 
   return (
     <>
-      <Container sx={{ my: 12 }}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography variant="h5" component="h1">
-              {t("dashboard.Listofquestions")}
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ float: "right" }}
-              onClick={() => {
-                setOpenPopup(true);
-                console.log("add question");
-              }}
-            >
-              {t("dashboard.AskQuestion")}
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Cards questions={visibleQuestions} />
-          </Grid>
-          <Grid item xs={12}>
-            <Pagination
-              sx={{ float: "right", m: 2 }}
-              page={page}
-              onChange={(event, page) => {
-                console.log("page", page);
-                setPage(page);
-                setVisibleQuestions(paginateList(listOfQuestions, page, limit));
-              }}
-              color="primary"
-              count={getTotalNumberOfPages(listOfQuestions.length)}
-            />
-          </Grid>
+      <Grid container padding={4}>
+        <Typography component={'span'} variant="h5" sx={{ fontWeight: "bold" }}>
+          {t("dashboard.Listofquestions")}
+        </Typography>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            sx={{
+              float: "right",
+              backgroundColor: theme.palette.primary.main,
+              color: "white",
+              "&:hover": {
+                backgroundColor: theme.palette.primary.main,
+                color: "white",
+              },
+            }}
+            onClick={() => {
+              setOpenPopup(true);
+            }}
+          >
+            {t("dashboard.AskQuestion")}
+          </Button>
         </Grid>
-      </Container>
+        <Grid item xs={12}>
+          <Cards questions={visibleQuestions} />
+        </Grid>
+        <Grid item xs={12}>
+          <Pagination
+            sx={{ float: "right", m: 2 }}
+            page={page}
+            onChange={(event, page) => {
+              console.log("page", page);
+              setPage(page);
+              setVisibleQuestions(paginateList(listOfQuestions, page, limit));
+            }}
+            color="primary"
+            count={getTotalNumberOfPages(listOfQuestions.length)}
+          />
+        </Grid>
+      </Grid>
       <Popup
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
