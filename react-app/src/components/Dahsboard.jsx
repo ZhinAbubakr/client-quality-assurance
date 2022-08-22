@@ -1,5 +1,4 @@
 import React from "react";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import Drawer from "@mui/material/Drawer";
@@ -34,8 +33,7 @@ import {
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 import "../i18n";
-
-//F0F7EE == bgColor of
+import { theme } from "../theme";
 
 const drawerWidth = 240;
 
@@ -52,23 +50,27 @@ export default function DashBoard(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  // console.log({ auth });
-  // const profile = useSelector((state) => state.auth.user);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const options = ["English", "Kurdish"];
-  const { t, i18n } = useTranslation(); //useTranslation is a hook that returns the current language and the function to change the language
+  const { t, i18n } = useTranslation();
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const handleClose = (e) => {
     setAnchorEl(null);
     // eslint-disable-next-line default-case
     switch (e.target.value) {
       case 0:
-        i18n.changeLanguage("eng"); //change language to english if the user clicks on english language icon
+        i18n.changeLanguage("eng");
         break;
       case 1:
         i18n.changeLanguage("krd");
@@ -76,12 +78,8 @@ export default function DashBoard(props) {
     }
   };
 
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   const drawer = (
     <>
@@ -191,15 +189,13 @@ export default function DashBoard(props) {
     </>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <>
       <Box
         sx={{ display: "flex", backgroundColor: "#F4F6F6", height: "120vh" }}
       >
         <CssBaseline />
+        
         <Box sx={{ flexGrow: 1 }}>
           <AppBar
             elevation={0}
@@ -235,64 +231,7 @@ export default function DashBoard(props) {
               >
                 {t("dashboard.title")}
               </Typography>
-              {/* ///////////////////////////////////// */}
-              {/* <Tooltip title="Account settings">
-                <IconButton
-                  onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? "account-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                >
-                  <LanguageIcon
-                    sx={{ width: 32, height: 32, color: "#2C365D" }}
-                  />
-                </IconButton>
-              </Tooltip>
 
-              <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                <MenuItem>
-                  <Avatar /> English
-                </MenuItem>
-                <MenuItem>
-                  <Avatar /> Kurdish
-                </MenuItem>
-              </Menu> */}
               <Tooltip title="Language">
                 <IconButton
                   onClick={handleClick}
@@ -317,7 +256,6 @@ export default function DashBoard(props) {
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
-                // onClick={handleClose}
                 PaperProps={{
                   elevation: 0,
                   sx: {
@@ -353,30 +291,21 @@ export default function DashBoard(props) {
                   </MenuItem>
                 ))}
               </Menu>
-              {/* ///////////////////////////////////////// */}
-              {/* <IconButton
-                color="inherit"
-                onClick={() => {
-                  navigate("/profile");
-                }}
-              >
-                <LanguageIcon sx={{ color: "#2C365D" }} />
-              </IconButton> */}
             </Toolbar>
           </AppBar>
         </Box>
+
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          {/* ///////////////////// */}
           <Drawer
             container={container}
             variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
             }}
             sx={{
               display: { xs: "block", sm: "none" },
@@ -388,17 +317,17 @@ export default function DashBoard(props) {
           >
             {drawer}
           </Drawer>
-          {/* ///////////////////////////// */}
+
           <Drawer
             PaperProps={{
               sx: {
-                backgroundColor: "#2C365D",
+                backgroundColor: theme.palette.primary.dark,
                 color: "white",
               },
             }}
             sx={{
-              // width: drawerWidth,
-              // hideBackdrop: true,
+              width: drawerWidth,
+
               flexShrink: 0,
               display: { xs: "none", sm: "block" },
               "& .MuiDrawer-paper": {
@@ -407,7 +336,6 @@ export default function DashBoard(props) {
               },
             }}
             variant="permanent"
-            // anchor="left"
             open
           >
             <Box
@@ -519,10 +447,10 @@ export default function DashBoard(props) {
           </Drawer>
         </Box>
         <Outlet />
-        <Box
+        {/* <Box
           component="main"
           sx={{ flexGrow: 1, p: 3, backgroundColor: "#F4F6F6" }}
-        />
+        /> */}
       </Box>
     </>
   );
