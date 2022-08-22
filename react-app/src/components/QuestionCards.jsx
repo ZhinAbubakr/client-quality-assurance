@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Chip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../view/Question/Popup";
+import { theme } from "../theme";
 
 export default function QuestionCards({ questions }) {
   const [categoryList, setCategoryList] = useState([]);
@@ -13,6 +14,8 @@ export default function QuestionCards({ questions }) {
   useEffect(() => {
     getCategories(setCategoryList);
   }, []);
+
+  console.log(questions)
 
   return (
     <Box display="flex" flexDirection="column">
@@ -29,22 +32,24 @@ export default function QuestionCards({ questions }) {
         >
           <CardContent>
             <Typography
+              component={'p'}
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
             >
               {new Date(ques.attributes.created_at).toDateString()}
             </Typography>
-            <Typography variant="h5" component="div">
+            <Typography component={'h5'}  variant="h5" >
               {ques.attributes.title}
             </Typography>
-            <Typography variant="body2" sx={{ py: 2 }}>
+            <Typography component={'h5'} variant="body2" sx={{ py: 2 }}>
               {ques.attributes.content}
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography component={'h5'} sx={{ mb: 1.5 }} color="text.secondary">
               {ques.attributes.category_ids.map((id, i) => (
                 <Chip
-                  color="primary"
+                  // color="secondary"
+                  sx={{color: theme.palette.primary.dark, backgroundColor: "#E0FBFC"}}
                   key={i}
                   label={
                     categoryList.find(
