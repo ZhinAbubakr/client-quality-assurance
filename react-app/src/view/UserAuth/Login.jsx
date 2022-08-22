@@ -25,8 +25,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function Login() {
-  // const [inputEmail, setInputEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -85,7 +83,7 @@ export default function Login() {
   // }, []);
 
   useEffect(() => {
-    // if (auth.isAuthenticated) navigate("/questions");
+    if (auth.isAuthenticated) 
     navigate(location?.state?.from?.pathname || "/questions");
   }, [auth.isAuthenticated]);
 
