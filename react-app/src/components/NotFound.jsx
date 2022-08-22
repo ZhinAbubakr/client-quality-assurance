@@ -5,8 +5,6 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import img from "../Assets/illustration_404.svg";
 
-import Page from "./Page";
-
 export default function NotFound() {
   // ----------------------------------------------------------------------
 
@@ -17,16 +15,15 @@ export default function NotFound() {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    padding: theme.spacing(12, 0),
+    // padding: theme.spacing(12, 0),
   }));
 
   // ----------------------------------------------------------------------
 
   return (
     <>
-      <Page title="404 Page Not Found">
-        <Container>
-          <ContentStyle sx={{ textAlign: "center", alignItems: "center" }}>
+        <Container sx={{ textAlign: "center", alignItems: "center" }}>
+          <ContentStyle >
             <Typography variant="h3" paragraph>
               Sorry, page not found!
             </Typography>
@@ -53,7 +50,6 @@ export default function NotFound() {
             </Button>
           </ContentStyle>
         </Container>
-      </Page>
     </>
   );
 }
