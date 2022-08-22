@@ -1,6 +1,5 @@
-import { Container } from "@mui/system";
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -9,6 +8,8 @@ import {
   Button,
   Card,
   CardContent,
+  CardHeader,
+  Chip,
   CssBaseline,
   Divider,
   Grid,
@@ -20,6 +21,10 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { theme } from "../../theme";
+import { getCategories } from "../Question/Popup";
+import EditIcon from "@mui/icons-material/Edit";
+import { useTranslation } from "react-i18next";
 
 export default function Question() {
   const { id } = useParams();
@@ -28,37 +33,13 @@ export default function Question() {
   const [singleQuestion, setSingleQuestion] = useState({});
   const [content, setContent] = useState("");
 
-  // const [questionTitle, setQuestionTitle] = useState("");
-  // const [questionContent, setQuestionContent] = useState("");
-
-  // const [categoryList, setCategoryList] = useState([]);
-  // const [choosedCategory, setChoosedCategory] = useState(3);
-
   const [listOfAnswers, setListOfAnswers] = useState([]);
 
   const [openPopup, setOpenPopup] = useState(false);
 
-  // function handleChange(event) {
-  //   console.log(event.target.value);
-  //   setChoosedCategory(event.target.value);
-  // }
-
-  // const getCategories = async () => {
-  //   try {
-  //     const { data } = await axiosInstance({
-  //       method: "get",
-  //       url: base + "/categories",
-  //     });
-  //     setCategoryList(data?.data);
-  //     console.log(data?.data);
-  //   } catch (errro) {
-  //     console.log("not successful");
-  //   }
-  // };
-
   const createAnswer = async () => {
     try {
-      const { data } = await axiosInstance({
+      await axiosInstance({
         method: "post",
         url: base + "/answers",
         data: {
@@ -88,12 +69,15 @@ export default function Question() {
     }
   };
 
+  const [listOfQuestions, setListOfQuestions] = useState([]);
+
   const getQuestions = async () => {
     try {
-      await axiosInstance({
+      const { data } = await axiosInstance({
         method: "get",
         url: base + "/questions",
       });
+      setListOfQuestions(data?.data);
     } catch (errro) {
       console.log("not successful");
     }
@@ -119,6 +103,7 @@ export default function Question() {
         url: base + "/questions/" + id,
       });
       getQuestions();
+      navigate("/questions");
     } catch (errro) {
       console.log("not successful");
     }
@@ -142,117 +127,289 @@ export default function Question() {
     getAnswers();
   }, []);
 
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    getCategories(setCategoryList);
+  }, []);
+
+  const length = listOfAnswers.filter(
+    (item) => item.attributes.question_id == id
+  ).length;
+
+
+  const { t } = useTranslation();
+
   return (
     <>
-      <Container sx={{ marginTop: 10, marginLeft: 2 }}>
-        <CssBaseline />
-        <Grid container>
-          <Grid item xs={12}>
-            <Card sx={{ m: 1 }} variant="outlined">
-              <CardContent>
-                <Typography variant="h5" component="h1">
-                  Question title :
-                </Typography>
-                <Typography>{singleQuestion?.title}</Typography>
-              </CardContent>
-              <CardContent>
-                <Typography variant="h5" component="h1">
-                  content :
-                </Typography>
-                <Typography>{singleQuestion?.content}</Typography>
-              </CardContent>
-              <CardContent>
-                <Typography variant="h5" component="h1">
-                  category :
-                </Typography>
-              </CardContent>
-              <CardContent>
-                <Typography>{singleQuestion?.category_ids}</Typography>
-                <Divider />
-
-                <Button
-                  variant="soft"
-                  startIcon={<DeleteIcon />}
-                  sx={{ m: 2, float: "right", "--Button-gap": "100px" }}
-                >
-                  DELETE
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    setOpenPopup(true);
-                  }}
-                  sx={{ m: 2, float: "right" }}
-                >
-                  UPDATE
-                </Button>
-                <PopupDialog
-                  id={id}
-                  openPopup={openPopup}
-                  setOpenPopup={setOpenPopup}
-                  getSingleQuestion={getSingleQuestion}
-                  singleQuestion={singleQuestion}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid container>
-            <Grid item xs={8}>
-              <TextField
-                placeholder="Add Your Answer here............."
-                multiline
-                maxRows={4}
-                variant="outlined"
-                fullWidth
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+      <CssBaseline />
+      <Grid container padding={4}>
+        <Grid item xs={12}>
+          <Card variant="outlined">
+            <CardContent>
+              {/* <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                Question title
+              </Typography> */}
+              <CardHeader
+                action={
+                  <>
+                    <IconButton
+                      sx={{ color: theme.palette.primary.main }}
+                      onClick={() => {
+                        setOpenPopup(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      sx={{ color: theme.palette.secondary.main }}
+                      color="secondary"
+                      onClick={() => deleteQuestion()}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                }
+                subheader={new Date(singleQuestion.created_at).toDateString()}
+                title={singleQuestion?.title}
+                // disableTypography={false}
               />
-            </Grid>
-            <Grid item xs={2} display="flex">
-              <Button
-                variant="contained"
-                onClick={() => createAnswer()}
-                sx={{ m: 2 }}
+
+              {/* <Typography
+                variant="h5"
+                component="div"
+                sx={{ mb: 2, fontWeight: "bold" }}
               >
-                POST
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Card variant="outlined">
+                {singleQuestion?.title}
+              </Typography> */}
               <CardContent>
-                {listOfAnswers
-                  .filter((item) => item.attributes.question_id == id)
-                  .map((answers) => (
-                    <List key={answers?.attributes?.id}>
-                      {/* <Grid item xs={8}> */}
+                <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                  {t("question.Content")}
+                </Typography>
+                <Typography paragraph sx={{ mb: 2 }}>
+                  {singleQuestion?.content}
+                </Typography>
+
+                <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                  {t("question.Category")}
+                </Typography>
+                <Typography variant="h5" component="div" sx={{ mb: 2 }}>
+                  {/* {singleQuestion?.category_ids} */}
+                  {/* {singleQuestion?.category_ids.map((id, i) => ( */}
+                  <Chip
+                    // color="secondary"
+                    sx={{
+                      color: theme.palette.primary.dark,
+                      backgroundColor: "#E0FBFC",
+                    }}
+                    // key={i}
+                    label={
+                      categoryList.find(
+                        (category) =>
+                          category.attributes.id ===
+                          singleQuestion?.category_ids
+                      )?.attributes.name
+                    }
+                  />
+                  {/* ))} */}
+                </Typography>
+              </CardContent>
+
+              {/* <Grid item xs={12}> */}
+              {length > 0 ? (
+                <>
+                  <CardHeader
+                    title={t("question.Answers")}
+                    sx={{ fontWeight: "bold" }}
+                  ></CardHeader>
+                  <Divider />
+                  {listOfAnswers
+                    .filter((item) => item.attributes.question_id == id)
+                    .map((answers) => (
+                      <List key={answers?.attributes?.id}>
+                        <ListItem>
+                          <Grid item xs={10}>
+                            <ListItemText variant="h5" component="div">
+                              {answers.attributes.content}
+                            </ListItemText>
+                          </Grid>
+                          <Grid
+                            display={"flex"}
+                            item
+                            xs={2}
+                            justifyContent="space-between"
+                          >
+                            <ListItem>
+                              <IconButton edge="end" aria-label="delete">
+                                <StarOutlineIcon />
+                              </IconButton>
+                              <IconButton
+                                onClick={() =>
+                                  deleteAnswer(answers?.attributes?.id)
+                                }
+                                sx={{ color: theme.palette.error.main }}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </ListItem>
+                          </Grid>
+                        </ListItem>
+                      </List>
+                    ))}
+                </>
+              ) : (
+                <>
+                  <CardHeader
+                    title="Answers"
+                    subheader="There is no answers!"
+                  ></CardHeader>
+                  {/* <Divider />
+                    <List>
                       <ListItem>
                         <ListItemText variant="h5" component="div">
-                          {answers.attributes.content}
+                          Ther is no answers!
                         </ListItemText>
-                        <Grid item xs={2}>
-                          <ListItem>
-                            <IconButton edge="end" aria-label="delete">
-                              <StarOutlineIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={() =>
-                                deleteAnswer(answers?.attributes?.id)
-                              }
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </ListItem>
-                        </Grid>
                       </ListItem>
-                      {/* </Grid> */}
-                    </List>
-                  ))}
-              </CardContent>
-            </Card>
-          </Grid>
+                    </List> */}
+                </>
+              )}
+              {/* </Grid> */}
+
+              {/* <Button
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                sx={{
+                  m: 2,
+                  float: "right",
+                  backgroundColor: theme.palette.error.main,
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: theme.palette.error.main,
+                    color: "white",
+                  },
+                }}
+                onClick={() => deleteQuestion()}
+              >
+                DELETE
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setOpenPopup(true);
+                }}
+                sx={{
+                  m: 2,
+                  float: "right",
+                  backgroundColor: theme.palette.primary.main,
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  },
+                }}
+              >
+                UPDATE
+              </Button> */}
+              <PopupDialog
+                id={id}
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+                getSingleQuestion={getSingleQuestion}
+                singleQuestion={singleQuestion}
+              />
+            </CardContent>
+          </Card>
         </Grid>
-      </Container>
+        <Grid item xs={12} sx={{ my: 2 }}>
+          <Card variant="outlined">
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography
+                    fullwidth
+                    sx={{ fontSize: 12 }}
+                    color="text.secondary"
+                  >
+                    {t("question.YourAnswer")}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Add Your Answer here............."
+                    multiline={true}
+                    minRows={3}
+                    maxRows={10}
+                    variant="outlined"
+                    fullwidth
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      createAnswer();
+                      setContent("");
+                    }}
+                    sx={{
+                      backgroundColor: theme.palette.primary.main,
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: theme.palette.primary.main,
+                        color: "white",
+                      },
+                      float: "right",
+                    }}
+                  >
+                    {t("question.postAnswer")}
+                  </Button>
+                </Grid>
+
+                {/* <Grid item xs={12}>
+                  <CardContent>
+                    <Typography
+                      sx={{ fontSize: 16, mt: 5, fontWeight: "bold" }}
+                    >
+                      Answers
+                    </Typography>
+                  </CardContent>
+                  <Divider />
+                  
+                </Grid> */}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   );
 }
+
+// {listOfAnswers
+//                     .filter((item) => item.attributes.question_id == id)
+//                     .map((answers) => (
+//                       <List key={answers?.attributes?.id}>
+//                         <Grid item xs={8}>
+//                         <ListItem>
+//                           <ListItemText variant="h5" component="div">
+//                             {answers.attributes.content}
+//                           </ListItemText>
+//                           <Grid item xs={2}>
+//                             <ListItem>
+//                               <IconButton edge="end" aria-label="delete">
+//                                 <StarOutlineIcon />
+//                               </IconButton>
+//                               <IconButton
+//                                 onClick={() =>
+//                                   deleteAnswer(answers?.attributes?.id)
+//                                 }
+//                                 sx={{ color: theme.palette.error.main }}
+//                               >
+//                                 <DeleteIcon />
+//                               </IconButton>
+//                             </ListItem>
+//                           </Grid>
+//                         </ListItem>
+//                         </Grid>
+//                       </List>
+// ))}
