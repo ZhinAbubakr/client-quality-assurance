@@ -15,36 +15,41 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import { useState } from "react";
-import { loginSchema, validateUser } from "../../Validations/Validations";
+import { signupSchema, validateUser } from "../../Validations/Validations";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function SignUp() {
+
+
+  const { register, handleSubmit, formState: { errors }} = useForm({
+    resolver: yupResolver(signupSchema),
+  });
+
+
   // const [newUser,setNewUser] = useState([]);
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const signup = async () => {
+  const signup = async (data) => {
     try {
       const response = await axiosInstance({
         method: "post",
         url: base + "/users",
         data: {
           user: {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            password: password,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            password: data.password,
           },
         },
       });
 
-      console.log(response.data.data.attributes);
+      // console.log(response.data.data.attributes);
       // dispatch(signUp(response.data.data.attributes));
       // dispatch(setToken(response.data.data.attributes.token));
       //navigate("/questions");
@@ -53,17 +58,15 @@ export default function SignUp() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
+    // console.log(data);
+    handleSignUp(data);
+  };
+
+  const handleSignUp = async (data) => {
     try {
-      const user = {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password,
-      };
-      console.log(user);
-      const isValid = await validateUser(user, loginSchema);
+      // console.log(user);
+      const isValid = await validateUser(data, signupSchema);
 
       console.log("isValid", isValid);
 
@@ -79,7 +82,7 @@ export default function SignUp() {
           progress: undefined,
         });
 
-      await signup();
+      await signup(data);
       navigate("/questions");
     } catch (error) {
       console.log("error");
@@ -107,6 +110,8 @@ export default function SignUp() {
         break;
     }
   };
+
+  // console.log(errors);
 
   return (
     <div>
@@ -147,38 +152,47 @@ export default function SignUp() {
                 {t("signUp.signup")}
               </Typography>
 
-              <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
+              <Box
+                component="form"
+                sx={{ mt: 1 }}
+                // onSubmit={handleSubmiting}
+                // onSubmit={handleSubmit(onSubmit)}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      type="text"
                       margin="normal"
                       required
                       fullWidth
                       id="first name"
                       label={t("signUp.firstName")}
-                      name="first name"
+                      name="firstName"
                       autoComplete="given-name"
                       autoFocus
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      {...register("firstName")}
+                      error={errors?.firstName?.message ? true : false}
+                      helperText={errors?.firstName?.message}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      type="text"
                       margin="normal"
                       required
                       fullWidth
                       id="last name"
                       label={t("signUp.lastName")}
-                      name="last name"
+                      name="lastName"
                       autoComplete="family-name"
                       autoFocus
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
+                      {...register("lastName")}
+                    />{" "}
+                    <p> {errors?.lastName?.message} </p>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      type="text"
                       margin="normal"
                       required
                       fullWidth
@@ -187,12 +201,13 @@ export default function SignUp() {
                       name="email"
                       autoComplete="email"
                       autoFocus
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+                      {...register("email")}
+                    />{" "}
+                    <p> {errors?.email?.message} </p>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      type="text"
                       margin="normal"
                       required
                       fullWidth
@@ -201,9 +216,9 @@ export default function SignUp() {
                       name="password"
                       autoComplete="password"
                       autoFocus
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
+                      {...register("password")}
+                    />{" "}
+                    <p> {errors?.password?.message} </p>
                   </Grid>
                   <Grid item xs={12}>
                     <Link to="/login" variant="body2">
@@ -213,10 +228,11 @@ export default function SignUp() {
                 </Grid>
 
                 <Button
-                  type="submit"
+                  // type="submit"
                   variant="contained"
                   fullWidth
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   {t("signUp.signup")}
                 </Button>
