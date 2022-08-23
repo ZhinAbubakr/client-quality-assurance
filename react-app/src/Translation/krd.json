@@ -1,4 +1,5 @@
 {
+  
   "dashboard": {
     "title": "داشبۆرد",
     "Listofquestions": "لیستی پرسیارەکان",
@@ -39,7 +40,8 @@
     "Category": "بابەتی پرسیار",
     "Answers": "وەڵامەکان",
     "YourAnswer": "وەڵامەکەت",
-    "postAnswer": "وەڵامەکەت بڵاوبکەوە"
+    "postAnswer": "وەڵامەکەت بڵاوبکەوە",
+    "info": "هیچ وەڵامێک نیە!"
   },
   "listOfUser": {
     "ListOfUsers": "لیستی بەکارهێنەران",

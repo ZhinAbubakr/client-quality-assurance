@@ -39,7 +39,8 @@
     "Category": "Category",
     "Answers": "Answers",
     "YourAnswer": "Your Answer",
-    "postAnswer": "Post Your Answer"
+    "postAnswer": "Post Your Answer",
+    "info": "There are no answers!"
   },
   "listOfUser": {
     "ListOfUsers": "List Of Users",

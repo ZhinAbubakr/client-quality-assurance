@@ -10,18 +10,46 @@ import Categories from "./view/Categories/ListOfCategories";
 import RequireAuth from "./view/UserAuth/RequireAuth";
 import Profile from "./components/UserProfile.jsx";
 import ListOfRoles from "./view/Roles/ListOfRoles";
-import { ThemeProvider } from "@emotion/react";
+import { CacheProvider, ThemeProvider } from "@emotion/react";
 import Role from "./view/Roles/Role";
 import Category from "./view/Categories/Category";
 import RequireAdmin from "./components/RequireAdmin";
 import NotAllowed from "./components/NotAllowed";
 import NotFound from "./components/NotFound";
-import { theme } from "./theme";
+import { getTheme } from "./theme";
+import { useEffect } from "react";
+import { getDir } from "./helpers/getDir";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import rtlPlugin from "stylis-plugin-rtl";
+import { useTranslation } from "react-i18next";
+
+// Create rtl cache
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+
+function RTL({ children, dir }) {
+  if (dir === "rtl")
+    return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
+  else return children;
+}
 
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if (i18n.language === "eng") {
+      document.body.dir = "ltr";
+    } else {
+      document.body.dir = "rtl";
+    }
+  }, [i18n.language]);
+
   return (
-    <div className="App" sx={{backgroundColor: "black"}}>
-      <ThemeProvider theme={theme}>
+    <RTL dir={getDir(i18n.language)}>
+      <ThemeProvider theme={getTheme(getDir(i18n.language))}>
         <BrowserRouter>
           <Routes>
             <Route path="/">
@@ -73,10 +101,8 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    </div>
+    </RTL>
   );
 }
 
 export default App;
-
-

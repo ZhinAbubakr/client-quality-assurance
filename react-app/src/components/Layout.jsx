@@ -64,7 +64,13 @@ function Layout(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const options = ["English", "Kurdish"];
+  const options = [
+    {
+      id: "eng",
+      label: "English",
+    },
+    { id: "krd", label: "Kurdish" },
+  ];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -130,19 +136,17 @@ function Layout(props) {
           onClick={() => {
             navigate("/profile");
           }}
-          
         >
           <Typography
             variant="h6"
             noWrap
-            
-            sx={{ p: 2, fontWeight: "bold", color: "#f6f9fd" , fontSize: 24}}
+            sx={{ p: 2, fontWeight: "bold", color: "#f6f9fd", fontSize: 24 }}
           >
-            { t("dashboard.AskAway")}
+            {t("dashboard.AskAway")}
           </Typography>
-          <AccountStyle >
-            <Avatar  src={userIcon} alt="photoURL" />
-            <Box  sx={{ ml: 2 }} >
+          <AccountStyle>
+            <Avatar src={userIcon} alt="photoURL" />
+            <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
                 {auth?.user?.first_name}
               </Typography>
@@ -159,7 +163,7 @@ function Layout(props) {
           ({ label, onClick, img, hasAccess, selected }, index) =>
             hasAccess && (
               <ListItem
-              disablePadding
+                disablePadding
                 selected={selected}
                 key={index}
                 onClick={onClick}
@@ -216,7 +220,7 @@ function Layout(props) {
             <IconButton
               sx={{ color: "black" }}
               onClick={handleClick}
-              size="small"
+              size="large"
               aria-controls={open ? "account-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
@@ -260,8 +264,13 @@ function Layout(props) {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             {options.map((option, index) => (
-              <MenuItem key={option} value={index} onClick={handleClose}>
-                {option}
+              <MenuItem
+                key={option.id}
+                value={index}
+                onClick={handleClose}
+                selected={i18n.language === option.id}
+              >
+                {option.label}
               </MenuItem>
             ))}
           </Menu>
