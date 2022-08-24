@@ -1,4 +1,9 @@
-import { Button, Container, Divider, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import Cards from "../../components/QuestionCards";
 import Popup from "./Popup";
@@ -8,7 +13,6 @@ import { base } from "../../api";
 import Pagination from "@mui/material/Pagination";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
-import { theme } from "../../theme";
 
 const limit = 3;
 const getTotalNumberOfPages = (dataLength) => Math.ceil(dataLength / limit);
@@ -32,13 +36,15 @@ export default function ListOfQuestions() {
   const [visibleQuestions, setVisibleQuestions] = useState([]);
   const [page, setPage] = useState(1);
 
+  const theme = useTheme();
+
   const getQuestions = async () => {
     try {
       const { data } = await axiosInstance({
         method: "get",
         url: base + "/questions",
       });
-      // console.log(data?.data, "data?.data");
+      console.log(data?.data, "data?.data");
       setListOfQuestions(data?.data);
       setVisibleQuestions(paginateList(data?.data, page, limit));
     } catch (errro) {
@@ -55,7 +61,7 @@ export default function ListOfQuestions() {
   return (
     <>
       <Grid container padding={4}>
-        <Typography component={'span'} variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography component={"span"} variant="h5" sx={{ fontWeight: "bold" }}>
           {t("dashboard.Listofquestions")}
         </Typography>
         <Grid item xs={12}>

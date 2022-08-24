@@ -1,21 +1,26 @@
+import { useTheme } from "@mui/material";
 import { Box, Card, CardContent, Chip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../view/Question/Popup";
-import { theme } from "../theme";
 
 export default function QuestionCards({ questions }) {
   const [categoryList, setCategoryList] = useState([]);
 
   const navigate = useNavigate();
-
-  console.log("categoryList", categoryList);
+  const theme = useTheme();
 
   useEffect(() => {
     getCategories(setCategoryList);
   }, []);
 
-  console.log(questions)
+  console.log(
+    "categoryList",
+    categoryList?.find((category) => category?.attributes?.id === 1)?.attributes
+      .name
+  );
+
+  console.log(questions);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -32,37 +37,42 @@ export default function QuestionCards({ questions }) {
         >
           <CardContent>
             <Typography
-              component={'p'}
+              component={"p"}
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
             >
               {new Date(ques.attributes.created_at).toDateString()}
             </Typography>
-            <Typography component={'h5'}  variant="h5" >
+            <Typography component={"h5"} variant="h5">
               {ques.attributes.title}
             </Typography>
-            <Typography component={'h5'} variant="body2" sx={{ py: 2 }}>
+            <Typography component={"h5"} variant="body2" sx={{ py: 2 }}>
               {ques.attributes.content}
             </Typography>
-            <Typography component={'h5'} sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography
+              component={"h5"}
+              sx={{ mb: 1.5 }}
+              color="text.secondary"
+            >
+              {/* {console.log("ytirty",ques?.attributes?.category_ids.map((id)=>id))} */}
               {ques.attributes.category_ids.map((id, i) => (
                 <Chip
                   // color="secondary"
-                  sx={{color: theme.palette.primary.dark, backgroundColor: "#E0FBFC"}}
+                  sx={{
+                    color: theme.palette.primary.dark,
+                    backgroundColor: "#E0FBFC",
+                  }}
                   key={i}
                   label={
-                    categoryList.find(
-                      (category) => category.attributes.id === id
+                    categoryList?.find(
+                      (category) => category?.attributes?.id === id
                     )?.attributes.name
                   }
                 />
               ))}
             </Typography>
           </CardContent>
-          {/* <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions> */}
         </Card>
       ))}
     </Box>
