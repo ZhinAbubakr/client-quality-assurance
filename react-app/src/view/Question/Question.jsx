@@ -5,7 +5,7 @@ import { base } from "../../api";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import PopupDialog from "./PopupUpdate";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { theme } from "../../theme";
+import { useTheme } from "@mui/material";
 import { getCategories } from "../Question/Popup";
 import EditIcon from "@mui/icons-material/Edit";
 import { useTranslation } from "react-i18next";
@@ -134,9 +134,18 @@ export default function Question() {
     getCategories(setCategoryList);
   }, []);
 
+  console.log(
+    "categoryList",
+    categoryList?.map((category) => category?.attributes?.name)
+  );
+
+  console.log(singleQuestion?.category_ids, "sdfghjk");
+
   const length = listOfAnswers.filter(
     (item) => item.attributes.question_id == id
   ).length;
+
+  const theme = useTheme();
 
   return (
     <>
@@ -176,23 +185,27 @@ export default function Question() {
                   {singleQuestion?.content}
                 </Typography>
 
+                {/* <Typography paragraph sx={{ mb: 2 }}>
+                  {singleQuestion?.category_ids}
+                </Typography> */}
+
                 <Typography sx={{ fontSize: 12 }} color="text.secondary">
                   {t("question.Category")}
                 </Typography>
                 <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-                  <Chip
-                    sx={{
-                      color: theme.palette.primary.dark,
-                      backgroundColor: "#E0FBFC",
-                    }}
-                    label={
-                      categoryList.find(
-                        (category) =>
-                          category.attributes.id ===
-                          singleQuestion?.category_ids
-                      )?.attributes.name
-                    }
-                  />
+                  {singleQuestion?.category_ids?.map((item) => (
+                    <Chip
+                      sx={{
+                        color: theme.palette.primary.dark,
+                        backgroundColor: "#E0FBFC",
+                      }}
+                      label={
+                        categoryList.find(
+                          (category) => category?.attributes?.id == item
+                        )?.attributes.name
+                      }
+                    />
+                  ))}
                 </Typography>
               </CardContent>
 

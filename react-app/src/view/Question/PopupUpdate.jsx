@@ -19,7 +19,7 @@ export default function PopupUpdate(props) {
     props;
 
   const [categoryList, setCategoryList] = useState([]);
-  const [choosedCategory, setChoosedCategory] = useState(3);
+  const [choosedCategory, setChoosedCategory] = useState([]);
   const [questionTitle, setQuestionTitle] = useState(singleQuestion?.title);
   const [questionContent, setQuestionContent] = useState(
     singleQuestion?.content
@@ -52,7 +52,7 @@ export default function PopupUpdate(props) {
           question: {
             title: questionTitle,
             content: questionContent,
-            category_ids: [choosedCategory],
+            category_ids: choosedCategory,
           },
         },
       });
@@ -118,6 +118,7 @@ export default function PopupUpdate(props) {
                 onChange={(e) => {
                   handleChange(e);
                 }}
+                multiple
               >
                 {categoryList?.map((category, index) => (
                   <MenuItem key={index} value={category?.attributes?.id}>
