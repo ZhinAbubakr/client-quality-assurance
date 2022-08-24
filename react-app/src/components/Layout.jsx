@@ -49,18 +49,11 @@ const drawerWidth = 240;
 function Layout(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { t, i18n } = useTranslation();
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const auth = useSelector((state) => state.auth);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -71,6 +64,10 @@ function Layout(props) {
     },
     { id: "krd", label: "Kurdish" },
   ];
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -187,7 +184,7 @@ function Layout(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "#f6f9fd", height: "140vh" }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         elevation={0}
