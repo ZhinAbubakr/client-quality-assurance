@@ -4,6 +4,7 @@ import { setAxiosToken } from "../axios";
 const slice = createSlice({
   name: "auth",
   initialState: {
+    isAuthenticationLoading: true,
     isAuthenticated: false,
     token: null,
     user: null,
@@ -14,9 +15,13 @@ const slice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("token", state.token);
     },
+    setIsAuthenticationLoading: (state, action) => {
+      state.isAuthenticationLoading = action.payload;
+    },
     signIn: (state, action) => {
       state.user = action.payload;
     },
+
     signOut: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -29,4 +34,5 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { signIn, signOut, setToken } = slice.actions;
+export const { signIn, signOut, setToken, setIsAuthenticationLoading } =
+  slice.actions;
