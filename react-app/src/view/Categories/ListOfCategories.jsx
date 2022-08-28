@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useState, useEffect, useMemo } from "react";
 // import axiosInstance from "../../axios";
@@ -7,10 +7,12 @@ import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import PopupCreate from "./PopupCreate";
 import { getCategories } from "../../service";
+import { useTranslation } from "react-i18next";
 
 const ListOfCategories = () => {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const {t} = useTranslation()
 
   // const [cols] = useState([
   //   {
@@ -21,25 +23,17 @@ const ListOfCategories = () => {
   //     name: "name",
   //     label: "Name",
   //   },
-  //   {
-  //     action: "action",
-  //     label: "Action",
-  //   },
   // ]);
 
   const cols = useMemo(
     () => [
       {
         name: "id",
-        label: "ID",
+        label: t("listOfCategory.id"),
       },
       {
         name: "name",
-        label: "Name",
-      },
-      {
-        action: "action",
-        label: "Action",
+        label: t("listOfCategory.Name"),
       },
     ],
     []
@@ -74,28 +68,39 @@ const ListOfCategories = () => {
     console.log("go to category page");
   };
 
+ 
+
   return (
     <>
-      <Container sx={{ marginTop: 12, p: 4 }}>
-        <Typography variant="h5">List of Categories</Typography>
-        <Button
-          sx={{ float: "right" }}
-          variant="contained"
-          onClick={() => {
-            setOpenPopup(true);
-            console.log("add question");
-            //cally aw functiona bkawa ka list of questiont nishandadat!
-          }}
-        >
-          ADD
-        </Button>
-        <Table items={listOfCategories} cols={cols} SelectedRow={SelectedRow} />
+      <Grid container padding={4}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          {t("listOfCategory.ListOfCatogries")}
+        </Typography>
+        <Grid item xs={12} marginBottom={2}>
+          <Button
+            sx={{ float: "right" }}
+            variant="contained"
+            onClick={() => {
+              setOpenPopup(true);
+              console.log("add question");
+            }}
+          >
+            {t("listOfCategory.AddCategory")}
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Table
+            items={listOfCategories}
+            cols={cols}
+            SelectedRow={SelectedRow}
+          />
+        </Grid>
         <PopupCreate
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
           getCategories={gettingCategories}
         />
-      </Container>
+      </Grid>
     </>
   );
 };

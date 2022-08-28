@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
@@ -34,7 +35,8 @@ export default function Popup(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryList, setCategoryList] = useState([]);
-  const [choosedCategory, setChoosedCategory] = useState(3);
+  const [choosedCategory, setChoosedCategory] = useState([]);
+  const theme = useTheme();
 
   function handleChange(event) {
     // handle change for select input (role)
@@ -50,7 +52,7 @@ export default function Popup(props) {
         data: {
           title: title,
           content: content,
-          category_ids: [choosedCategory],
+          category_ids: choosedCategory,
         },
       });
       console.log(response);
@@ -75,7 +77,16 @@ export default function Popup(props) {
       >
         <DialogTitle id="alert-dialog-title">
           {"Create Question"}
-          <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              float: "right",
+              backgroundColor: theme.palette.error.dark,
+              color: "white",
+            }}
+            onClick={() => setOpenPopup(false)}
+          >
             X
           </Button>
         </DialogTitle>
@@ -126,8 +137,10 @@ export default function Popup(props) {
                 fullWidth
                 // label="Category"
                 onChange={(e) => {
+                  console.log(choosedCategory)
                   handleChange(e);
                 }}
+                multiple
               >
                 {categoryList?.map((category, index) => (
                   <MenuItem key={index} value={category?.attributes?.id}>

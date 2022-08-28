@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Button,
-  Grid,
   IconButton,
   Paper,
   Table,
@@ -14,10 +12,11 @@ import {
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#2C365D",
+    backgroundColor: "#273469",
     color: "white",
   },
   [`&.${tableCellClasses.body}`]: {
@@ -36,7 +35,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function Tables({ items, cols, SelectedRow }) {
+export default function Tables({
+  items,
+  cols,
+  SelectedRow,
+  hasEditing = true,
+}) {
+
+  const { t } = useTranslation();
+
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
       <Table sx={{ minWidth: 650 }} size="huge">
@@ -47,33 +54,31 @@ export default function Tables({ items, cols, SelectedRow }) {
                 {col?.label}
               </StyledTableCell>
             ))}
+            {hasEditing && (
+              <StyledTableCell align="center">{t("listOfUser.Action")}</StyledTableCell>
+            )}
           </StyledTableRow>
         </TableHead>
 
         <TableBody>
           {items.map((user) => (
-            <StyledTableRow
-              sx={{ cursor: "pointer" }}
-              key={user?.attributes?.id}
-              onClick={() => {
-                SelectedRow(user?.attributes?.id);
-              }}
-            >
+            <StyledTableRow key={user?.attributes?.id}>
               {cols.map((col, index) => (
-                <>
-                  {index === cols.length - 1 ? (
-                    <TableCell align="center" padding="checkbox" key={index}>
-                      <IconButton>
-                        <ModeEditOutlineIcon sx={{ color: "#272E4F" }} />
-                      </IconButton>
-                    </TableCell>
-                  ) : (
-                    <TableCell align="center" padding="checkbox" key={index}>
-                      {user?.attributes[col.name]}
-                    </TableCell>
-                  )}
-                </>
+                <TableCell align="center" key={index}>
+                  {user?.attributes[col.name]}
+                </TableCell>
               ))}
+              {hasEditing && (
+                <TableCell align="center">
+                  <IconButton
+                    onClick={() => {
+                      SelectedRow(user?.attributes?.id);
+                    }}
+                  >
+                    <ModeEditOutlineIcon sx={{ color: "#272E4F" }} />
+                  </IconButton>
+                </TableCell>
+              )}
             </StyledTableRow>
           ))}
         </TableBody>

@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import axiosInstance, { setAxiosToken } from "../../axios";
 import { base } from "../../api";
-import { setToken, signIn } from "../../store/auth";
+import { setToken, signIn, setIsAuthenticationLoading } from "../../store/auth";
+import { LinearProgress } from '@mui/material'
+
+
 const RequireAuth = ({ children }) => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated, isAuthenticationLoading } = useSelector((state) => state.auth);
   let location = useLocation();
 
-  const getUser = async () => {
+  const getSelf = async () => {
     try {
       const { data } = await axiosInstance({
         method: "get",
@@ -31,11 +34,19 @@ const RequireAuth = ({ children }) => {
     } else {
       setAxiosToken();
     }
-
-    if (auth) getUser();
+    dispatch(setIsAuthenticationLoading(false))
   }, []);
 
-  if (auth) return children;
+  useEffect(() => {
+    if (isAuthenticated) {
+        getSelf()
+    }
+}, [isAuthenticated])
+
+ // TODO: Create a loding page component to display
+ if (isAuthenticationLoading) return <LinearProgress />
+
+ if (isAuthenticated) return children
   else return <Navigate to="/login" state={{ from: location }} replace />;
 };
 export default RequireAuth;

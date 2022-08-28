@@ -1,7 +1,7 @@
 import Login from "./view/UserAuth/Login";
 import SignUp from "./view/UserAuth/SignUp";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dahsboard from "./components/Dahsboard";
+import Dahsboard from "./components/Layout";
 import Questions from "./view/Question/ListOfQuestions";
 import Question from "./view/Question/Question";
 import Users from "./view/Users/ListOfUsers";
@@ -10,67 +10,46 @@ import Categories from "./view/Categories/ListOfCategories";
 import RequireAuth from "./view/UserAuth/RequireAuth";
 import Profile from "./components/UserProfile.jsx";
 import ListOfRoles from "./view/Roles/ListOfRoles";
-import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
+import { CacheProvider, ThemeProvider } from "@emotion/react";
 import Role from "./view/Roles/Role";
 import Category from "./view/Categories/Category";
 import RequireAdmin from "./components/RequireAdmin";
 import NotAllowed from "./components/NotAllowed";
 import NotFound from "./components/NotFound";
-import { blue, red } from "@mui/material/colors";
+import { getTheme } from "./theme";
+import { useEffect } from "react";
+import { getDir } from "./helpers/getDir";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import rtlPlugin from "stylis-plugin-rtl";
+import { useTranslation } from "react-i18next";
+
+// Create rtl cache
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+
+function RTL({ children, dir }) {
+  if (dir === "rtl")
+    return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
+  else return children;
+}
 
 function App() {
-  const mdTheme = createTheme({
-    palette: {
-      primary: {
-        light: blue[300],
-        main: blue[500],
-        dark: blue[700],
-      },
-      secondary: {
-        light: red[300],
-        main: red[500],
-        dark: red[700],
-      },
-      error: {
-        main: "#d32f2f",
-        light: "#ef5350",
-        dark: "#c62828",
-      },
-    },
-    shape: {
-      borderRadius: 4,
-    },
+  const { i18n } = useTranslation();
 
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: ({ ownerState, theme }) => ({
-            borderRadius: 6,
-            fontWeight: "bold",
-            "&:hover": {
-              ...(ownerState.variant === "contained"
-                ? { backgroundColor: theme.palette.primary.dark }
-                : {
-                    color: "white",
-                    backgroundColor: theme.palette.error.dark,
-                  }),
-            },
-            ...(ownerState.variant === "contained"
-              ? { color: "white", backgroundColor: theme.palette.primary.main }
-              : {
-                  color: "white",
-                  backgroundColor: theme.palette.error.main,
-                }),
-          }),
-        },
-      },
-    },
-  });
+  useEffect(() => {
+    if (i18n.language === "eng") {
+      document.body.dir = "ltr";
+    } else {
+      document.body.dir = "rtl";
+    }
+  }, [i18n.language]);
 
   return (
-    <div className="App">
-      <ThemeProvider theme={mdTheme}>
+    <RTL dir={getDir(i18n.language)}>
+      <ThemeProvider theme={getTheme(getDir(i18n.language))}>
         <BrowserRouter>
           <Routes>
             <Route path="/">
@@ -122,7 +101,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    </div>
+    </RTL>
   );
 }
 

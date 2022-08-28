@@ -1,3 +1,4 @@
+import { LinearProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import {
   Navigate,
@@ -10,6 +11,8 @@ const RequireAdmin = ({ children }) => {
   console.log(auth?.user?.role_ids);
   // const location = useLocation();
   // const auther = useSelector((state) => state.auth.isAuthenticated);
+
+  if (!auth?.user) return <LinearProgress />
 
   const user = auth?.user?.role_ids?.find((item) => item === 1);
 

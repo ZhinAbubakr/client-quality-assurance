@@ -21,23 +21,36 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function Login() {
-  const [inputEmail, setInputEmail] = useState("");
-  const [password, setPassword] = useState("");
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const login = async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    handleSignIn(data);
+  };
+
+  const login = async (data) => {
     try {
       const response = await axiosInstance({
         method: "post",
         url: base + "/auth/login",
         data: {
-          email: inputEmail,
-          password: password,
+          email: data.email,
+          password: data.password,
         },
       });
 
@@ -70,23 +83,18 @@ export default function Login() {
   // }, []);
 
   useEffect(() => {
-    if (auth.isAuthenticated)
-      navigate(location?.state?.from?.pathname || "/questions");
+    if (auth.isAuthenticated) 
+    navigate(location?.state?.from?.pathname || "/questions");
   }, [auth.isAuthenticated]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSignIn = async (data) => {
+    // event.preventDefault();
     try {
-      const user = {
-        email: inputEmail,
-        password: password,
-      };
-      console.log(user);
-      const isValid = await validateUser(user, loginSchema);
+      console.log(data);
+      const isValid = await validateUser(data, loginSchema);
 
       console.log("isValid", isValid);
 
-      // TODO: display validation errors
       if (!isValid)
         return toast.error(t("signIn.wrong"), {
           position: "top-center",
@@ -98,9 +106,8 @@ export default function Login() {
           progress: undefined,
         });
 
-      login();
+      await login(data);
     } catch (error) {
-      console.log("error");
       console.log("error logging in");
     }
   };
@@ -108,18 +115,17 @@ export default function Login() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const options = ["English", "Kurdish"];
-  const { t, i18n } = useTranslation(); //useTranslation is a hook that returns the current language and the function to change the language
+  const { t, i18n } = useTranslation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (e) => {
     setAnchorEl(null);
-    // setLang(e.target.value);
     // eslint-disable-next-line default-case
     switch (e.target.value) {
       case 0:
-        i18n.changeLanguage("eng"); //change language to english if the user clicks on english language icon
+        i18n.changeLanguage("eng");
         break;
       case 1:
         i18n.changeLanguage("krd");
@@ -129,9 +135,7 @@ export default function Login() {
 
   return (
     <div>
-      <Box fullWidth sx={{ flexGrow: 1 }}></Box>
-      
-      <Grid container>
+      <Grid container spacing={4}>
         <Grid item xs={12}>
           <Tooltip title="Language">
             <IconButton
@@ -147,7 +151,7 @@ export default function Login() {
                 cursor: "pointer",
                 ml: 2,
                 float: "right",
-                m: 4
+                m: 4,
               }}
             >
               <LanguageIcon />
@@ -167,10 +171,11 @@ export default function Login() {
               <Typography component="h1" variant="h5">
                 {t("signIn.signin")}
               </Typography>
-              <form onSubmit={handleSubmit}>
+              <form>
                 <Box component="div" sx={{ mt: 1 }}>
                   <TextField
                     margin="normal"
+                    type="email"
                     required
                     fullWidth
                     id="email"
@@ -178,11 +183,15 @@ export default function Login() {
                     name="email"
                     autoComplete="email"
                     autoFocus
-                    value={inputEmail}
-                    onChange={(e) => setInputEmail(e.target.value)}
+                    {...register("email")}
+                    error={errors?.email?.message ? true : false}
+                    helperText={errors?.email?.message}
+                    // value={inputEmail}
+                    // onChange={(e) => setInputEmail(e.target.value)}
                   />
                   <TextField
                     margin="normal"
+                    type="password"
                     required
                     fullWidth
                     id="password"
@@ -190,8 +199,11 @@ export default function Login() {
                     name="password"
                     autoComplete="password"
                     autoFocus
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password")}
+                    error={errors?.password?.message ? true : false}
+                    helperText={errors?.password?.message}
+                    // value={password}
+                    // onChange={(e) => setPassword(e.target.value)}
                   />
 
                   <Link to="/signup" variant="body2">
@@ -204,6 +216,7 @@ export default function Login() {
                       variant="contained"
                       fullWidth
                       sx={{ mt: 3, mb: 2 }}
+                      onClick={handleSubmit(onSubmit)}
                     >
                       {t("signIn.signin")}
                     </Button>
@@ -228,12 +241,10 @@ export default function Login() {
       </Grid>
 
       <Menu
-        // value={lang}
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
         onClose={handleClose}
-        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -269,7 +280,6 @@ export default function Login() {
           </MenuItem>
         ))}
       </Menu>
-     
     </div>
   );
 }

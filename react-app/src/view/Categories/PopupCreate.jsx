@@ -12,10 +12,11 @@ import React, { useState } from "react";
 
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+import { useTranslation } from "react-i18next";
 
 export default function PopupCreate(props) {
   const { getCategories, openPopup, setOpenPopup } = props;
-
+  const {t} = useTranslation();
   const [name, setName] = useState("");
 
   const createCategory = async () => {
@@ -32,7 +33,7 @@ export default function PopupCreate(props) {
       console.log(response);
       getCategories();
     } catch {
-      console.log("error posting questions");
+      console.log("error adding category");
     }
   };
 
@@ -41,21 +42,17 @@ export default function PopupCreate(props) {
       <Dialog
         open={openPopup}
         maxWidth="xl"
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Create Question"}
+            {t("listOfCategory.AddCategory")}
           <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
             X
           </Button>
         </DialogTitle>
-        <DialogTitle>
-          <Typography>Create Category</Typography>
-        </DialogTitle>
+        
         <DialogContent>
           <DialogContentText>
-            fill the all the fields below to create a category:
+          {t("listOfCategory.info")}
           </DialogContentText>
         </DialogContent>
         <DialogTitle>
@@ -69,7 +66,7 @@ export default function PopupCreate(props) {
           >
             <TextField
               sx={{ p: 1 }}
-              label="Content"
+              label={t("listOfCategory.Content")}
               variant="outlined"
               multiline
               maxRows={4}
@@ -88,7 +85,7 @@ export default function PopupCreate(props) {
               console.log("done");
             }}
           >
-            SUBMIT
+            {t("listOfCategory.submit")}
           </Button>
         </DialogTitle>
       </Dialog>

@@ -1,4 +1,5 @@
 {
+  
   "dashboard": {
     "title": "داشبۆرد",
     "Listofquestions": "لیستی پرسیارەکان",
@@ -7,7 +8,8 @@
     "ListOfUsers": "لیستی بەکارهێنەرەکان",
     "QuestionCategories": "پۆلێنەکانی پرسیارەکان",
     "Roles": "ڕۆڵەکان",
-    "Logout": "چونەدەرەوە"
+    "Logout": "چونەدەرەوە",
+    "AskAway": " پرسیارکردن"
   },
   "signIn": {
     "signin": "چونەژوورەوە",
@@ -24,5 +26,50 @@
     "password": "وشەی نهێنی",
     "notSingup": "ئەژمێرت هەیە؟ تکایە بڕۆژوورەوە",
     "wrong": "!ئیمەیل یان وشەی نهێنی هەڵەیە"
+  },
+  "userProfile":{
+    "profilePage": "پرۆفایلی بەکارهێنەر",
+    "info": "لێرە دەتوانیت زانیاریەکانت ببینیت",
+    "firstName": "ناوی یەکەم",
+    "lastName": "ناوی کۆتایی",
+    "email": "ئیمێڵ",
+    "role": "ڕۆڵی بەکارهێنەر"
+  },
+  "question": {
+    "Content": "ناوەڕۆکی پرسیار",
+    "Category": "بابەتی پرسیار",
+    "Answers": "وەڵامەکان",
+    "YourAnswer": "وەڵامەکەت",
+    "postAnswer": "وەڵامەکەت بڵاوبکەوە",
+    "info": "هیچ وەڵامێک نیە!"
+  },
+  "listOfUser": {
+    "ListOfUsers": "لیستی بەکارهێنەران",
+    "firstName": "ناوی یەکەم",
+    "lastName": "ناوی کۆتایی",
+    "Role": "ڕۆڵی بەکارهێنەر",
+    "Email": "ئیمێڵ",
+    "Action": "کردار",
+    "User": "بەکارهێنەر",
+    "Update": "نوێکردنەوە",
+    "Delete": "سڕینەوە"
+  },
+  "listOfCategory": {
+    "ListOfCatogries": "لیستی هاوپۆلەکان",
+    "id": "ID",
+    "Name": "ناو",
+    "Action": "کردار",
+    "Category": "پۆل",
+    "Update": "نوێکردنەوە",
+    "Delete": "سڕینەوە",
+    "Content": "ناوەڕۆک ",
+    "AddCategory": "هاوپۆل زیاد بکە",
+    "info":" هەموو خانەکانی خوارەوە پڕبکەرەوە بۆ دروستکردنی پۆلێنێک",
+    "submit":"ناردن"
+  },
+  "listOfRoles":{
+    "ListOfRoles": "لیستی ڕۆڵەکان",
+    "id":"ID",
+    "Name": "ناو"
   }
 }
