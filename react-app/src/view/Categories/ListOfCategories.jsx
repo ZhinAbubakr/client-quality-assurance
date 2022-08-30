@@ -35,6 +35,7 @@ const ListOfCategories = () => {
         name: "name",
         label: t("listOfCategory.Name"),
       },
+      
     ],
     []
   );

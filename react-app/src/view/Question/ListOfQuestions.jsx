@@ -69,10 +69,10 @@ export default function ListOfQuestions() {
             variant="contained"
             sx={{
               float: "right",
-              backgroundColor: theme.palette.primary.main,
+              // backgroundColor: theme.palette.primary.main,
               color: "white",
               "&:hover": {
-                backgroundColor: theme.palette.primary.main,
+                // backgroundColor: theme.palette.primary.main,
                 color: "white",
               },
             }}

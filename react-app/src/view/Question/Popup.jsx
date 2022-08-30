@@ -6,12 +6,13 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
@@ -67,32 +68,29 @@ export default function Popup(props) {
     getCategories(setCategoryList);
   }, []);
 
+  const handleClose = () => {
+    setOpenPopup(false);
+  };
+
   return (
     <>
       <Dialog
         open={openPopup}
-        maxWidth="xl"
+        onClose={handleClose}
+        maxWidth="lg"
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle>
           {"Create Question"}
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              float: "right",
-              backgroundColor: theme.palette.error.dark,
-              color: "white",
-            }}
+          <IconButton
+            sx={{ color: theme.palette.error.dark, float: "right" }}
             onClick={() => setOpenPopup(false)}
           >
-            X
-          </Button>
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
-        <DialogTitle>
-          <Typography>Create Question</Typography>
-        </DialogTitle>
+        <DialogTitle></DialogTitle>
         <DialogContent>
           <DialogContentText>
             fill the all the fields below to create a question:
@@ -102,7 +100,8 @@ export default function Popup(props) {
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              flexGrow: 1,  px: 3,
+              // "& > :not(style)": { m: 1, width: "25ch" },
             }}
             noValidate
             autoComplete="off"
@@ -120,8 +119,9 @@ export default function Popup(props) {
               sx={{ p: 1 }}
               label="Content"
               variant="outlined"
-              multiline
-              maxRows={4}
+              multiline={true}
+              minRows={10}
+              maxRows={10}
               fullWidth
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -129,15 +129,16 @@ export default function Popup(props) {
           </Box>
 
           <Grid item xs={12} sx={{ p: 4 }}>
-            <InputLabel>Role</InputLabel>
             {categoryList.length > 0 && (
               <Select
+                placeholder="choose category"
                 defaultValue={""}
                 value={choosedCategory}
                 fullWidth
-                // label="Category"
+                label="Category"
+                sx={{color:"black"}}
                 onChange={(e) => {
-                  console.log(choosedCategory)
+                  console.log(choosedCategory);
                   handleChange(e);
                 }}
                 multiple

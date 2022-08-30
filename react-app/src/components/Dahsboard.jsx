@@ -52,7 +52,13 @@ export default function DashBoard(props) {
   const auth = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const options = ["English", "Kurdish"];
+  const options = [
+    {
+      id: "eng",
+      label: "English",
+    },
+    { id: "krd", label: "Kurdish" },
+  ];
   const { t, i18n } = useTranslation();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -195,7 +201,7 @@ export default function DashBoard(props) {
         sx={{ display: "flex", backgroundColor: "#F4F6F6", height: "120vh" }}
       >
         <CssBaseline />
-        
+
         <Box sx={{ flexGrow: 1 }}>
           <AppBar
             elevation={0}
@@ -286,8 +292,13 @@ export default function DashBoard(props) {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 {options.map((option, index) => (
-                  <MenuItem key={option} value={index} onClick={handleClose}>
-                    {option}
+                  <MenuItem
+                    key={option.id}
+                    value={index}
+                    onClick={handleClose}
+                    selected={i18n.language === option.id}
+                  >
+                    {option.label}
                   </MenuItem>
                 ))}
               </Menu>

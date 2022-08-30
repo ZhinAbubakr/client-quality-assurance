@@ -37,7 +37,7 @@ const AccountStyle = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   borderRadius: 8,
-
+  boxShadow: '0px 15px 25px rgba(50, 50, 50, 0.1)',
   backgroundColor: theme.palette.grey[200],
   textDecoration: "none",
   margin: theme.spacing(2),
@@ -130,6 +130,7 @@ function Layout(props) {
     <div>
       <Toolbar>
         <Box
+          sx={{boxShadow: '0px 15px 25px rgba(50, 50, 50, 0.1)',flexDirection: "column"}}
           onClick={() => {
             navigate("/profile");
           }}
@@ -143,7 +144,7 @@ function Layout(props) {
           </Typography>
           <AccountStyle>
             <Avatar src={userIcon} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
+            <Box  sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
                 {auth?.user?.first_name}
               </Typography>
@@ -208,7 +209,7 @@ function Layout(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: "black" }} />
           </IconButton>
         </Toolbar>
 
@@ -275,10 +276,11 @@ function Layout(props) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{  width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
+        <Drawer 
+
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -286,6 +288,7 @@ function Layout(props) {
           ModalProps={{
             keepMounted: true,
           }}
+          PaperProps={{ sx: { backgroundColor: "#273469" } }}
           sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
@@ -297,6 +300,7 @@ function Layout(props) {
           {drawer}
         </Drawer>
         <Drawer
+          // anchor="right"
           PaperProps={{ sx: { backgroundColor: "#273469" } }}
           variant="permanent"
           sx={{
@@ -316,7 +320,7 @@ function Layout(props) {
         sx={{
           flexGrow: 1,
           m: 2,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: "10px"
         }}
       >
         <Toolbar />

@@ -187,8 +187,9 @@ export default function SignUp() {
                       autoComplete="family-name"
                       autoFocus
                       {...register("lastName")}
-                    />{" "}
-                    <p> {errors?.lastName?.message} </p>
+                      error={errors?.firstName?.message ? true : false}
+                      helperText={errors?.lastName?.message}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -202,12 +203,13 @@ export default function SignUp() {
                       autoComplete="email"
                       autoFocus
                       {...register("email")}
-                    />{" "}
-                    <p> {errors?.email?.message} </p>
+                      error={errors?.firstName?.message ? true : false}
+                      helperText={errors?.email?.message}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      type="text"
+                      type="password"
                       margin="normal"
                       required
                       fullWidth
@@ -217,8 +219,9 @@ export default function SignUp() {
                       autoComplete="password"
                       autoFocus
                       {...register("password")}
-                    />{" "}
-                    <p> {errors?.password?.message} </p>
+                      error={errors?.firstName?.message ? true : false}
+                      helperText={errors?.password?.message}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Link to="/login" variant="body2">

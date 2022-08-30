@@ -75,20 +75,32 @@ export default function PopupUpdate(props) {
 
   return (
     <>
-      <Dialog open={openPopup} onClose={handleClose}>
+      <Dialog maxWidth="lg" open={openPopup} onClose={handleClose}>
         <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
             here you can update your question!
           </DialogContentText>
+          <DialogTitle>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
           <TextField
             autoFocus
             margin="dense"
             defaultValue={singleQuestion?.title}
             label="Title"
+            multiline={true}
+            minRows={10}
+            maxRows={5}
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             onChange={(e) => setQuestionTitle(e.target.value)}
           />
           <TextField
@@ -98,17 +110,22 @@ export default function PopupUpdate(props) {
             label="Content"
             type="text"
             fullWidth
-            variant="standard"
+            multiline={true}
+            minRows={10}
+            maxRows={5}
+            variant="outlined"
             onChange={(e) => setQuestionContent(e.target.value)}
           />
-          <Box
+          </Box>
+          </DialogTitle>
+          {/* <Box
             component="form"
             sx={{
               "& > :not(style)": { m: 1, width: "25ch" },
             }}
             noValidate
             autoComplete="off"
-          >
+          > */}
             {categoryList.length > 0 && (
               <Select
                 defaultValue={""}
@@ -127,7 +144,7 @@ export default function PopupUpdate(props) {
                 ))}
               </Select>
             )}
-          </Box>
+          {/* </Box> */}
         </DialogContent>
         <DialogActions>
           <Button

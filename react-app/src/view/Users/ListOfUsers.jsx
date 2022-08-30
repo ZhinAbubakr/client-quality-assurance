@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 const ListOfUsers = () => {
   const navigate = useNavigate();
@@ -29,24 +30,27 @@ const ListOfUsers = () => {
     getListOfUsers();
   }, []);
 
-  const [cols] = useState([
-    {
-      name: "role_ids",
-      label: t("listOfUser.Role"),
-    },
-    {
-      name: "first_name",
-      label: t("listOfUser.firstName"),
-    },
-    {
-      name: "last_name",
-      label: t("listOfUser.lastName"),
-    },
-    {
-      name: "email",
-      label: t("listOfUser.Email"),
-    },
-  ]);
+  const cols = useMemo(
+    () => [
+      {
+        name: "role_ids",
+        label: t("listOfUser.Role"),
+      },
+      {
+        name: "first_name",
+        label: t("listOfUser.firstName"),
+      },
+      {
+        name: "last_name",
+        label: t("listOfUser.lastName"),
+      },
+      {
+        name: "email",
+        label: t("listOfUser.Email"),
+      },
+    ],
+    []
+  );
 
   const SelectedRow = (id) => {
     navigate("/users/" + id);
@@ -59,7 +63,14 @@ const ListOfUsers = () => {
           {t("listOfUser.ListOfUsers")}
         </Typography>
         <Grid item xs={12} paddingTop={4}>
+          {/* <Paper
+            sx={{
+              border: "1px solid grey",
+              flex: { xs: "100%", sm: "cal(50% - 20px)", md: "cal(33% - 20px)" },
+            }}
+          > */}
           <Tables items={listOfUser} cols={cols} SelectedRow={SelectedRow} />
+          {/* </Paper> */}
         </Grid>
       </Grid>
     </>

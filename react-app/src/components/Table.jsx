@@ -20,20 +20,20 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: "white",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 10,
     border: 1,
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    // backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 1,
-  },
-}));
+// const StyledTableRow = styled(TableRow)(({ theme }) => ({
+//   "&:nth-of-type(odd)": {
+//     // backgroundColor: theme.palette.action.hover,
+//   },
+//   // hide last border
+//   "&:last-child td, &:last-child th": {
+//     // border: 1,
+//   },
+// }));
 
 export default function Tables({
   items,
@@ -41,35 +41,36 @@ export default function Tables({
   SelectedRow,
   hasEditing = true,
 }) {
-
   const { t } = useTranslation();
 
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-      <Table sx={{ minWidth: 650 }} size="huge">
+      <Table size="huge" >
         <TableHead>
-          <StyledTableRow>
+          <TableRow>
             {cols.map((col, index) => (
               <StyledTableCell align="center" key={index}>
                 {col?.label}
               </StyledTableCell>
             ))}
             {hasEditing && (
-              <StyledTableCell align="center">{t("listOfUser.Action")}</StyledTableCell>
+              <StyledTableCell align="center">
+                {t("listOfUser.Action")}
+              </StyledTableCell>
             )}
-          </StyledTableRow>
+          </TableRow>
         </TableHead>
 
         <TableBody>
           {items.map((user) => (
-            <StyledTableRow key={user?.attributes?.id}>
+            <TableRow key={user?.attributes?.id}>
               {cols.map((col, index) => (
-                <TableCell align="center" key={index}>
+                <TableCell width="5%" align="center" key={index}>
                   {user?.attributes[col.name]}
                 </TableCell>
               ))}
               {hasEditing && (
-                <TableCell align="center">
+                <TableCell width="5%" align="center">
                   <IconButton
                     onClick={() => {
                       SelectedRow(user?.attributes?.id);
@@ -79,7 +80,7 @@ export default function Tables({
                   </IconButton>
                 </TableCell>
               )}
-            </StyledTableRow>
+            </TableRow>
           ))}
         </TableBody>
       </Table>

@@ -13,39 +13,38 @@ import {
 import { useSelector } from "react-redux";
 import Image from "../Assets/user (1).png";
 import { useTranslation } from "react-i18next";
-import axiosInstance from "../axios";
-import { base } from "../api";
+// import axiosInstance from "../axios";
+// import { base } from "../api";
 
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
 
   const { t } = useTranslation();
-  // eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NjM3MDg1MDl9.dg7obo05Dpbqjwz7Kn0wRdujKOIH9NqHrVnfui1xK1M
-  const updateUser = async () => {
-    try {
-      const { data } = await axiosInstance({
-        method: "put",
-        url: base + `/users/` + user.id,
-        data: {
-          user: {
-            first_name: "Admin",
-            last_name: "",
-            email: "admin@gmail.com",
-            password: "admin12345",
-            role_ids: [1],
-          },
-        },
-      });
+  // const updateUser = async () => {
+  //   try {
+  //     const { data } = await axiosInstance({
+  //       method: "put",
+  //       url: base + `/users/` + user.id,
+  //       data: {
+  //         user: {
+  //           first_name: "Admin",
+  //           last_name: "",
+  //           email: "admin@gmail.com",
+  //           password: "admin12345",
+  //           role_ids: [1],
+  //         },
+  //       },
+  //     });
 
-      console.log(data?.data?.attributes);
-    } catch (errro) {
-      console.log("not successful");
-    }
-  };
+  //     console.log(data?.data?.attributes);
+  //   } catch (errro) {
+  //     console.log("not successful");
+  //   }
+  // };
 
-  useEffect(() => {
-    updateUser();
-  }, []);
+  // useEffect(() => {
+  //   updateUser();
+  // }, []);
 
   return (
     <>
@@ -99,7 +98,6 @@ const UserProfile = () => {
                     <Grid container spacing={3}>
                       <Grid item md={6} xs={12}>
                         <Typography
-                          // fullWidth
                           sx={{ fontSize: 12 }}
                           color="text.secondary"
                         >
@@ -110,7 +108,6 @@ const UserProfile = () => {
 
                       <Grid item md={6} xs={12}>
                         <Typography
-                          // fullWidth
                           sx={{ fontSize: 12 }}
                           color="text.secondary"
                         >
@@ -120,7 +117,6 @@ const UserProfile = () => {
                       </Grid>
                       <Grid item md={6} xs={12}>
                         <Typography
-                          // fullWidth
                           sx={{ fontSize: 12 }}
                           color="text.secondary"
                         >
@@ -130,7 +126,6 @@ const UserProfile = () => {
                       </Grid>
                       <Grid item md={6} xs={12}>
                         <Typography
-                          // fullWidth
                           sx={{ fontSize: 12 }}
                           color="text.secondary"
                         >

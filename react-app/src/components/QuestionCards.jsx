@@ -4,8 +4,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../view/Question/Popup";
 
-export default function QuestionCards({ questions }) {
+const breakpointColumnsObj = {
+    default: 4,
+    1950: 3,
+    1680: 2,
+    980: 1
+}
+
+export default function QuestionCards({ questions , breakpointColumnsObj}) {
   const [categoryList, setCategoryList] = useState([]);
+  
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -26,6 +34,7 @@ export default function QuestionCards({ questions }) {
     <Box display="flex" flexDirection="column">
       {questions.map((ques) => (
         <Card
+        
           key={ques.attributes.id}
           onClick={() => {
             return navigate("/questions/" + ques.attributes.id);
@@ -33,6 +42,7 @@ export default function QuestionCards({ questions }) {
           sx={{
             cursor: "pointer",
             my: 2,
+            boxShadow: '0px 15px 25px rgba(50, 50, 50, 0.1)'
           }}
         >
           <CardContent>
@@ -62,6 +72,7 @@ export default function QuestionCards({ questions }) {
                   sx={{
                     color: theme.palette.primary.dark,
                     backgroundColor: "#E0FBFC",
+                    ml: 1
                   }}
                   key={i}
                   label={

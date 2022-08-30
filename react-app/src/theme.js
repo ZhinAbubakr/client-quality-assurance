@@ -33,6 +33,6 @@ export const getTheme = (direction) =>
       },
     },
     shape: {
-      borderRadius: 6,
+      borderRadius: 10,
     },
   });

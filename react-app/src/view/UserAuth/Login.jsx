@@ -39,7 +39,7 @@ export default function Login() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     handleSignIn(data);
   };
 
@@ -57,7 +57,7 @@ export default function Login() {
       setAxiosToken(response?.data?.data?.attributes?.token);
       dispatch(setToken(response?.data?.data?.attributes?.token));
       getUser();
-      console.log(response.data.data.attributes.token);
+      // console.log(response.data.data.attributes.token);
     } catch (error) {
       console.log("error authentication");
     }
@@ -90,7 +90,7 @@ export default function Login() {
   const handleSignIn = async (data) => {
     // event.preventDefault();
     try {
-      console.log(data);
+      // console.log(data);
       const isValid = await validateUser(data, loginSchema);
 
       console.log("isValid", isValid);

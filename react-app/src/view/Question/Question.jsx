@@ -5,10 +5,12 @@ import { base } from "../../api";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import PopupDialog from "./PopupUpdate";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useTheme } from "@mui/material";
+import { Checkbox, useTheme } from "@mui/material";
 import { getCategories } from "../Question/Popup";
 import EditIcon from "@mui/icons-material/Edit";
 import { useTranslation } from "react-i18next";
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import {
   Button,
   Card,
@@ -24,6 +26,7 @@ import {
   ListItemText,
   TextField,
   Typography,
+  // useTheme
 } from "@mui/material";
 
 export default function Question() {
@@ -39,7 +42,28 @@ export default function Question() {
 
   const [categoryList, setCategoryList] = useState([]);
 
+  const [bestAnswe,setBestAnswer] =  useState(false);
+
+  // const theme = useTheme()
+
   const { t } = useTranslation();
+
+  const bestAnswer = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "put",
+        url: base + "/questions/" + id + "/choose-the-best-answer",
+        data: {
+          answer_id: 5,
+        },
+      });
+      console.log(data?.data, "text");
+
+      getAnswers();
+    } catch {
+      console.log("error choosing best answer");
+    }
+  };
 
   const createAnswer = async () => {
     try {
@@ -158,7 +182,9 @@ export default function Question() {
                 action={
                   <>
                     <IconButton
-                      sx={{ color: theme.palette.primary.main }}
+                      sx={{
+                        color: theme.palette.primary.main,
+                      }}
                       onClick={() => {
                         setOpenPopup(true);
                       }}
@@ -166,7 +192,11 @@ export default function Question() {
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                      sx={{ color: theme.palette.secondary.main }}
+                      sx={
+                        {
+                          // color: theme.palette.secondary.main
+                        }
+                      }
                       color="secondary"
                       onClick={() => deleteQuestion()}
                     >
@@ -198,6 +228,7 @@ export default function Question() {
                       sx={{
                         color: theme.palette.primary.dark,
                         backgroundColor: "#E0FBFC",
+                        mr: 1,
                       }}
                       label={
                         categoryList.find(
@@ -219,12 +250,14 @@ export default function Question() {
                   {listOfAnswers
                     .filter((item) => item.attributes.question_id == id)
                     .map((answers) => (
-                      <List key={answers?.attributes?.id}>
+                      <List>
                         <ListItem
+                          key={answers?.attributes?.id}
                           secondaryAction={
                             <>
                               <IconButton edge="end">
-                                <StarOutlineIcon />
+                              <Checkbox icon={<FavoriteBorder />}  checkedIcon={<Favorite />} />
+                                {/* <StarOutlineIcon /> */}
                               </IconButton>
                               <IconButton
                                 edge="end"
@@ -292,10 +325,10 @@ export default function Question() {
                       setContent("");
                     }}
                     sx={{
-                      backgroundColor: theme.palette.primary.main,
+                      // backgroundColor: theme.palette.primary.main,
                       color: "white",
                       "&:hover": {
-                        backgroundColor: theme.palette.primary.main,
+                        // backgroundColor: theme.palette.primary.main,
                         color: "white",
                       },
                       float: "right",

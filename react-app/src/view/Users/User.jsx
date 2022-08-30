@@ -12,6 +12,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormControl,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,7 +21,7 @@ const User = () => {
   const { id } = useParams();
   const [singleUser, setSingleUser] = useState([]);
   const [roleList, setRoleList] = useState([]);
-  const [choosedRole, setChoosedRole] = useState(3);
+  const [choosedRole, setChoosedRole] = useState("");
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -98,6 +99,7 @@ const User = () => {
         },
       });
       getSingleUser();
+      alert("user updated successfully");
       console.log(data?.data?.attributes);
     } catch (errro) {
       console.log("not successful");
@@ -108,29 +110,43 @@ const User = () => {
     getSingleUser();
     getRoles();
   }, []);
+
   return (
     <>
       <Container>
         <Paper variant="outlined" sx={{ p: 4 }}>
           <Grid container sx={{ p: 4 }}>
             <Grid item xs={12} sx={{ display: "flex" }}>
-              <Typography variant="h4">{t("listOfUser.User")} {id}</Typography>
+              <Typography variant="h4">
+                {t("listOfUser.User")} {id}
+              </Typography>
             </Grid>
             <Grid item xs={12} sx={{ p: 4 }}>
-              <Typography>{t("listOfUser.firstName")} : {singleUser.first_name}</Typography>
-              <Typography>{t("listOfUser.lastName")} : {singleUser.last_name}</Typography>
-              <Typography>{t("listOfUser.Email")} : {singleUser.email}</Typography>
-              <Typography>{t("listOfUser.Role")} : {singleUser.role_ids}</Typography>
+              <Typography>
+                {t("listOfUser.firstName")} : {singleUser.first_name}
+              </Typography>
+              <Typography>
+                {t("listOfUser.lastName")} : {singleUser.last_name}
+              </Typography>
+              <Typography>
+                {t("listOfUser.Email")} : {singleUser.email}
+              </Typography>
+              <Typography>
+                {t("listOfUser.Role")} : {singleUser.role_ids}
+              </Typography>
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ p: 4 }}>
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+          <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Age</InputLabel>
             {roleList.length > 0 && (
               <Select
+                
                 labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                // id="demo-simple-select"
                 value={choosedRole}
-                label="role"
+                id="demo-simple-select"
+                label="Age"
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -142,15 +158,21 @@ const User = () => {
                   </MenuItem>
                 ))}
               </Select>
-            )}
+            )}</FormControl>
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row" justifyContent="end">
               <Button variant="contained" onClick={handleFunc}>
-              {t("listOfUser.Delete")}
+                {t("listOfUser.Delete")}
               </Button>
-              <Button variant="contained" onClick={() => updateUser()}>
-              {t("listOfUser.Update")}
+              <Button
+                variant="contained"
+                onClick={() => {
+                  updateUser();
+                  setChoosedRole("");
+                }}
+              >
+                {t("listOfUser.Update")}
               </Button>
             </Stack>
           </Grid>

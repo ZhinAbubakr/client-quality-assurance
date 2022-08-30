@@ -2,26 +2,29 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
 import { Grid, Typography } from "@mui/material";
-import { Container } from "@mui/system";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 export default function ListOfRoles() {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const { t } = useTranslation();
 
-  const [cols] = useState([
-    {
-      name: "id",
-      label: t("listOfRoles.id"),
-    },
-    {
-      name: "name",
-      label: t("listOfRoles.Name"),
-    },
-  ]);
+  const cols = useMemo(
+    () => [
+      {
+        name: "id",
+        label: t("listOfRoles.id"),
+      },
+      {
+        name: "name",
+        label: t("listOfRoles.Name"),
+      },
+    ],
+    []
+  );
 
   const getRoles = async () => {
     try {
