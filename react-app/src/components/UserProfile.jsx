@@ -13,13 +13,29 @@ import {
 import { useSelector } from "react-redux";
 import Image from "../Assets/user (1).png";
 import { useTranslation } from "react-i18next";
+import axiosInstance from "../axios";
+import { base } from "../api";
+import { useState } from "react";
 // import axiosInstance from "../axios";
 // import { base } from "../api";
 
 const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
-
+  const [roles, setRoles] = useState([]);
   const { t } = useTranslation();
+
+  const getRoles = async () => {
+    try {
+      const { data } = await axiosInstance({
+        method: "get",
+        url: base + "/roles",
+      });
+      console.log(data?.data, "llllllllllllll");
+      setRoles(data?.data);
+    } catch (errro) {
+      console.log("not successful");
+    }
+  };
   // const updateUser = async () => {
   //   try {
   //     const { data } = await axiosInstance({
@@ -42,9 +58,9 @@ const UserProfile = () => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   updateUser();
-  // }, []);
+  useEffect(() => {
+    getRoles();
+  }, []);
 
   return (
     <>
@@ -80,7 +96,7 @@ const UserProfile = () => {
                       }}
                     />
                     <Typography color="textPrimary" gutterBottom variant="h5">
-                      {user?.id} {user?.first_name} {user?.last_name}
+                      {user?.first_name} {user?.last_name}
                     </Typography>
                   </Box>
                 </CardContent>
@@ -132,7 +148,14 @@ const UserProfile = () => {
                           {t("userProfile.role")}
                         </Typography>
                         <Typography variant="h6">
-                          {user?.role_ids[0]}
+                          {roles.find(
+                            (item) => item?.attributes?.id === user?.role_ids[0]
+                          )?.attributes.name
+                            ? roles.find(
+                                (item) =>
+                                  item?.attributes?.id === user?.role_ids[0]
+                              )?.attributes.name
+                            : user?.role_ids[0]}
                         </Typography>
                       </Grid>
                     </Grid>
