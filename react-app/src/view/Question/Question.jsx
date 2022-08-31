@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import PopupDialog from "./PopupUpdate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Checkbox, useTheme } from "@mui/material";
 import { getCategories } from "../Question/Popup";
 import EditIcon from "@mui/icons-material/Edit";
 import { useTranslation } from "react-i18next";
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 import {
   Button,
   Card,
@@ -42,24 +41,18 @@ export default function Question() {
 
   const [categoryList, setCategoryList] = useState([]);
 
-  const [bestAnswe,setBestAnswer] =  useState(false);
-
-  // const theme = useTheme()
-
   const { t } = useTranslation();
 
-  const bestAnswer = async () => {
+  const bestAnswer = async (answerId) => {
     try {
       const { data } = await axiosInstance({
         method: "put",
         url: base + "/questions/" + id + "/choose-the-best-answer",
         data: {
-          answer_id: 5,
+          answer_id: answerId,
         },
       });
-      console.log(data?.data, "text");
-
-      getAnswers();
+      console.log(data?.data, "besttttttttttt");
     } catch {
       console.log("error choosing best answer");
     }
@@ -78,7 +71,6 @@ export default function Question() {
         },
       });
       getAnswers();
-      // console.log(data?.data);
     } catch {
       console.log("error posting questions");
     }
@@ -90,7 +82,7 @@ export default function Question() {
         method: "get",
         url: base + "/answers",
       });
-      // console.log(data?.data, "text");
+      console.log(data);
       setListOfAnswers(data?.data);
     } catch {
       console.log("error getting answers");
@@ -105,6 +97,7 @@ export default function Question() {
         method: "get",
         url: base + "/questions",
       });
+      console.log(data);
       // setListOfQuestions(data?.data);
     } catch (errro) {
       console.log("not successful");
@@ -117,7 +110,6 @@ export default function Question() {
         method: "get",
         url: base + `/questions/` + id,
       });
-      // console.log(data?.data?.attributes);
       setSingleQuestion(data?.data?.attributes);
     } catch (errro) {
       console.log("not successful");
@@ -158,18 +150,20 @@ export default function Question() {
     getCategories(setCategoryList);
   }, []);
 
-  console.log(
-    "categoryList",
-    categoryList?.map((category) => category?.attributes?.name)
-  );
+  // console.log(
+  //   "categoryList",
+  //   categoryList?.map((category) => category?.attributes?.name)
+  // );
 
-  console.log(singleQuestion?.category_ids, "sdfghjk");
+  // console.log(singleQuestion?.category_ids, "sdfghjk");
 
   const length = listOfAnswers.filter(
     (item) => item.attributes.question_id == id
   ).length;
 
   const theme = useTheme();
+
+  console.log(listOfAnswers);
 
   return (
     <>
@@ -255,10 +249,40 @@ export default function Question() {
                           key={answers?.attributes?.id}
                           secondaryAction={
                             <>
-                              <IconButton edge="end">
-                              <Checkbox icon={<FavoriteBorder />}  checkedIcon={<Favorite />} />
-                                {/* <StarOutlineIcon /> */}
+                              {console.log(
+                                "answers-best",
+                                answers?.attributes?.is_the_best,
+                                "answerID",
+                                answers?.attributes?.id
+                              )}
+                              {!answers?.attributes?.is_the_best && answers?.attributes?.is_the_best === false
+                                ? <IconButton
+                                edge="end"
+                                onClick={() => {
+                                  bestAnswer(answers?.attributes?.id);
+                                }}
+                              >
+                                <Checkbox
+                                  disabled
+                                  icon={<FavoriteBorder />}
+                                  checkedIcon={<Favorite />}
+                                />
                               </IconButton>
+                                : <IconButton
+                                edge="end"
+                                onClick={() => {
+                                  bestAnswer(answers?.attributes?.id);
+                                }}
+                              >
+                                <Checkbox
+                                  defaultChecked={
+                                    answers?.attributes?.is_the_best
+                                  }
+                                  icon={<FavoriteBorder />}
+                                  checkedIcon={<Favorite />}
+                                />
+                              </IconButton>}
+                              
                               <IconButton
                                 edge="end"
                                 onClick={() =>
