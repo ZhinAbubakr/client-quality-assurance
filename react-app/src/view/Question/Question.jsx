@@ -8,6 +8,8 @@ import { Checkbox, useTheme } from "@mui/material";
 import { getCategories } from "../Question/Popup";
 import EditIcon from "@mui/icons-material/Edit";
 import { useTranslation } from "react-i18next";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarRateIcon from "@mui/icons-material/StarRate";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import {
@@ -27,6 +29,17 @@ import {
   Typography,
   // useTheme
 } from "@mui/material";
+
+const compareAnswersFn = (a, b) => {
+  if (a.attributes.id < b.attributes.id) {
+    return -1;
+  }
+  if (a.attributes.id > b.attributes.id) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+};
 
 export default function Question() {
   const { id } = useParams();
@@ -53,8 +66,23 @@ export default function Question() {
         },
       });
       console.log(data?.data, "besttttttttttt");
+      getAnswers();
     } catch {
       console.log("error choosing best answer");
+    }
+  };
+
+  const deselectBestAnswer = async (answerId) => {
+    try {
+      const { data } = await axiosInstance({
+        method: "put",
+        url: base + "/questions/" + id + "/choose-the-best-answer",
+      });
+      console.log(data?.data, "besttttttttttt");
+    } catch {
+      console.log("error choosing best answer");
+    } finally {
+      getAnswers();
     }
   };
 
@@ -170,7 +198,10 @@ export default function Question() {
       <CssBaseline />
       <Grid container padding={4}>
         <Grid item xs={12}>
-          <Card variant="outlined">
+          <Card
+            variant="outlined"
+            sx={{ boxShadow: "0px 15px 25px rgba(50, 50, 50, 0.1)" }}
+          >
             <CardContent>
               <CardHeader
                 action={
@@ -217,12 +248,14 @@ export default function Question() {
                   {t("question.Category")}
                 </Typography>
                 <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-                  {singleQuestion?.category_ids?.map((item) => (
+                  {singleQuestion?.category_ids?.map((item, i) => (
                     <Chip
+                      key={i}
                       sx={{
                         color: theme.palette.primary.dark,
                         backgroundColor: "#E0FBFC",
-                        mr: 1,
+                        marginTop: 1,
+                        marginRight: 1,
                       }}
                       label={
                         categoryList.find(
@@ -243,8 +276,9 @@ export default function Question() {
                   <Divider />
                   {listOfAnswers
                     .filter((item) => item.attributes.question_id == id)
-                    .map((answers) => (
-                      <List>
+                    .sort(compareAnswersFn)
+                    .map((answers, i, arr) => (
+                      <List key={answers?.attributes?.id}>
                         <ListItem
                           key={answers?.attributes?.id}
                           secondaryAction={
@@ -255,34 +289,32 @@ export default function Question() {
                                 "answerID",
                                 answers?.attributes?.id
                               )}
-                              {!answers?.attributes?.is_the_best && answers?.attributes?.is_the_best === false
-                                ? <IconButton
+                              {/* {answers?.attributes?.is_the_best === false  ? */}
+                              <IconButton
                                 edge="end"
                                 onClick={() => {
-                                  bestAnswer(answers?.attributes?.id);
+                                  if (answers.attributes.is_the_best) {
+                                    deselectBestAnswer(answers?.attributes?.id);
+                                  } else bestAnswer(answers?.attributes?.id);
                                 }}
+                                disabled={
+                                  arr.find((ans) => ans.attributes.is_the_best)
+                                    ? answers.attributes.is_the_best
+                                      ? false
+                                      : true
+                                    : false
+                                }
                               >
                                 <Checkbox
-                                  disabled
-                                  icon={<FavoriteBorder />}
-                                  checkedIcon={<Favorite />}
+                                  value={answers?.attributes?.is_the_best}
+                                  // defaultChecked={
+                                  //   answers?.attributes?.is_the_best
+                                  // }
+                                  icon={<StarBorderIcon />}
+                                  checkedIcon={<StarRateIcon />}
                                 />
                               </IconButton>
-                                : <IconButton
-                                edge="end"
-                                onClick={() => {
-                                  bestAnswer(answers?.attributes?.id);
-                                }}
-                              >
-                                <Checkbox
-                                  defaultChecked={
-                                    answers?.attributes?.is_the_best
-                                  }
-                                  icon={<FavoriteBorder />}
-                                  checkedIcon={<Favorite />}
-                                />
-                              </IconButton>}
-                              
+                              {/* } */}
                               <IconButton
                                 edge="end"
                                 onClick={() =>
@@ -299,6 +331,7 @@ export default function Question() {
                             {answers.attributes.content}
                           </ListItemText>
                         </ListItem>
+                        <Divider />
                       </List>
                     ))}
                 </>
@@ -321,7 +354,10 @@ export default function Question() {
           </Card>
         </Grid>
         <Grid item xs={12} sx={{ my: 2 }}>
-          <Card variant="outlined">
+          <Card
+            variant="outlined"
+            sx={{ boxShadow: "0px 15px 25px rgba(50, 50, 50, 0.1)" }}
+          >
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -349,6 +385,7 @@ export default function Question() {
                       setContent("");
                     }}
                     sx={{
+                      boxShadow: "0px 15px 25px rgba(50, 50, 50, 0.1)",
                       // backgroundColor: theme.palette.primary.main,
                       color: "white",
                       "&:hover": {
