@@ -62,7 +62,7 @@ export default function QuestionCards({ questions , breakpointColumnsObj}) {
             </Typography>
             <Typography
               component={"h5"}
-              sx={{ mb: 1.5 }}
+              
               color="text.secondary"
             >
               {/* {console.log("ytirty",ques?.attributes?.category_ids.map((id)=>id))} */}
@@ -72,7 +72,7 @@ export default function QuestionCards({ questions , breakpointColumnsObj}) {
                   sx={{
                     color: theme.palette.primary.dark,
                     backgroundColor: "#E0FBFC",
-                    ml: 1
+                    marginRight:1
                   }}
                   key={i}
                   label={

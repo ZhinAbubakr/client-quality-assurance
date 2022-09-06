@@ -45,16 +45,16 @@ export default function PopupCreate(props) {
       >
         <DialogTitle id="alert-dialog-title">
             {t("listOfCategory.AddCategory")}
-          <Button onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
+          <Button color="error" onClick={() => setOpenPopup(false)} sx={{ float: "right" }}>
             X
           </Button>
         </DialogTitle>
         
-        <DialogContent>
+        {/* <DialogContent>
           <DialogContentText>
           {t("listOfCategory.info")}
           </DialogContentText>
-        </DialogContent>
+        </DialogContent> */}
         <DialogTitle>
           <Box
             component="form"
@@ -65,8 +65,8 @@ export default function PopupCreate(props) {
             autoComplete="off"
           >
             <TextField
-              sx={{ p: 1 }}
-              label={t("listOfCategory.Content")}
+              // sx={{ p: 1 }}
+              label="category title"
               variant="outlined"
               multiline
               maxRows={4}
@@ -78,7 +78,7 @@ export default function PopupCreate(props) {
 
           <Button
             variant="contained"
-            sx={{ m: 2 }}
+            sx={{ m: 2, float: "right" }}
             onClick={() => {
               createCategory();
               setOpenPopup(false);

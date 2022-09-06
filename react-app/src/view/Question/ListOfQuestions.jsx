@@ -68,6 +68,7 @@ export default function ListOfQuestions() {
           <Button
             variant="contained"
             sx={{
+              boxShadow: '0px 15px 25px rgba(50, 50, 50, 0.1)',
               float: "right",
               // backgroundColor: theme.palette.primary.main,
               color: "white",

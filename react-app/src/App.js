@@ -61,6 +61,7 @@ function App() {
                   </RequireAuth>
                 }
               >
+                <Route path="" element={<Questions />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="questions">
                   <Route path="" element={<Questions />} />

@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   MenuItem,
   Select,
   TextField,
@@ -13,6 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function PopupUpdate(props) {
   const { singleQuestion, getSingleQuestion, openPopup, setOpenPopup, id } =
@@ -75,93 +77,75 @@ export default function PopupUpdate(props) {
 
   return (
     <>
-      <Dialog maxWidth="lg" open={openPopup} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
+      <Dialog open={openPopup} onClose={handleClose} maxWidth="md">
+        <DialogTitle>
+          Update Question
+          <IconButton
+            sx={{ color: "red", float: "right" }}
+            onClick={() => setOpenPopup(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogTitle>
           <DialogContentText>
             here you can update your question!
           </DialogContentText>
-          <DialogTitle>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
+        </DialogTitle>
+
+        <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
+            sx={{ mt: 4, mb: 2 }}
             defaultValue={singleQuestion?.title}
             label="Title"
-            multiline={true}
-            minRows={10}
-            maxRows={5}
-            type="text"
             fullWidth
-            variant="outlined"
             onChange={(e) => setQuestionTitle(e.target.value)}
           />
           <TextField
-            autoFocus
-            margin="dense"
+            sx={{ mt: 4, mb: 2 }}
             defaultValue={singleQuestion?.content}
             label="Content"
-            type="text"
             fullWidth
             multiline={true}
             minRows={10}
-            maxRows={5}
+            maxRows={10}
             variant="outlined"
             onChange={(e) => setQuestionContent(e.target.value)}
           />
-          </Box>
-          </DialogTitle>
-          {/* <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          > */}
-            {categoryList.length > 0 && (
-              <Select
-                defaultValue={""}
-                value={choosedCategory}
-                fullWidth
-                // label="Category"
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-                multiple
-              >
-                {categoryList?.map((category, index) => (
-                  <MenuItem key={index} value={category?.attributes?.id}>
-                    {category?.attributes?.id} : {category?.attributes?.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          {/* </Box> */}
-        </DialogContent>
-        <DialogActions>
+
+          {categoryList.length > 0 && (
+            <Select
+            sx={{ my: 2 }}
+              defaultValue={""}
+              value={choosedCategory}
+              fullWidth
+              multiple
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            >
+              {categoryList?.map((category, index) => (
+                <MenuItem key={index} value={category?.attributes?.id}>
+                  {category?.attributes?.id} : {category?.attributes?.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+
           <Button
             variant="contained"
             sx={{ m: 2 }}
             onClick={() => {
               updateQuestion();
               setOpenPopup(false);
-              console.log("done");
               getSingleQuestion();
-              // getQuestions();
             }}
           >
             SUBMIT
           </Button>
           <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
+        </DialogContent>
       </Dialog>
     </>
   );

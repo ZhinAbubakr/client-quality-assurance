@@ -1,13 +1,11 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
+  FormControl,
   IconButton,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -17,6 +15,7 @@ import { useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios";
 import { base } from "../../api";
+import { Box } from "@mui/system";
 
 export const getCategories = async (setData) => {
   try {
@@ -74,13 +73,7 @@ export default function Popup(props) {
 
   return (
     <>
-      <Dialog
-        open={openPopup}
-        onClose={handleClose}
-        maxWidth="lg"
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={openPopup} onClose={handleClose} maxWidth="md">
         <DialogTitle>
           {"Create Question"}
           <IconButton
@@ -90,70 +83,67 @@ export default function Popup(props) {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogTitle></DialogTitle>
-        <DialogContent>
+
+        <DialogTitle>
           <DialogContentText>
             fill the all the fields below to create a question:
           </DialogContentText>
-        </DialogContent>
-        <DialogTitle>
-          <Box
-            component="form"
-            sx={{
-              flexGrow: 1,  px: 3,
-              // "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              sx={{ p: 1 }}
-              label="Title"
-              variant="outlined"
-              fullWidth
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+        </DialogTitle>
 
-            <TextField
-              sx={{ p: 1 }}
-              label="Content"
-              variant="outlined"
-              multiline={true}
-              minRows={10}
-              maxRows={10}
-              fullWidth
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </Box>
+        <DialogContent>
+          <TextField
+            sx={{ mt: 4, mb: 2 }}
+            label="Title"
+            variant="outlined"
+            fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-          <Grid item xs={12} sx={{ p: 4 }}>
-            {categoryList.length > 0 && (
-              <Select
-                placeholder="choose category"
-                defaultValue={""}
-                value={choosedCategory}
-                fullWidth
-                label="Category"
-                sx={{color:"black"}}
-                onChange={(e) => {
-                  console.log(choosedCategory);
-                  handleChange(e);
-                }}
-                multiple
-              >
-                {categoryList?.map((category, index) => (
-                  <MenuItem key={index} value={category?.attributes?.id}>
-                    {category?.attributes?.id} : {category?.attributes?.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          </Grid>
+          <TextField
+            sx={{ my: 2 }}
+            label="Content"
+            variant="outlined"
+            multiline={true}
+            minRows={10}
+            maxRows={10}
+            fullWidth
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+
+          {categoryList.length > 0 && (
+            <Select
+              MenuProps={{
+                sx: {
+                  width: "100%",
+                },
+              }}
+              sx={{ my: 2 }}
+              // defaultValue={""}
+              value={choosedCategory}
+              fullWidth
+              multiple
+              onChange={(e) => {
+                console.log(choosedCategory);
+                handleChange(e);
+              }}
+            >
+              {categoryList?.map((category, index) => (
+                <MenuItem
+                  key={index}
+                  value={category?.attributes?.id}
+                  sx={{ minWidth: 200, py: 1 }}
+                >
+                  {category?.attributes?.id} : {category?.attributes?.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+
           <Button
             variant="contained"
-            sx={{ m: 2 }}
+            sx={{ m: 2, float: "right" }}
             onClick={() => {
               createQuestion();
               setOpenPopup(false);
@@ -163,7 +153,7 @@ export default function Popup(props) {
           >
             SUBMIT
           </Button>
-        </DialogTitle>
+        </DialogContent>
       </Dialog>
     </>
   );

@@ -13,6 +13,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -135,18 +136,18 @@ const User = () => {
                 {t("listOfUser.Role")} : {singleUser.role_ids}
               </Typography>
             </Grid>
-          </Grid>
+           
+          </Grid> <Divider />
           <Grid item xs={12} sx={{ p: 4 }}>
+            <Typography> Change the Role of the user</Typography>
           <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Role</InputLabel>
             {roleList.length > 0 && (
               <Select
-                
                 labelId="demo-simple-select-label"
-                // id="demo-simple-select"
                 value={choosedRole}
                 id="demo-simple-select"
-                label="Age"
+                label="Role"
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -162,7 +163,7 @@ const User = () => {
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row" justifyContent="end">
-              <Button variant="contained" onClick={handleFunc}>
+              <Button  variant="contained" onClick={handleFunc}>
                 {t("listOfUser.Delete")}
               </Button>
               <Button
@@ -182,4 +183,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default User; 

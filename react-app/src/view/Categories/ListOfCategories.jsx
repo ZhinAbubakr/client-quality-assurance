@@ -79,7 +79,7 @@ const ListOfCategories = () => {
         </Typography>
         <Grid item xs={12} marginBottom={2}>
           <Button
-            sx={{ float: "right" }}
+            sx={{ float: "right" , my: 4}}
             variant="contained"
             onClick={() => {
               setOpenPopup(true);
